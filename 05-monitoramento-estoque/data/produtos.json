@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "nome": "Notebook Dell",
+    "estoqueAtual": 15,
+    "estoqueMinimo": 10,
+    "estoqueMaximo": 50,
+    "preco": 4500.00
+  },
+  {
+    "id": "2",
+    "nome": "iPhone 15",
+    "estoqueAtual": 3,
+    "estoqueMinimo": 5,
+    "estoqueMaximo": 30,
+    "preco": 6500.00
+  },
+  {
+    "id": "3",
+    "nome": "Mouse Logitech",
+    "estoqueAtual": 45,
+    "estoqueMinimo": 20,
+    "estoqueMaximo": 100,
+    "preco": 150.00
+  },
+  {
+    "id": "4",
+    "nome": "Monitor LG",
+    "estoqueAtual": 8,
+    "estoqueMinimo": 10,
+    "estoqueMaximo": 40,
+    "preco": 2200.00
+  },
+  {
+    "id": "5",
+    "nome": "Teclado Mecânico",
+    "estoqueAtual": 25,
+    "estoqueMinimo": 15,
+    "estoqueMaximo": 60,
+    "preco": 350.00
+  }
+]

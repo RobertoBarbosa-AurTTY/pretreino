@@ -1,0 +1,6 @@
+{
+  "deno.enable": true,
+  "deno.unstable": [],
+  "editor.defaultFormatter": "deno.land.deno",
+  "editor.formatOnSave": true
+}

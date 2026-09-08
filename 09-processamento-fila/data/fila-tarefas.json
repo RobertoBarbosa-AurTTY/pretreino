@@ -1,0 +1,43 @@
+[
+  {
+    "id": "tarefa_1",
+    "tipo": "enviar_email",
+    "dados": {
+      "para": "cliente@email.com",
+      "assunto": "Confirmação",
+      "template": "confirmacao"
+    },
+    "status": "pendente",
+    "tentativas": 0,
+    "maxTentativas": 3,
+    "dataCriacao": "2024-01-20T10:00:00Z"
+  },
+  {
+    "id": "tarefa_2",
+    "tipo": "processar_imagem",
+    "dados": {
+      "arquivo": "foto.jpg",
+      "operacao": "redimensionar",
+      "largura": 800,
+      "altura": 600
+    },
+    "status": "pendente",
+    "tentativas": 0,
+    "maxTentativas": 3,
+    "dataCriacao": "2024-01-20T10:05:00Z"
+  },
+  {
+    "id": "tarefa_3",
+    "tipo": "gerar_relatorio",
+    "dados": {
+      "tipo": "vendas",
+      "periodo": "mensal",
+      "dataInicio": "2024-01-01",
+      "dataFim": "2024-01-31"
+    },
+    "status": "pendente",
+    "tentativas": 0,
+    "maxTentativas": 3,
+    "dataCriacao": "2024-01-20T10:10:00Z"
+  }
+]

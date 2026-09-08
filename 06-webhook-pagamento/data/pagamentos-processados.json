@@ -1,0 +1,23 @@
+[
+  {
+    "pagamentoId": "pag_123456",
+    "pedidoId": "ped_789012",
+    "valor": 1500.00,
+    "status": "pago",
+    "data": "2024-01-20T10:30:00Z"
+  },
+  {
+    "pagamentoId": "pag_234567",
+    "pedidoId": "ped_890123",
+    "valor": 800.00,
+    "status": "pendente",
+    "data": "2024-01-21T14:45:00Z"
+  },
+  {
+    "pagamentoId": "pag_345678",
+    "pedidoId": "ped_901234",
+    "valor": 2200.00,
+    "status": "falhou",
+    "data": "2024-01-22T09:15:00Z"
+  }
+]

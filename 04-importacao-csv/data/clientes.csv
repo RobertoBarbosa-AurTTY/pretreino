@@ -1,0 +1,11 @@
+nome;email;cpf;telefone;data_nascimento
+João Silva;joao.silva@email.com;529.982.247-25;11999998888;15/03/1985
+Maria Santos;maria.santos@email.com;111.444.777-35;21988887777;22/07/1990
+Pedro Oliveira;pedro.oliveira@email.com;123.456.789-09;31977776666;10/12/1988
+Ana Costa;ana.costa@email.com;987.654.321-00;41966665555;05/09/1992
+Lucas Ferreira;lucas.ferreira@email.com;111.111.111-11;51955554444;18/01/1995
+Juliana Almeida;juliana.almeida@email.com;222.333.444-55;61944443333;30/06/1987
+Marcos Lima;marcos.lima@email.com;333.222.111-00;71933332222;25/11/1993
+Fernanda Rocha;fernanda.rocha@email.com;444.555.666-77;81922221111;12/04/1989
+Ricardo Souza;ricardo.souza@email.com;555.666.777-88;91911110000;08/08/1991
+Camila Martins;camila.martins@email.com;invalido;21900009999;15/02/1994

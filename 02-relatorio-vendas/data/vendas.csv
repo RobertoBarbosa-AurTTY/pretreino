@@ -1,0 +1,16 @@
+id;vendedor;produto;valor;data
+1;João Silva;Notebook Dell;4500.00;2024-01-05
+2;Maria Santos;iPhone 15;6500.00;2024-01-08
+3;João Silva;Mouse Logitech;150.00;2024-01-10
+4;Pedro Oliveira;Teclado Mecânico;350.00;2024-01-12
+5;Maria Santos;Monitor LG;2200.00;2024-01-15
+6;Ana Costa;Webcam HD;280.00;2024-01-18
+7;João Silva;Cadeira Gamer;1800.00;2024-01-20
+8;Pedro Oliveira;SSD 1TB;450.00;2024-01-22
+9;Maria Santos;Headset JBL;320.00;2024-01-25
+10;Ana Costa;Mousepad XL;89.00;2024-01-28
+11;João Silva;Notebook HP;3800.00;2024-02-01
+12;Pedro Oliveira;Monitor Samsung;1900.00;2024-02-05
+13;Maria Santos;iPad Air;4200.00;2024-02-10
+14;Ana Costa;Teclado Bluetooth;220.00;2024-02-15
+15;João Silva;Mouse Excelente;95.00;2024-02-20

@@ -1,0 +1,47 @@
+[
+  {
+    "nome": "tempo_resposta",
+    "valor": 120,
+    "timestamp": "2024-01-20T10:00:00Z",
+    "tags": {
+      "rota": "/api/users",
+      "metodo": "GET"
+    }
+  },
+  {
+    "nome": "tempo_resposta",
+    "valor": 85,
+    "timestamp": "2024-01-20T10:01:00Z",
+    "tags": {
+      "rota": "/api/users",
+      "metodo": "GET"
+    }
+  },
+  {
+    "nome": "tempo_resposta",
+    "valor": 250,
+    "timestamp": "2024-01-20T10:02:00Z",
+    "tags": {
+      "rota": "/api/orders",
+      "metodo": "POST"
+    }
+  },
+  {
+    "nome": "erro",
+    "valor": 1,
+    "timestamp": "2024-01-20T10:03:00Z",
+    "tags": {
+      "tipo": "timeout",
+      "rota": "/api/users"
+    }
+  },
+  {
+    "nome": "tempo_resposta",
+    "valor": 95,
+    "timestamp": "2024-01-20T10:04:00Z",
+    "tags": {
+      "rota": "/api/products",
+      "metodo": "GET"
+    }
+  }
+]

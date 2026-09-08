@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "nome": "João Silva",
+    "email": "joao.silva@email.com",
+    "meta": 50000
+  },
+  {
+    "id": "2",
+    "nome": "Maria Santos",
+    "email": "maria.santos@email.com",
+    "meta": 60000
+  },
+  {
+    "id": "3",
+    "nome": "Pedro Oliveira",
+    "email": "pedro.oliveira@email.com",
+    "meta": 45000
+  },
+  {
+    "id": "4",
+    "nome": "Ana Costa",
+    "email": "ana.costa@email.com",
+    "meta": 40000
+  }
+]

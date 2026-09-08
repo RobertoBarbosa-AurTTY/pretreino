@@ -1,0 +1,37 @@
+[
+  {
+    "id": "1",
+    "nome": "João Silva",
+    "email": "joao.silva@email.com",
+    "status": "ativo",
+    "dataCadastro": "2024-01-15"
+  },
+  {
+    "id": "2",
+    "nome": "Maria Santos",
+    "email": "maria.santos@email.com",
+    "status": "inativo",
+    "dataCadastro": "2024-02-20"
+  },
+  {
+    "id": "3",
+    "nome": "Pedro Oliveira",
+    "email": "pedro.oliveira@email.com",
+    "status": "ativo",
+    "dataCadastro": "2024-03-10"
+  },
+  {
+    "id": "4",
+    "nome": "Ana Costa",
+    "email": "ana.costa@email.com",
+    "status": "pendente",
+    "dataCadastro": "2024-04-05"
+  },
+  {
+    "id": "5",
+    "nome": "Lucas Ferreira",
+    "email": "lucas.ferreira@email.com",
+    "status": "ativo",
+    "dataCadastro": "2024-05-12"
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "nome": "Notebook Dell",
+    "categoria": "Informática",
+    "preco": 4500.00,
+    "quantidade": 15,
+    "fornecedor": "Dell Brasil"
+  },
+  {
+    "id": "2",
+    "nome": "iPhone 15",
+    "categoria": "Celulares",
+    "preco": 6500.00,
+    "quantidade": 3,
+    "fornecedor": "Apple"
+  },
+  {
+    "id": "3",
+    "nome": "Mouse Logitech",
+    "categoria": "Acessórios",
+    "preco": 150.00,
+    "quantidade": 45,
+    "fornecedor": "Logitech"
+  },
+  {
+    "id": "4",
+    "nome": "Monitor LG",
+    "categoria": "Informática",
+    "preco": 2200.00,
+    "quantidade": 8,
+    "fornecedor": "LG"
+  },
+  {
+    "id": "5",
+    "nome": "Teclado Mecânico",
+    "categoria": "Acessórios",
+    "preco": 350.00,
+    "quantidade": 25,
+    "fornecedor": "Corsair"
+  }
+]

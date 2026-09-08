@@ -1,0 +1,36 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "nome": "João Silva",
+      "email": "joao@email.com",
+      "cargo": "Desenvolvedor"
+    },
+    {
+      "id": 2,
+      "nome": "Maria Santos",
+      "email": "maria@email.com",
+      "cargo": "Designer"
+    },
+    {
+      "id": 3,
+      "nome": "Pedro Oliveira",
+      "email": "pedro@email.com",
+      "cargo": "Gerente"
+    }
+  ],
+  "produtos": [
+    {
+      "id": 1,
+      "nome": "Notebook",
+      "preco": 4500.00,
+      "estoque": 10
+    },
+    {
+      "id": 2,
+      "nome": "Mouse",
+      "preco": 150.00,
+      "estoque": 50
+    }
+  ]
+}

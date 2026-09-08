@@ -1,0 +1,11 @@
+{
+  "evento": "pagamento.pago",
+  "dados": {
+    "pagamentoId": "pag_123456",
+    "pedidoId": "ped_789012",
+    "valor": 1500.00,
+    "metodo": "credit_card",
+    "data": "2024-01-20T10:30:00Z"
+  },
+  "assinatura": "sha256=exemplo_assinatura_aqui"
+}

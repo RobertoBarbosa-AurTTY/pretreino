@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "lib": ["deno.ns", "deno.window"]
+  },
+  "tasks": {
+    "dev": "deno run --allow-net --allow-read --allow-write --allow-env ./src/index.ts",
+    "test": "deno test --allow-net --allow-read --allow-write --allow-env __tests__/"
+  },
+  "imports": {
+    "std/": "https://deno.land/std@0.208.0/"
+  }
+}

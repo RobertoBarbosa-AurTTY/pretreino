@@ -1,0 +1,40 @@
+[
+  {
+    "id": "1",
+    "para": "cliente1@email.com",
+    "assunto": "Confirmação de Pedido #123",
+    "template": "confirmacao",
+    "dados": {
+      "nome": "João Silva",
+      "pedido": "123",
+      "valor": "R$ 450,00"
+    },
+    "status": "pendente",
+    "tentativas": 0
+  },
+  {
+    "id": "2",
+    "para": "cliente2@email.com",
+    "assunto": "Boas-vindas!",
+    "template": "boas-vindas",
+    "dados": {
+      "nome": "Maria Santos",
+      "empresa": "Tech Solutions"
+    },
+    "status": "pendente",
+    "tentativas": 0
+  },
+  {
+    "id": "3",
+    "para": "cliente3@email.com",
+    "assunto": "Pagamento Aprovado",
+    "template": "pagamento",
+    "dados": {
+      "nome": "Pedro Oliveira",
+      "valor": "R$ 1.200,00",
+      "data": "10/01/2024"
+    },
+    "status": "enviado",
+    "tentativas": 1
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "produtoId": "1",
+    "tipo": "saida",
+    "quantidade": 5,
+    "data": "2024-01-15",
+    "motivo": "Venda online"
+  },
+  {
+    "produtoId": "2",
+    "tipo": "entrada",
+    "quantidade": 20,
+    "data": "2024-01-16",
+    "motivo": "Reposição estoque"
+  },
+  {
+    "produtoId": "3",
+    "tipo": "saida",
+    "quantidade": 10,
+    "data": "2024-01-17",
+    "motivo": "Venda loja física"
+  },
+  {
+    "produtoId": "4",
+    "tipo": "saida",
+    "quantidade": 2,
+    "data": "2024-01-18",
+    "motivo": "Venda corporativa"
+  },
+  {
+    "produtoId": "1",
+    "tipo": "entrada",
+    "quantidade": 10,
+    "data": "2024-01-19",
+    "motivo": "Reposição estoque"
+  }
+]
