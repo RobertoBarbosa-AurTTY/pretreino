@@ -1,5 +1,5 @@
 /**
- * Desafio 42: Request Validation - Service
+ * Challenge 42: Request Validation - Service
  */
 
 export interface ValidationSchema {
@@ -29,11 +29,11 @@ export function validate(
   data: unknown,
   schema: ValidationSchema
 ): ValidationResult {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 export function sanitize(data: unknown, schema: ValidationSchema): unknown {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

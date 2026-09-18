@@ -1,72 +1,72 @@
 /**
- * Desafio 14: Upload de Arquivos
+ * Challenge 14: File Upload
  * 
- * Serviço de upload e gerenciamento de arquivos.
+ * File upload and management service.
  */
 
-export interface Arquivo {
+export interface UploadedFile {
   id: string;
-  nome: string;
-  nomeOriginal: string;
-  tipo: string;
-  tamanho: number;
-  caminho: string;
-  criadoEm: string;
+  name: string;
+  originalName: string;
+  type: string;
+  size: number;
+  path: string;
+  createdAt: string;
 }
 
 export interface UploadResult {
   success: boolean;
-  arquivo?: Arquivo;
+  file?: UploadedFile;
   error?: string;
 }
 
 /**
- * Validar arquivo
+ * Validate file
  */
-export function validarArquivo(tipo: string, tamanho: number): string | null {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function validateFile(type: string, size: number): string | null {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Salvar arquivo
+ * Save file
  */
-export async function salvarArquivo(
-  arquivo: File,
-  descricao?: string
+export async function saveFile(
+  file: File,
+  description?: string
 ): Promise<UploadResult> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Listar arquivos
+ * List files
  */
-export function listarArquivos(): Arquivo[] {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function listFiles(): UploadedFile[] {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Buscar arquivo por ID
+ * Find file by ID
  */
-export function buscarPorId(id: string): Arquivo | undefined {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function findById(id: string): UploadedFile | undefined {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Deletar arquivo
+ * Delete file
  */
-export async function deletarArquivo(id: string): Promise<boolean> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function deleteFile(id: string): Promise<boolean> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Formatar tamanho
+ * Format size
  */
-export function formatarTamanho(tamanho: number): string {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function formatSize(size: number): string {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

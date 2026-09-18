@@ -1,110 +1,110 @@
 /**
- * Desafio 25: API GraphQL
+ * Challenge 25: GraphQL API
  * 
- * Serviço GraphQL com resolvers e subscriptions.
+ * GraphQL service with resolvers and subscriptions.
  */
 
 interface User {
   id: string;
-  nome: string;
+  name: string;
   email: string;
   posts: Post[];
-  criadoEm: string;
+  createdAt: string;
 }
 
 interface Post {
   id: string;
-  titulo: string;
-  conteudo: string;
-  autor: User;
-  publicado: boolean;
-  criadoEm: string;
+  title: string;
+  content: string;
+  author: User;
+  published: boolean;
+  createdAt: string;
 }
 
 interface CreateUserInput {
-  nome: string;
+  name: string;
   email: string;
 }
 
 interface UpdateUserInput {
-  nome?: string;
+  name?: string;
   email?: string;
 }
 
 interface CreatePostInput {
-  titulo: string;
-  conteudo: string;
-  autorId: string;
+  title: string;
+  content: string;
+  authorId: string;
 }
 
 interface PostFilter {
-  autorId?: string;
-  publicado?: boolean;
+  authorId?: string;
+  published?: boolean;
 }
 
 /**
- * Cria schema GraphQL
+ * Create GraphQL schema
  */
-export function criarSchema(): string {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createSchema(): string {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Executa query GraphQL
+ * Execute GraphQL query
  */
-export async function executarQuery<T>(
+export async function executeQuery<T>(
   query: string,
-  variaveis?: Record<string, unknown>
+  variables?: Record<string, unknown>
 ): Promise<T> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Executa mutation GraphQL
+ * Execute GraphQL mutation
  */
-export async function executarMutation<T>(
+export async function executeMutation<T>(
   mutation: string,
-  variaveis?: Record<string, unknown>
+  variables?: Record<string, unknown>
 ): Promise<T> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Configura subscription
+ * Configure subscription
  */
 export function subscribe<T>(
   query: string,
   callback: (data: T) => void
 ): () => void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Resolver: busca todos os usuários
+ * Resolver: gets all users
  */
-export async function resolverUsuarios(): Promise<User[]> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function resolveUsers(): Promise<User[]> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Resolver: busca usuário por ID
+ * Resolver: gets user by ID
  */
-export async function resolverUsuario(id: string): Promise<User | null> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function resolveUser(id: string): Promise<User | null> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Resolver: cria usuário
+ * Resolver: creates user
  */
-export async function resolverCriarUsuario(
+export async function resolveCreateUser(
   input: CreateUserInput
 ): Promise<User> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

@@ -1,10 +1,10 @@
 /**
- * Desafio 12: Autenticação JWT
+ * Challenge 12: JWT Authentication
  * 
- * Serviço de autenticação com JWT.
+ * Authentication service with JWT.
  */
 
-export interface Usuario {
+export interface User {
   id: string;
   nome: string;
   email: string;
@@ -39,8 +39,8 @@ function base64UrlDecode(data: string): string {
   return atob(data);
 }
 
-// Criar JWT
-export async function criarToken(
+// Create JWT
+export async function createToken(
   payload: TokenPayload,
   secret: string,
   expiresInMinutes: number = 60
@@ -62,7 +62,7 @@ export async function criarToken(
 
   const data = `${encodedHeader}.${encodedPayload}`;
 
-  // Assinar com HMAC-SHA256
+  // Sign with HMAC-SHA256
   const key = await crypto.subtle.importKey(
     "raw",
     new TextEncoder().encode(secret),
@@ -77,8 +77,8 @@ export async function criarToken(
   return `${data}.${encodedSignature}`;
 }
 
-// Verificar JWT
-export async function verificarToken(
+// Verify JWT
+export async function verifyToken(
   token: string,
   secret: string
 ): Promise<TokenPayload | null> {
@@ -88,7 +88,7 @@ export async function verificarToken(
 
     const [encodedHeader, encodedPayload, encodedSignature] = parts;
 
-    // Verificar assinatura
+    // Verify signature
     const data = `${encodedHeader}.${encodedPayload}`;
     const key = await crypto.subtle.importKey(
       "raw",
@@ -112,10 +112,10 @@ export async function verificarToken(
 
     if (!valid) return null;
 
-    // Decodificar payload
+    // Decode payload
     const payload: TokenPayload = JSON.parse(base64UrlDecode(encodedPayload));
 
-    // Verificar expiração
+    // Check expiration
     if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) {
       return null;
     }
@@ -126,8 +126,8 @@ export async function verificarToken(
   }
 }
 
-// Gerar refresh token
-export function gerarRefreshToken(): string {
+// Generate refresh token
+export function generateRefreshToken(): string {
   const array = new Uint8Array(32);
   crypto.getRandomValues(array);
   return Array.from(array, b => b.toString(16).padStart(2, "0")).join("");

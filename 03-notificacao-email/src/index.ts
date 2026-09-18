@@ -1,43 +1,43 @@
 /**
- * Desafio 3: Notificação por Email
+ * Challenge 3: Email Notification
  * 
- * Sistema de envio de emails com fila, retry e templates.
- * A Mock API deve estar rodando: cd ../mock-api && deno task dev
+ * Email sending system with queue, retry and templates.
+ * The Mock API must be running: cd ../mock-api && deno task dev
  */
 
 import { 
-  carregarEmailsPendentes, 
-  processarFila 
+  loadPendingEmails, 
+  processQueue 
 } from "./email.service.ts";
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarServicoEmail(): Promise<void> {
-  console.log("Iniciando serviço de email...");
+async function executeEmailService(): Promise<void> {
+  console.log("Starting email service...");
   
   try {
-    // Configurações do .env
+    // .env configurations
     const apiUrl = Deno.env.get("API_BASE_URL") || "http://localhost:8080";
-    const maxTentativas = parseInt(Deno.env.get("FILA_MAX_TENTATIVAS") || "3");
-    const delayRetry = parseInt(Deno.env.get("FILA_DELAY_RETRY") || "1000");
-    const timeoutEnvio = parseInt(Deno.env.get("FILA_TIMEOUT_ENVIO") || "30000");
-    const arquivoEmails = Deno.env.get("ARQUIVO_EMAILS") || "./data/emails-pendentes.json";
+    const maxAttempts = parseInt(Deno.env.get("FILA_MAX_TENTATIVAS") || "3");
+    const retryDelay = parseInt(Deno.env.get("FILA_DELAY_RETRY") || "1000");
+    const sendTimeout = parseInt(Deno.env.get("FILA_TIMEOUT_ENVIO") || "30000");
+    const emailsFile = Deno.env.get("ARQUIVO_EMAILS") || "./data/emails-pendentes.json";
     
     console.log(`API URL: ${apiUrl}`);
-    console.log(`Max tentativas: ${maxTentativas}`);
+    console.log(`Max attempts: ${maxAttempts}`);
     
-    // TODO: Implementar pipeline
-    // 1. Carregar emails pendentes
-    // 2. Processar fila
-    // 3. Exibir resumo
+    // TODO: Implement pipeline
+    // 1. Load pending emails
+    // 2. Process queue
+    // 3. Show summary
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro no serviço de email:", error);
+    console.error("Error in email service:", error);
     throw error;
   }
 }
 
-// Execução
-executarServicoEmail();
+// Execution
+executeEmailService();

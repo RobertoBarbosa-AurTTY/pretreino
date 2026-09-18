@@ -1,45 +1,45 @@
 /**
- * Desafio 23: Cache com Redis
+ * Challenge 23: Redis Cache
  * 
- * Sistema de cache usando Redis.
+ * Cache system using Redis.
  */
 
 import {
-  conectarRedis,
+  connectRedis,
   disconnectRedis,
-  obterCache,
-  definirCache,
-  invalidarCache,
-  estatisticasCache
+  getCache,
+  setCache,
+  invalidateCache,
+  getCacheStats
 } from "./cache.service.ts";
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarCache(): Promise<void> {
-  console.log("Iniciando sistema de cache...");
+async function runCache(): Promise<void> {
+  console.log("Starting cache system...");
   
   try {
-    // Configurações do .env
+    // .env settings
     const redisUrl = Deno.env.get("REDIS_URL") || "redis://localhost:6379";
     const defaultTTL = parseInt(Deno.env.get("CACHE_DEFAULT_TTL") || "3600");
     const prefix = Deno.env.get("CACHE_PREFIX") || "app:";
     
     console.log(`Redis URL: ${redisUrl}`);
-    console.log(`TTL padrão: ${defaultTTL}s`);
+    console.log(`Default TTL: ${defaultTTL}s`);
     
-    // TODO: Implementar pipeline
-    // 1. Conectar ao Redis
-    // 2. Definir e obter cache
-    // 3. Invalidar cache
-    // 4. Exibir estatísticas
+    // TODO: Implement pipeline
+    // 1. Connect to Redis
+    // 2. Set and get cache
+    // 3. Invalidate cache
+    // 4. Show statistics
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro no cache:", error);
+    console.error("Error in cache:", error);
     throw error;
   }
 }
 
-// Execução
-executarCache();
+// Execution
+runCache();

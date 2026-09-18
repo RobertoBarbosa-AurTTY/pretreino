@@ -1,56 +1,56 @@
 /**
- * Desafio 9: Processamento de Fila
+ * Challenge 9: Queue Processing
  * 
- * Sistema de processamento de tarefas assíncronas com fila e workers.
+ * Async task processing system with queue and workers.
  */
 
-import { Fila } from "./fila.service.ts";
+import { Queue } from "./queue.service.ts";
 
 /**
- * Carrega tarefas de arquivo
+ * Loads tasks from file
  */
-async function carregarTarefas(caminhoArquivo: string): Promise<Array<Omit<unknown, "id" | "status" | "tentativas" | "maxTentativas" | "dataCriacao">>> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+async function loadTasks(filePath: string): Promise<Array<Omit<unknown, "id" | "status" | "attempts" | "maxAttempts" | "createdAt">>> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarFila(): Promise<void> {
-  console.log("Iniciando sistema de fila...");
+async function executeQueue(): Promise<void> {
+  console.log("Starting queue system...");
   
   try {
-    // Configurações do .env
+    // .env configurations
     const maxWorkers = parseInt(Deno.env.get("MAX_WORKERS") || "3");
-    const maxTentativas = parseInt(Deno.env.get("MAX_TENTATIVAS") || "3");
-    const delayRetry = parseInt(Deno.env.get("DELAY_RETRY") || "1000");
-    const timeoutProcessamento = parseInt(Deno.env.get("TIMEOUT_PROCESSAMENTO") || "30000");
-    const arquivoTarefas = Deno.env.get("ARQUIVO_TAREFAS") || "./data/fila-tarefas.json";
+    const maxAttempts = parseInt(Deno.env.get("MAX_TENTATIVAS") || "3");
+    const retryDelay = parseInt(Deno.env.get("DELAY_RETRY") || "1000");
+    const processingTimeout = parseInt(Deno.env.get("TIMEOUT_PROCESSAMENTO") || "30000");
+    const tasksFile = Deno.env.get("ARQUIVO_TAREFAS") || "./data/fila-tarefas.json";
     
     console.log(`Workers: ${maxWorkers}`);
-    console.log(`Max tentativas: ${maxTentativas}`);
+    console.log(`Max attempts: ${maxAttempts}`);
     
-    // Criar fila
-    const fila = new Fila({
+    // Create queue
+    const queue = new Queue({
       maxWorkers,
-      maxTentativas,
-      delayRetry,
-      timeoutProcessamento
+      maxAttempts,
+      retryDelay,
+      processingTimeout
     });
     
-    // TODO: Implementar pipeline
-    // 1. Carregar tarefas
-    // 2. Adicionar tarefas na fila
-    // 3. Processar fila
-    // 4. Exibir resultados
+    // TODO: Implement pipeline
+    // 1. Load tasks
+    // 2. Add tasks to the queue
+    // 3. Process queue
+    // 4. Show results
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro no processamento:", error);
+    console.error("Error on processing:", error);
     throw error;
   }
 }
 
-// Execução
-executarFila();
+// Execution
+executeQueue();

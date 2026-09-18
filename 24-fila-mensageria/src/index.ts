@@ -1,44 +1,44 @@
 /**
- * Desafio 24: Fila de Mensageria
+ * Challenge 24: Message Queue
  * 
- * Sistema de filas para processamento assíncrono.
+ * Queue system for asynchronous processing.
  */
 
 import {
-  criarFila,
-  enviarMensagem,
-  consumirMensagens,
-  fecharFila,
-  obterMetricas
+  createQueue,
+  sendMessage,
+  consumeMessages,
+  closeQueue,
+  getMetrics
 } from "./queue.service.ts";
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarFila(): Promise<void> {
-  console.log("Iniciando sistema de fila...");
+async function runQueue(): Promise<void> {
+  console.log("Starting queue system...");
   
   try {
-    // Configurações do .env
+    // .env settings
     const brokerUrl = Deno.env.get("BROKER_URL") || "amqp://localhost";
-    const filaNome = Deno.env.get("FILA_NOME") || "tarefas";
+    const queueName = Deno.env.get("FILA_NOME") || "tasks";
     const maxRetries = parseInt(Deno.env.get("MAX_RETRIES") || "3");
     
     console.log(`Broker: ${brokerUrl}`);
-    console.log(`Fila: ${filaNome}`);
+    console.log(`Queue: ${queueName}`);
     
-    // TODO: Implementar pipeline
-    // 1. Criar fila
-    // 2. Enviar mensagens
-    // 3. Consumir mensagens
-    // 4. Obter métricas
+    // TODO: Implement pipeline
+    // 1. Create queue
+    // 2. Send messages
+    // 3. Consume messages
+    // 4. Get metrics
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro na fila:", error);
+    console.error("Error in queue:", error);
     throw error;
   }
 }
 
-// Execução
-executarFila();
+// Execution
+runQueue();

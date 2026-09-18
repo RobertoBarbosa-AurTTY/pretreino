@@ -1,15 +1,15 @@
 /**
- * Desafio 14: Upload de Arquivos
+ * Challenge 14: File Upload
  * 
- * API de upload e gerenciamento de arquivos.
+ * File upload and management API.
  */
 
 import { 
-  salvarArquivo, 
-  listarArquivos, 
-  buscarPorId, 
-  deletarArquivo,
-  formatarTamanho 
+  saveFile, 
+  listFiles, 
+  findById, 
+  deleteFile,
+  formatSize 
 } from "./upload.service.ts";
 
 const PORT = parseInt(Deno.env.get("PORT") || "3002");
@@ -33,40 +33,40 @@ async function handler(req: Request): Promise<Response> {
   if (path === "/api/upload" && method === "POST") {
     try {
       const formData = await req.formData();
-      const arquivo = formData.get("arquivo") as File;
-      const descricao = formData.get("descricao") as string;
+      const file = formData.get("arquivo") as File;
+      const description = formData.get("descricao") as string;
       
-      if (!arquivo) {
+      if (!file) {
         return new Response(
-          JSON.stringify({ error: "Nenhum arquivo enviado" }),
+          JSON.stringify({ error: "No file uploaded" }),
           { status: 400, headers: { ...headers, "Content-Type": "application/json" } }
         );
       }
       
-      const resultado = await salvarArquivo(arquivo, descricao);
+      const result = await saveFile(file, description);
       
-      if (!resultado.success) {
+      if (!result.success) {
         return new Response(
-          JSON.stringify({ error: resultado.error }),
+          JSON.stringify({ error: result.error }),
           { status: 400, headers: { ...headers, "Content-Type": "application/json" } }
         );
       }
       
       return new Response(
         JSON.stringify({
-          message: "Arquivo enviado com sucesso",
-          arquivo: {
-            id: resultado.arquivo!.id,
-            nome: resultado.arquivo!.nomeOriginal,
-            tamanho: formatarTamanho(resultado.arquivo!.tamanho),
-            tipo: resultado.arquivo!.tipo
+          message: "File uploaded successfully",
+          file: {
+            id: result.file!.id,
+            name: result.file!.originalName,
+            size: formatSize(result.file!.size),
+            type: result.file!.type
           }
         }),
         { status: 201, headers: { ...headers, "Content-Type": "application/json" } }
       );
     } catch (error) {
       return new Response(
-        JSON.stringify({ error: "Erro ao processar upload" }),
+        JSON.stringify({ error: "Error processing upload" }),
         { status: 500, headers: { ...headers, "Content-Type": "application/json" } }
       );
     }
@@ -74,18 +74,18 @@ async function handler(req: Request): Promise<Response> {
 
   // GET /api/arquivos
   if (path === "/api/arquivos" && method === "GET") {
-    const arquivos = listarArquivos();
+    const files = listFiles();
     
-    const lista = arquivos.map(a => ({
-      id: a.id,
-      nome: a.nomeOriginal,
-      tamanho: formatarTamanho(a.tamanho),
-      tipo: a.tipo,
-      criadoEm: a.criadoEm
+    const list = files.map(f => ({
+      id: f.id,
+      name: f.originalName,
+      size: formatSize(f.size),
+      type: f.type,
+      createdAt: f.createdAt
     }));
     
     return new Response(
-      JSON.stringify(lista),
+      JSON.stringify(list),
       { status: 200, headers: { ...headers, "Content-Type": "application/json" } }
     );
   }
@@ -93,22 +93,22 @@ async function handler(req: Request): Promise<Response> {
   // GET /api/arquivos/:id
   if (path.startsWith("/api/arquivos/") && method === "GET") {
     const id = path.split("/")[3];
-    const arquivo = buscarPorId(id);
+    const file = findById(id);
     
-    if (!arquivo) {
+    if (!file) {
       return new Response(
-        JSON.stringify({ error: "Arquivo não encontrado" }),
+        JSON.stringify({ error: "File not found" }),
         { status: 404, headers: { ...headers, "Content-Type": "application/json" } }
       );
     }
     
     return new Response(
       JSON.stringify({
-        id: arquivo.id,
-        nome: arquivo.nomeOriginal,
-        tamanho: formatarTamanho(arquivo.tamanho),
-        tipo: arquivo.tipo,
-        criadoEm: arquivo.criadoEm
+        id: file.id,
+        name: file.originalName,
+        size: formatSize(file.size),
+        type: file.type,
+        createdAt: file.createdAt
       }),
       { status: 200, headers: { ...headers, "Content-Type": "application/json" } }
     );
@@ -117,17 +117,17 @@ async function handler(req: Request): Promise<Response> {
   // DELETE /api/arquivos/:id
   if (path.startsWith("/api/arquivos/") && method === "DELETE") {
     const id = path.split("/")[3];
-    const sucesso = await deletarArquivo(id);
+    const success = await deleteFile(id);
     
-    if (!sucesso) {
+    if (!success) {
       return new Response(
-        JSON.stringify({ error: "Arquivo não encontrado" }),
+        JSON.stringify({ error: "File not found" }),
         { status: 404, headers: { ...headers, "Content-Type": "application/json" } }
       );
     }
     
     return new Response(
-      JSON.stringify({ message: "Arquivo deletado" }),
+      JSON.stringify({ message: "File deleted" }),
       { status: 200, headers: { ...headers, "Content-Type": "application/json" } }
     );
   }
@@ -141,12 +141,12 @@ async function handler(req: Request): Promise<Response> {
   }
 
   return new Response(
-    JSON.stringify({ error: "Endpoint não encontrado" }),
+    JSON.stringify({ error: "Endpoint not found" }),
     { status: 404, headers: { ...headers, "Content-Type": "application/json" } }
   );
 }
 
-console.log(`🚀 Upload API rodando em http://localhost:${PORT}`);
+console.log(`🚀 Upload API running at http://localhost:${PORT}`);
 console.log(`📡 Endpoints:`);
 console.log(`   POST   /api/upload`);
 console.log(`   GET    /api/arquivos`);

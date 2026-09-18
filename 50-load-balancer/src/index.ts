@@ -1,24 +1,24 @@
 /**
- * Desafio 50: Load Balancer
+ * Challenge 50: Load Balancer
  */
 
-import { LoadBalancer, criarLoadBalancer } from "./loadbalancer.service.ts";
+import { LoadBalancer, createLoadBalancer } from "./loadbalancer.service.ts";
 
-async function executar(): Promise<void> {
-  console.log("Iniciando Load Balancer...");
+async function run(): Promise<void> {
+  console.log("Starting Load Balancer...");
   try {
-    const lb = criarLoadBalancer({
+    const lb = createLoadBalancer({
       strategy: "roundRobin",
       healthCheckInterval: 10000,
       backends: []
     });
-    console.log("Load Balancer criado");
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    console.log("Load Balancer created");
+    // TODO: Implement
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Error:", error);
     throw error;
   }
 }
 
-executar();
+run();

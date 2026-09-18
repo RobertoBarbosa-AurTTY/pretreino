@@ -1,24 +1,24 @@
 /**
- * Desafio 37: Service Mesh
+ * Challenge 37: Service Mesh
  */
 
-import { ServiceMesh, criarMesh } from "./mesh.service.ts";
+import { ServiceMesh, createMesh } from "./mesh.service.ts";
 
-async function executar(): Promise<void> {
-  console.log("Iniciando Service Mesh...");
+async function run(): Promise<void> {
+  console.log("Starting Service Mesh...");
   try {
-    const mesh = criarMesh({
+    const mesh = createMesh({
       services: [],
       policy: { loadBalancer: "roundRobin", timeout: 5000, retries: 3 },
       mtls: true
     });
-    console.log("Mesh criado");
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    console.log("Mesh created");
+    // TODO: Implement
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Error:", error);
     throw error;
   }
 }
 
-executar();
+run();

@@ -1,41 +1,41 @@
 /**
- * Desafio 2: Relatório de Vendas
+ * Challenge 2: Sales Report
  * 
- * Gerar relatórios com filtros, agregações e exportação para CSV.
+ * Generate reports with filters, aggregations and CSV export.
  */
 
 import { 
-  carregarVendas, 
-  gerarRelatorio, 
-  exportarCSV 
-} from "./relatorio.service.ts";
+  loadSales, 
+  generateReport, 
+  exportCSV 
+} from "./report.service.ts";
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarRelatorio(): Promise<void> {
-  console.log("Gerando relatório de vendas...");
+async function executeReport(): Promise<void> {
+  console.log("Generating sales report...");
   
   try {
-    // Configurações do .env
-    const dataInicio = Deno.env.get("DATA_INICIO") || "2024-01-01";
-    const dataFim = Deno.env.get("DATA_FIM") || "2024-01-31";
-    const arquivoVendas = Deno.env.get("ARQUIVO_ENTRADA") || "./data/vendas.csv";
-    const arquivoSaida = Deno.env.get("ARQUIVO_VENDAS") || "./output/relatorio-vendas.csv";
+    // .env configurations
+    const startDate = Deno.env.get("DATA_INICIO") || "2024-01-01";
+    const endDate = Deno.env.get("DATA_FIM") || "2024-01-31";
+    const salesFile = Deno.env.get("ARQUIVO_ENTRADA") || "./data/vendas.csv";
+    const outputFile = Deno.env.get("ARQUIVO_VENDAS") || "./output/relatorio-vendas.csv";
     
-    console.log(`Período: ${dataInicio} a ${dataFim}`);
+    console.log(`Period: ${startDate} to ${endDate}`);
     
-    // TODO: Implementar pipeline
-    // 1. Carregar vendas do CSV
-    // 2. Gerar relatório
-    // 3. Exportar para CSV
+    // TODO: Implement pipeline
+    // 1. Load sales from CSV
+    // 2. Generate report
+    // 3. Export to CSV
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro ao gerar relatório:", error);
+    console.error("Error generating report:", error);
     throw error;
   }
 }
 
-// Execução
-executarRelatorio();
+// Execution
+executeReport();

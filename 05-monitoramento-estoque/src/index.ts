@@ -1,38 +1,38 @@
 /**
- * Desafio 5: Monitoramento de Estoque
+ * Challenge 5: Stock Monitoring
  * 
- * Sistema que monitora estoque e envia alertas.
+ * System that monitors stock and sends alerts.
  */
 
 import { 
-  carregarProdutos, 
-  verificarEstoque, 
-  enviarAlerta 
-} from "./estoque.service.ts";
+  loadProducts, 
+  checkStock, 
+  sendAlert 
+} from "./stock.service.ts";
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarMonitoramento(): Promise<void> {
-  console.log("Iniciando monitoramento de estoque...");
+async function executeMonitoring(): Promise<void> {
+  console.log("Starting stock monitoring...");
   
   try {
-    // Configurações do .env
-    const arquivoProdutos = Deno.env.get("ARQUIVO_PRODUTOS") || "./data/produtos.json";
+    // .env configurations
+    const productsFile = Deno.env.get("ARQUIVO_PRODUTOS") || "./data/produtos.json";
     
-    console.log(`Arquivo de produtos: ${arquivoProdutos}`);
+    console.log(`Products file: ${productsFile}`);
     
-    // TODO: Implementar pipeline
-    // 1. Carregar produtos
-    // 2. Verificar estoque e gerar alertas
-    // 3. Exibir resultados
+    // TODO: Implement pipeline
+    // 1. Load products
+    // 2. Check stock and generate alerts
+    // 3. Show results
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro no monitoramento:", error);
+    console.error("Error on monitoring:", error);
     throw error;
   }
 }
 
-// Execução
-executarMonitoramento();
+// Execution
+executeMonitoring();

@@ -1,5 +1,5 @@
 /**
- * Desafio 43: Response Caching - Service
+ * Challenge 43: Response Caching - Service
  */
 
 export interface CacheEntry {
@@ -24,12 +24,12 @@ export interface ResponseCache {
   stats(): { hits: number; misses: number };
 }
 
-export function criarCache(config: CacheConfig): ResponseCache {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createCache(config: CacheConfig): ResponseCache {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 export function generateCacheKey(req: Request): string {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

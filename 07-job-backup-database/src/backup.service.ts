@@ -1,69 +1,69 @@
 /**
- * Desafio 7: Job de Backup Database
+ * Challenge 7: Database Backup Job
  * 
- * Serviço de backup de banco de dados.
+ * Database backup service.
  */
 
-interface ConfiguracaoBackup {
-  bancoDados: string;
+interface BackupConfig {
+  database: string;
   host: string;
   port: number;
-  usuario: string;
-  senha: string;
+  user: string;
+  password: string;
   bucket: string;
-  regiao: string;
-  retencaoDias: number;
-  pasta: string;
+  region: string;
+  retentionDays: number;
+  folder: string;
 }
 
-interface ResultadoBackup {
+interface BackupResult {
   success: boolean;
-  arquivo: string;
-  tamanho: number;
-  dataInicio: string;
-  dataFim: string;
-  erro?: string;
+  file: string;
+  size: number;
+  startDate: string;
+  endDate: string;
+  error?: string;
 }
 
 /**
- * Exporta banco de dados para arquivo SQL
+ * Exports database to SQL file
  */
-export async function exportarBanco(config: ConfiguracaoBackup): Promise<string> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function exportDatabase(config: BackupConfig): Promise<string> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Comprime arquivo
+ * Compresses file
  */
-export async function comprimirArquivo(caminhoArquivo: string): Promise<string> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function compressFile(filePath: string): Promise<string> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Envia arquivo para storage
+ * Sends file to storage
  */
-export async function enviarParaStorage(
-  caminhoArquivo: string,
-  config: ConfiguracaoBackup
+export async function sendToStorage(
+  filePath: string,
+  config: BackupConfig
 ): Promise<boolean> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Remove backups antigos
+ * Removes old backups
  */
-export async function limparBackupsAntigos(config: ConfiguracaoBackup): Promise<number> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function cleanOldBackups(config: BackupConfig): Promise<number> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Executa pipeline de backup completo
+ * Executes complete backup pipeline
  */
-export async function executarBackup(config: ConfiguracaoBackup): Promise<ResultadoBackup> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function executeBackup(config: BackupConfig): Promise<BackupResult> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

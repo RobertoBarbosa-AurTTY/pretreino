@@ -1,5 +1,5 @@
 /**
- * Desafio 44: Webhook System - Service
+ * Challenge 44: Webhook System - Service
  */
 
 export interface Webhook {
@@ -27,14 +27,14 @@ export interface WebhookService {
   getDeliveries(webhookId: string): WebhookDelivery[];
 }
 
-export function criarServico(): WebhookService {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createService(): WebhookService {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 export function signPayload(payload: unknown, secret: string): string {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 export function verifySignature(
@@ -42,6 +42,6 @@ export function verifySignature(
   signature: string,
   secret: string
 ): boolean {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

@@ -1,21 +1,21 @@
 /**
- * Desafio 34: CQRS
+ * Challenge 34: CQRS
  */
 
 import { CommandBus, QueryBus } from "./cqrs.service.ts";
 
-async function executar(): Promise<void> {
-  console.log("Iniciando CQRS...");
+async function run(): Promise<void> {
+  console.log("Starting CQRS...");
   try {
     const commandBus = new CommandBus();
     const queryBus = new QueryBus();
-    console.log("Buses criados");
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    console.log("Buses created");
+    // TODO: Implement
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Error:", error);
     throw error;
   }
 }
 
-executar();
+run();

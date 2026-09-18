@@ -1,20 +1,20 @@
 /**
- * Desafio 12: Autenticação JWT
+ * Challenge 12: JWT Authentication
  * 
- * Serviço de autenticação completo.
+ * Complete authentication service.
  */
 
 import { 
-  Usuario, 
+  User, 
   TokenPayload, 
   AuthResult, 
-  criarToken, 
-  verificarToken,
-  gerarRefreshToken 
+  createToken, 
+  verifyToken,
+  generateRefreshToken 
 } from "./jwt.utils.ts";
 
-// Banco de dados simulado
-const usuarios: Usuario[] = [
+// Simulated database
+const users: User[] = [
   {
     id: "1",
     nome: "João Silva",
@@ -31,68 +31,68 @@ const usuarios: Usuario[] = [
   }
 ];
 
-// Tokens invalidados (logout)
-const tokensInvalidados: Set<string> = new Set();
+// Invalidated tokens (logout)
+const invalidatedTokens: Set<string> = new Set();
 
-// Refresh tokens válidos
+// Valid refresh tokens
 const refreshTokens: Map<string, string> = new Map();
 
-// Configurações
-const JWT_SECRET = Deno.env.get("JWT_SECRET") || "meu_secret_seguro";
+// Settings
+const JWT_SECRET = Deno.env.get("JWT_SECRET") || "my_secure_secret";
 const TOKEN_EXPIRY = parseInt(Deno.env.get("TOKEN_EXPIRY_MINUTES") || "60");
 
 /**
- * Buscar usuário por email
+ * Find user by email
  */
-export function buscarPorEmail(email: string): Usuario | undefined {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function findByEmail(email: string): User | undefined {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Buscar usuário por ID
+ * Find user by ID
  */
-export function buscarPorId(id: string): Usuario | undefined {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function findById(id: string): User | undefined {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
  * Login
  */
-export async function login(email: string, senha: string): Promise<AuthResult> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function login(email: string, password: string): Promise<AuthResult> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Validar token
+ * Validate token
  */
-export async function validarToken(token: string): Promise<TokenPayload | null> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function validateToken(token: string): Promise<TokenPayload | null> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
  * Refresh token
  */
 export async function refresh(refreshToken: string): Promise<AuthResult> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
  * Logout
  */
 export function logout(token: string): boolean {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Verificar se usuário é admin
+ * Check if user is admin
  */
 export function isAdmin(payload: TokenPayload): boolean {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

@@ -1,27 +1,27 @@
 /**
- * Desafio 16: WebSocket
+ * Challenge 16: WebSocket
  * 
- * Servidor WebSocket para chat em tempo real.
+ * WebSocket server for real-time chat.
  */
 
 import {
-  gerarId,
-  adicionarCliente,
-  removerCliente,
+  generateId,
+  addClient,
+  removeClient,
   broadcast,
-  entrarNaSala,
-  listarUsuariosNaSala,
-  obterEstatisticas
+  joinRoom,
+  listUsersInRoom,
+  getStats
 } from "./websocket.service.ts";
 
 const PORT = parseInt(Deno.env.get("PORT") || "3004");
 
-// Servidor HTTP para health check
+// HTTP server for health check
 async function httpHandler(req: Request): Promise<Response> {
   const url = new URL(req.url);
   
   if (url.pathname === "/health") {
-    const stats = obterEstatisticas();
+    const stats = getStats();
     return new Response(
       JSON.stringify({ status: "ok", ...stats }),
       { 
@@ -32,22 +32,22 @@ async function httpHandler(req: Request): Promise<Response> {
   }
   
   return new Response(
-    JSON.stringify({ error: "Use WebSocket em ws://localhost:" + PORT }),
+    JSON.stringify({ error: "Use WebSocket at ws://localhost:" + PORT }),
     { status: 400, headers: { "Content-Type": "application/json" } }
   );
 }
 
-// Handler do WebSocket
+// WebSocket handler
 function websocketHandler(req: Request): Response {
   const { socket: ws, response } = Deno.upgradeWebSocket(req);
   
-  const clientId = gerarId();
+  const clientId = generateId();
   let username = `user_${clientId.substring(0, 4)}`;
   let room = "geral";
   
   ws.onopen = () => {
-    // Adicionar cliente
-    adicionarCliente({
+    // Add client
+    addClient({
       id: clientId,
       ws,
       room,
@@ -55,19 +55,19 @@ function websocketHandler(req: Request): Response {
       lastActivity: Date.now()
     });
     
-    // Enviar boas-vindas
+    // Send welcome message
     ws.send(JSON.stringify({
       type: "message",
-      content: `Bem-vindo ao chat! Você está na sala: ${room}`,
-      sender: "sistema",
+      content: `Welcome to the chat! You are in room: ${room}`,
+      sender: "system",
       timestamp: new Date().toISOString()
     }));
     
-    // Broadcast entrada
+    // Broadcast entry
     broadcast({
       type: "message",
-      content: `${username} entrou no chat`,
-      sender: "sistema",
+      content: `${username} joined the chat`,
+      sender: "system",
       room,
       timestamp: new Date().toISOString()
     }, clientId);
@@ -79,7 +79,7 @@ function websocketHandler(req: Request): Response {
       
       switch (data.type) {
         case "message":
-          // Enviar mensagem para sala
+          // Send message to room
           broadcast({
             type: "message",
             content: data.content,
@@ -90,42 +90,42 @@ function websocketHandler(req: Request): Response {
           break;
           
         case "join":
-          // Entrar em sala
-          const novaSala = data.room || "geral";
+          // Join room
+          const newRoom = data.room || "geral";
           
           broadcast({
             type: "message",
-            content: `${username} saiu da sala`,
-            sender: "sistema",
+            content: `${username} left the room`,
+            sender: "system",
             room,
             timestamp: new Date().toISOString()
           }, clientId);
           
-          entrarNaSala(clientId, novaSala);
-          room = novaSala;
+          joinRoom(clientId, newRoom);
+          room = newRoom;
           
           ws.send(JSON.stringify({
             type: "message",
-            content: `Você entrou na sala: ${novaSala}`,
-            sender: "sistema",
+            content: `You joined the room: ${newRoom}`,
+            sender: "system",
             timestamp: new Date().toISOString()
           }));
           
           broadcast({
             type: "message",
-            content: `${username} entrou na sala`,
-            sender: "sistema",
-            room: novaSala,
+            content: `${username} joined the room`,
+            sender: "system",
+            room: newRoom,
             timestamp: new Date().toISOString()
           }, clientId);
           break;
           
         case "users":
-          // Listar usuários na sala
-          const usuarios = listarUsuariosNaSala(room);
+          // List users in room
+          const users = listUsersInRoom(room);
           ws.send(JSON.stringify({
             type: "users",
-            users: usuarios,
+            users: users,
             room,
             timestamp: new Date().toISOString()
           }));
@@ -140,14 +140,14 @@ function websocketHandler(req: Request): Response {
           break;
           
         case "username":
-          // Atualizar username
-          const antigoUsername = username;
+          // Update username
+          const oldUsername = username;
           username = data.username || username;
           
           broadcast({
             type: "message",
-            content: `${antigoUsername} agora é ${username}`,
-            sender: "sistema",
+            content: `${oldUsername} is now ${username}`,
+            sender: "system",
             room,
             timestamp: new Date().toISOString()
           });
@@ -156,14 +156,14 @@ function websocketHandler(req: Request): Response {
         default:
           ws.send(JSON.stringify({
             type: "error",
-            content: `Tipo desconhecido: ${data.type}`,
+            content: `Unknown type: ${data.type}`,
             timestamp: new Date().toISOString()
           }));
       }
     } catch {
       ws.send(JSON.stringify({
         type: "error",
-        content: "JSON inválido",
+        content: "Invalid JSON",
         timestamp: new Date().toISOString()
       }));
     }
@@ -172,25 +172,25 @@ function websocketHandler(req: Request): Response {
   ws.onclose = () => {
     broadcast({
       type: "message",
-      content: `${username} saiu do chat`,
-      sender: "sistema",
+      content: `${username} left the chat`,
+      sender: "system",
       room,
       timestamp: new Date().toISOString()
     });
     
-    removerCliente(clientId);
+    removeClient(clientId);
   };
   
   ws.onerror = (error) => {
-    console.error(`❌ Erro no WebSocket:`, error);
-    removerCliente(clientId);
+    console.error(`❌ WebSocket error:`, error);
+    removeClient(clientId);
   };
   
   return response;
 }
 
-// Iniciar servidor
-console.log(`🚀 WebSocket Server rodando em ws://localhost:${PORT}`);
+// Start server
+console.log(`🚀 WebSocket Server running at ws://localhost:${PORT}`);
 console.log(`📡 Endpoints:`);
 console.log(`   WebSocket: ws://localhost:${PORT}`);
 console.log(`   HTTP: http://localhost:${PORT}/health`);

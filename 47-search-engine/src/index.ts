@@ -1,20 +1,20 @@
 /**
- * Desafio 47: Search Engine
+ * Challenge 47: Search Engine
  */
 
-import { SearchEngine, criarEngine } from "./search.service.ts";
+import { SearchEngine, createEngine } from "./search.service.ts";
 
-async function executar(): Promise<void> {
-  console.log("Iniciando Search Engine...");
+async function run(): Promise<void> {
+  console.log("Starting Search Engine...");
   try {
-    const engine = criarEngine();
-    console.log("Engine criado");
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    const engine = createEngine();
+    console.log("Engine created");
+    // TODO: Implement
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Error:", error);
     throw error;
   }
 }
 
-executar();
+run();

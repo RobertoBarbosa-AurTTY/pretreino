@@ -1,70 +1,70 @@
 /**
- * Desafio 3: Notificação por Email
+ * Challenge 3: Email Notification
  * 
- * Serviço de envio de emails com fila e retry.
- * A Mock API deve estar rodando: cd ../mock-api && deno task dev
+ * Email sending service with queue and retry.
+ * The Mock API must be running: cd ../mock-api && deno task dev
  */
 
 interface Email {
   id: string;
-  para: string;
-  assunto: string;
+  to: string;
+  subject: string;
   template: string;
-  dados: Record<string, unknown>;
+  data: Record<string, unknown>;
   status: "pendente" | "enviado" | "falha";
-  tentativas: number;
+  attempts: number;
 }
 
-interface ConfiguracaoFila {
-  maxTentativas: number;
-  delayRetry: number;
-  timeoutEnvio: number;
+interface QueueConfig {
+  maxAttempts: number;
+  retryDelay: number;
+  sendTimeout: number;
 }
 
-interface ResultadoEnvio {
+interface SendResult {
   success: boolean;
   emailId: string;
-  erro?: string;
+  error?: string;
 }
 
 /**
- * Envia email via Mock API
+ * Sends email via Mock API
  */
-export async function enviarEmailViaAPI(
-  email: Omit<Email, "id" | "status" | "tentativas">,
+export async function sendEmailViaAPI(
+  email: Omit<Email, "id" | "status" | "attempts">,
   apiUrl: string
-): Promise<ResultadoEnvio> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+): Promise<SendResult> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Enfileira email para envio
+ * Queues email for sending
  */
-export async function enfileirarEmail(
+export async function enqueueEmail(
   email: Email,
-  fila: Email[]
+  queue: Email[]
 ): Promise<void> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Processa fila de emails
+ * Processes email queue
  */
-export async function processarFila(
-  fila: Email[],
-  config: ConfiguracaoFila,
+export async function processQueue(
+  queue: Email[],
+  config: QueueConfig,
   apiUrl: string
-): Promise<ResultadoEnvio[]> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+): Promise<SendResult[]> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Carrega emails pendentes de arquivo
+ * Loads pending emails from file
  */
-export async function carregarEmailsPendentes(caminhoArquivo: string): Promise<Email[]> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function loadPendingEmails(filePath: string): Promise<Email[]> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

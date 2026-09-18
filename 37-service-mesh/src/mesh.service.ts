@@ -1,5 +1,5 @@
 /**
- * Desafio 37: Service Mesh - Service
+ * Challenge 37: Service Mesh - Service
  */
 
 export interface ServiceInstance {
@@ -27,15 +27,15 @@ export interface ServiceMesh {
   route(req: Request): Promise<Response>;
 }
 
-export function criarMesh(config: MeshConfig): ServiceMesh {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createMesh(config: MeshConfig): ServiceMesh {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 export function loadBalance(
   services: ServiceInstance[],
   strategy: string
 ): ServiceInstance {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

@@ -1,20 +1,20 @@
 /**
- * Desafio 39: Idempotency
+ * Challenge 39: Idempotency
  */
 
-import { IdempotencyService, criarServico } from "./idempotency.service.ts";
+import { IdempotencyService, createService } from "./idempotency.service.ts";
 
-async function executar(): Promise<void> {
-  console.log("Iniciando Idempotency...");
+async function run(): Promise<void> {
+  console.log("Starting Idempotency...");
   try {
-    const service = criarServico(3600000);
-    console.log("Serviço criado");
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    const service = createService(3600000);
+    console.log("Service created");
+    // TODO: Implement
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Error:", error);
     throw error;
   }
 }
 
-executar();
+run();

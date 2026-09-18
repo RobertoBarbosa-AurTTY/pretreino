@@ -1,53 +1,53 @@
 /**
- * Desafio 6: Webhook de Pagamento
+ * Challenge 6: Payment Webhook
  * 
- * Serviço que envia webhooks de pagamento para a Mock API.
- * A Mock API deve estar rodando: cd ../mock-api && deno task dev
+ * Service that sends payment webhooks to the Mock API.
+ * The Mock API must be running: cd ../mock-api && deno task dev
  */
 
-interface WebhookPagamento {
-  evento: "pagamento.pago" | "pagamento.falhou" | "pagamento.reembolsado";
-  dados: {
-    pagamentoId: string;
-    pedidoId: string;
-    valor: number;
-    metodo: string;
-    data: string;
+interface PaymentWebhook {
+  event: "pagamento.pago" | "pagamento.falhou" | "pagamento.reembolsado";
+  data: {
+    paymentId: string;
+    orderId: string;
+    amount: number;
+    method: string;
+    date: string;
   };
 }
 
-interface ResultadoProcessamento {
+interface ProcessingResult {
   success: boolean;
-  mensagem: string;
-  pagamentoId?: string;
+  message: string;
+  paymentId?: string;
 }
 
 /**
- * Envia webhook de pagamento para a Mock API
+ * Sends payment webhook to the Mock API
  */
-export async function enviarWebhook(
-  webhook: WebhookPagamento,
+export async function sendWebhook(
+  webhook: PaymentWebhook,
   apiUrl: string,
   secret: string
-): Promise<ResultadoProcessamento> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+): Promise<ProcessingResult> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Carrega webhooks pendentes de arquivo
+ * Loads pending webhooks from file
  */
-export async function carregarWebhooksPendentes(
-  caminhoArquivo: string
-): Promise<WebhookPagamento[]> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function loadPendingWebhooks(
+  filePath: string
+): Promise<PaymentWebhook[]> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Valida estrutura do webhook
+ * Validates webhook structure
  */
-export function validarWebhook(webhook: unknown): webhook is WebhookPagamento {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function validateWebhook(webhook: unknown): webhook is PaymentWebhook {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

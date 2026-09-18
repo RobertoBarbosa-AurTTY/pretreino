@@ -1,43 +1,43 @@
 /**
- * Desafio 1: Integração API de Clientes
+ * Challenge 1: Customers API Integration
  *
- * Consumir API REST, filtrar clientes ativos e salvar em arquivo.
- * A Mock API deve estar rodando: cd ../mock-api && deno task dev
+ * Consume a REST API, filter active clients and save to a file.
+ * The Mock API must be running: cd ../mock-api && deno task dev
  */
 
 import {
-  buscarClientes,
-  ConfiguracaoAPI,
-  filtrarAtivos,
-  salvarEmArquivo,
-} from "./cliente.service.ts";
+  fetchClients,
+  APIConfig,
+  filterActive,
+  saveToFile,
+} from "./client.service.ts";
 
 /**
- * Pipeline principal
+ * Main pipeline
  *
- * Implemente a sequência:
- * 1. Buscar clientes da API
- * 2. Filtrar apenas ativos
- * 3. Salvar em arquivo JSON
+ * Implement the sequence:
+ * 1. Fetch clients from the API
+ * 2. Filter only active ones
+ * 3. Save to a JSON file
  */
-async function executarPipeline(config: ConfiguracaoAPI): Promise<void> {
-  const clientes = await buscarClientes(config);
-  console.log(clientes);
+async function executePipeline(config: APIConfig): Promise<void> {
+  const clients = await fetchClients(config);
+  console.log(clients);
   console.log("--------------------------------");
-  console.log(filtrarAtivos(clientes));
-  await salvarEmArquivo(clientes);
-  console.log("Clientes salvos em JSON");
+  console.log(filterActive(clients));
+  await saveToFile(clients);
+  console.log("Clients saved to JSON");
 }
 
-// Execução
-const config: ConfiguracaoAPI = {
+// Execution
+const config: APIConfig = {
   url: Deno.env.get("API_BASE_URL") || "http://localhost:8080",
   timeout: parseInt(Deno.env.get("API_TIMEOUT") || "5000"),
   retries: parseInt(Deno.env.get("API_RETRIES") || "3"),
 };
 
 try {
-  await executarPipeline(config);
+  await executePipeline(config);
 } catch {
   Deno.exit(1);
 }

@@ -1,24 +1,24 @@
 /**
- * Desafio 28: Integração com API Externa
+ * Challenge 28: External API Integration
  * 
- * Cliente HTTP robusto para integração com APIs externas.
+ * Robust HTTP client for external API integration.
  */
 
 import {
-  criarCliente,
-  fazerRequisicao,
-  obterEstadoCircuitBreaker,
-  configurarFallback
+  createClient,
+  makeRequest,
+  getCircuitBreakerState,
+  configureFallback
 } from "./api-client.service.ts";
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarIntegracao(): Promise<void> {
-  console.log("Iniciando integração com API externa...");
+async function runIntegration(): Promise<void> {
+  console.log("Starting external API integration...");
   
   try {
-    // Configurações do .env
+    // .env settings
     const apiUrl = Deno.env.get("API_BASE_URL") || "https://api.example.com";
     const timeout = parseInt(Deno.env.get("API_TIMEOUT") || "5000");
     const maxRetries = parseInt(Deno.env.get("MAX_RETRIES") || "3");
@@ -27,18 +27,18 @@ async function executarIntegracao(): Promise<void> {
     console.log(`Timeout: ${timeout}ms`);
     console.log(`Max retries: ${maxRetries}`);
     
-    // TODO: Implementar pipeline
-    // 1. Criar cliente
-    // 2. Fazer requisições
-    // 3. Tratar erros
-    // 4. Verificar circuit breaker
+    // TODO: Implement pipeline
+    // 1. Create client
+    // 2. Make requests
+    // 3. Handle errors
+    // 4. Check circuit breaker
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro na integração:", error);
+    console.error("Error in integration:", error);
     throw error;
   }
 }
 
-// Execução
-executarIntegracao();
+// Execution
+runIntegration();

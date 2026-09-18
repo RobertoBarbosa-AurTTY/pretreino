@@ -1,5 +1,5 @@
 /**
- * Desafio 41: API Compression - Service
+ * Challenge 41: API Compression - Service
  */
 
 export interface CompressionConfig {
@@ -19,19 +19,19 @@ export async function compress(
   data: Uint8Array,
   algorithm: string
 ): Promise<CompressionResult> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 export async function decompress(
   data: Uint8Array,
   algorithm: string
 ): Promise<Uint8Array> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 export function negotiateEncoding(acceptEncoding: string): string | null {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

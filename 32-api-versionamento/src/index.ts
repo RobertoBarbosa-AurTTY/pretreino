@@ -1,20 +1,20 @@
 /**
- * Desafio 32: Versionamento de API
+ * Challenge 32: API Versioning
  */
 
-import { criarRouter } from "./versioning.service.ts";
+import { createRouter } from "./versioning.service.ts";
 
-async function executar(): Promise<void> {
-  console.log("Iniciando API com versionamento...");
+async function run(): Promise<void> {
+  console.log("Starting versioned API...");
   try {
     const port = parseInt(Deno.env.get("PORT") || "3000");
-    console.log(`Porta: ${port}`);
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    console.log(`Port: ${port}`);
+    // TODO: Implement
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Error:", error);
     throw error;
   }
 }
 
-executar();
+run();

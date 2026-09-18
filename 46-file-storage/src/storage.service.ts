@@ -1,14 +1,14 @@
 /**
- * Desafio 46: File Storage - Service
+ * Challenge 46: File Storage - Service
  */
 
 export interface FileMetadata {
   id: string;
-  nome: string;
-  tipo: string;
-  tamanho: number;
-  caminho: string;
-  criadoEm: string;
+  name: string;
+  type: string;
+  size: number;
+  path: string;
+  createdAt: string;
 }
 
 export interface StorageConfig {
@@ -30,7 +30,7 @@ export interface FileStorage {
   list(): FileMetadata[];
 }
 
-export function criarStorage(config: StorageConfig): FileStorage {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createStorage(config: StorageConfig): FileStorage {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

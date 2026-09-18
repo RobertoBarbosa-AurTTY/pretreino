@@ -1,20 +1,20 @@
 /**
- * Desafio 33: Event Sourcing
+ * Challenge 33: Event Sourcing
  */
 
-import { EventStore, criarEventStore } from "./eventstore.service.ts";
+import { EventStore, createEventStore } from "./eventstore.service.ts";
 
-async function executar(): Promise<void> {
-  console.log("Iniciando Event Sourcing...");
+async function run(): Promise<void> {
+  console.log("Starting Event Sourcing...");
   try {
-    const store = criarEventStore();
-    console.log("Event Store criado");
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    const store = createEventStore();
+    console.log("Event Store created");
+    // TODO: Implement
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Error:", error);
     throw error;
   }
 }
 
-executar();
+run();

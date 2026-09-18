@@ -1,19 +1,19 @@
 /**
- * Desafio 42: Request Validation
+ * Challenge 42: Request Validation
  */
 
 import { validate, sanitize } from "./validation.service.ts";
 
-async function executar(): Promise<void> {
-  console.log("Iniciando Request Validation...");
+async function run(): Promise<void> {
+  console.log("Starting Request Validation...");
   try {
-    console.log("Sistema de validação pronto");
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    console.log("Validation system ready");
+    // TODO: Implement
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Error:", error);
     throw error;
   }
 }
 
-executar();
+run();

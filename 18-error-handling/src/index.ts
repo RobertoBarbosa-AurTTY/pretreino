@@ -1,7 +1,7 @@
 /**
- * Desafio 18: Error Handling
+ * Challenge 18: Error Handling
  * 
- * API com tratamento de erros centralizado.
+ * API with centralized error handling.
  */
 
 import { 
@@ -19,10 +19,10 @@ const headers = {
   "Access-Control-Allow-Origin": "*"
 };
 
-// Dados simulados
-const usuarios = [
-  { id: 1, nome: "João", email: "joao@email.com" },
-  { id: 2, nome: "Maria", email: "maria@email.com" }
+// Simulated data
+const users = [
+  { id: 1, name: "João", email: "joao@email.com" },
+  { id: 2, name: "Maria", email: "maria@email.com" }
 ];
 
 async function handler(req: Request): Promise<Response> {
@@ -38,7 +38,7 @@ async function handler(req: Request): Promise<Response> {
     // GET /api/usuarios
     if (path === "/api/usuarios" && method === "GET") {
       return new Response(
-        JSON.stringify(usuarios),
+        JSON.stringify(users),
         { status: 200, headers }
       );
     }
@@ -48,17 +48,17 @@ async function handler(req: Request): Promise<Response> {
       const id = parseInt(path.split("/")[3]);
       
       if (isNaN(id)) {
-        throw new ValidationError("ID deve ser um número");
+        throw new ValidationError("ID must be a number");
       }
       
-      const usuario = usuarios.find(u => u.id === id);
+      const user = users.find(u => u.id === id);
       
-      if (!usuario) {
-        throw new NotFoundError("Usuário", id);
+      if (!user) {
+        throw new NotFoundError("User", id);
       }
       
       return new Response(
-        JSON.stringify(usuario),
+        JSON.stringify(user),
         { status: 200, headers }
       );
     }
@@ -67,50 +67,50 @@ async function handler(req: Request): Promise<Response> {
     if (path === "/api/usuarios" && method === "POST") {
       const body = await req.json();
       
-      if (!body.nome || !body.email) {
-        throw new ValidationError("Nome e email são obrigatórios", {
-          campos: ["nome", "email"]
+      if (!body.name || !body.email) {
+        throw new ValidationError("Name and email are required", {
+          fields: ["name", "email"]
         });
       }
       
-      if (usuarios.some(u => u.email === body.email)) {
-        throw new AppError("Email já cadastrado", "CONFLICT" as any);
+      if (users.some(u => u.email === body.email)) {
+        throw new AppError("Email already registered", "CONFLICT" as any);
       }
       
-      const novoUsuario = {
-        id: usuarios.length + 1,
+      const newUser = {
+        id: users.length + 1,
         ...body
       };
       
-      usuarios.push(novoUsuario);
+      users.push(newUser);
       
       return new Response(
-        JSON.stringify(novoUsuario),
+        JSON.stringify(newUser),
         { status: 201, headers }
       );
     }
 
-    // GET /api/protected (rota que exige auth)
+    // GET /api/protected (route that requires auth)
     if (path === "/api/protected" && method === "GET") {
       const authHeader = req.headers.get("Authorization");
       
       if (!authHeader) {
-        throw new UnauthorizedError("Token de autenticação necessário");
+        throw new UnauthorizedError("Authentication token required");
       }
       
       if (!authHeader.startsWith("Bearer ")) {
-        throw new UnauthorizedError("Formato de token inválido");
+        throw new UnauthorizedError("Invalid token format");
       }
       
       return new Response(
-        JSON.stringify({ message: "Acesso autorizado", dados: "secreto" }),
+        JSON.stringify({ message: "Access granted", data: "secret" }),
         { status: 200, headers }
       );
     }
 
-    // GET /api/error (força erro 500)
+    // GET /api/error (forces a 500 error)
     if (path === "/api/error" && method === "GET") {
-      throw new Error("Erro simulado do servidor");
+      throw new Error("Simulated server error");
     }
 
     // GET /health
@@ -121,7 +121,7 @@ async function handler(req: Request): Promise<Response> {
       );
     }
 
-    // Endpoint não encontrado
+    // Endpoint not found
     throw new NotFoundError("Endpoint", path);
 
   } catch (error) {
@@ -129,7 +129,7 @@ async function handler(req: Request): Promise<Response> {
   }
 }
 
-console.log(`🚀 Error Handling API rodando em http://localhost:${PORT}`);
+console.log(`🚀 Error Handling API running at http://localhost:${PORT}`);
 console.log(`📡 Endpoints:`);
 console.log(`   GET /api/usuarios`);
 console.log(`   GET /api/usuarios/:id`);

@@ -1,35 +1,35 @@
 /**
- * Desafio 26: RBAC - Controle de Permissões
+ * Challenge 26: RBAC - Permission Control
  * 
- * Serviço de controle de acesso baseado em papéis.
+ * Role-based access control service.
  */
 
 interface Role {
   id: string;
-  nome: string;
-  descricao: string;
-  permissoes: Permission[];
-  herdaDe?: string;
+  name: string;
+  description: string;
+  permissions: Permission[];
+  inheritsFrom?: string;
 }
 
 interface Permission {
-  recurso: string;
-  acoes: ("criar" | "ler" | "atualizar" | "deletar")[];
-  condicoes?: Record<string, unknown>;
+  resource: string;
+  actions: ("create" | "read" | "update" | "delete")[];
+  conditions?: Record<string, unknown>;
 }
 
 interface UserRole {
   userId: string;
   roleId: string;
-  atribuidoEm: string;
-  atribuidoPor: string;
+  assignedAt: string;
+  assignedBy: string;
 }
 
 interface AccessLog {
   userId: string;
-  recurso: string;
-  acao: string;
-  permitido: boolean;
+  resource: string;
+  action: string;
+  allowed: boolean;
   timestamp: string;
   ip?: string;
 }
@@ -37,65 +37,65 @@ interface AccessLog {
 interface AuthContext {
   userId: string;
   roles: string[];
-  permissoes: Permission[];
+  permissions: Permission[];
 }
 
 /**
- * Cria nova role
+ * Create new role
  */
-export async function criarRole(role: Omit<Role, "id">): Promise<Role> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function createRole(role: Omit<Role, "id">): Promise<Role> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Atribui role a usuário
+ * Assign role to user
  */
-export async function atribuirRole(
+export async function assignRole(
   userId: string,
   roleId: string,
-  atribuidoPor: string
+  assignedBy: string
 ): Promise<UserRole> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Verifica se usuário tem permissão
+ * Check if user has permission
  */
-export async function verificarPermissao(
+export async function checkPermission(
   userId: string,
-  recurso: string,
-  acao: string,
-  condicoes?: Record<string, unknown>
+  resource: string,
+  action: string,
+  conditions?: Record<string, unknown>
 ): Promise<boolean> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Middleware de autorização
+ * Authorization middleware
  */
-export function middlewareAutorizacao(
-  recurso: string,
-  acao: string
+export function authorizationMiddleware(
+  resource: string,
+  action: string
 ): (req: Request) => Promise<boolean> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Registra log de acesso
+ * Registers access log
  */
-export async function registrarAcesso(log: Omit<AccessLog, "timestamp">): Promise<void> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function logAccess(log: Omit<AccessLog, "timestamp">): Promise<void> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Obtém permissões do usuário
+ * Get user permissions
  */
-export async function obterPermissoes(userId: string): Promise<Permission[]> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function getPermissions(userId: string): Promise<Permission[]> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

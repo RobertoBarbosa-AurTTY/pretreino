@@ -1,42 +1,42 @@
 /**
- * Desafio 25: API GraphQL
+ * Challenge 25: GraphQL API
  * 
- * API GraphQL completa com resolvers e subscriptions.
+ * Complete GraphQL API with resolvers and subscriptions.
  */
 
 import {
-  criarSchema,
-  executarQuery,
-  executarMutation,
- 订阅Subscription
+  createSchema,
+  executeQuery,
+  executeMutation,
+  subscribe
 } from "./graphql.service.ts";
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarGraphQL(): Promise<void> {
-  console.log("Iniciando API GraphQL...");
+async function runGraphQL(): Promise<void> {
+  console.log("Starting GraphQL API...");
   
   try {
-    // Configurações do .env
+    // .env settings
     const port = parseInt(Deno.env.get("PORT") || "4000");
     const playground = Deno.env.get("PLAYGROUND") !== "false";
     
-    console.log(`Porta: ${port}`);
+    console.log(`Port: ${port}`);
     console.log(`Playground: ${playground}`);
     
-    // TODO: Implementar pipeline
-    // 1. Criar schema
-    // 2. Configurar resolvers
-    // 3. Executar queries
-    // 4. Configurar subscriptions
+    // TODO: Implement pipeline
+    // 1. Create schema
+    // 2. Configure resolvers
+    // 3. Execute queries
+    // 4. Configure subscriptions
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro no GraphQL:", error);
+    console.error("Error in GraphQL:", error);
     throw error;
   }
 }
 
-// Execução
-executarGraphQL();
+// Execution
+runGraphQL();

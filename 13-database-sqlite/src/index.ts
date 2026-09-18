@@ -1,16 +1,16 @@
 /**
- * Desafio 13: Database SQLite
+ * Challenge 13: SQLite Database
  * 
- * API REST com operações CRUD no banco de dados.
+ * REST API with CRUD operations on the database.
  */
 
 import { 
-  listarTodos, 
-  buscarPorId, 
-  criar, 
-  atualizar, 
-  deletar,
-  criarTabela 
+  listAll, 
+  findById, 
+  create, 
+  update, 
+  remove,
+  createTable 
 } from "./database.ts";
 
 const PORT = parseInt(Deno.env.get("PORT") || "3001");
@@ -31,23 +31,23 @@ async function handler(req: Request): Promise<Response> {
 
   // GET /api/usuarios
   if (path === "/api/usuarios" && method === "GET") {
-    const usuarios = listarTodos();
-    return new Response(JSON.stringify(usuarios), { status: 200, headers });
+    const users = listAll();
+    return new Response(JSON.stringify(users), { status: 200, headers });
   }
 
   // GET /api/usuarios/:id
   if (path.startsWith("/api/usuarios/") && method === "GET") {
     const id = parseInt(path.split("/")[3]);
-    const usuario = buscarPorId(id);
+    const user = findById(id);
     
-    if (!usuario) {
+    if (!user) {
       return new Response(
-        JSON.stringify({ error: "Usuário não encontrado" }),
+        JSON.stringify({ error: "User not found" }),
         { status: 404, headers }
       );
     }
     
-    return new Response(JSON.stringify(usuario), { status: 200, headers });
+    return new Response(JSON.stringify(user), { status: 200, headers });
   }
 
   // POST /api/usuarios
@@ -57,16 +57,16 @@ async function handler(req: Request): Promise<Response> {
       
       if (!body.nome || !body.email) {
         return new Response(
-          JSON.stringify({ error: "Nome e email são obrigatórios" }),
+          JSON.stringify({ error: "Name and email are required" }),
           { status: 400, headers }
         );
       }
       
-      const usuario = criar(body);
-      return new Response(JSON.stringify(usuario), { status: 201, headers });
+      const user = create(body);
+      return new Response(JSON.stringify(user), { status: 201, headers });
     } catch {
       return new Response(
-        JSON.stringify({ error: "JSON inválido" }),
+        JSON.stringify({ error: "Invalid JSON" }),
         { status: 400, headers }
       );
     }
@@ -78,19 +78,19 @@ async function handler(req: Request): Promise<Response> {
       const id = parseInt(path.split("/")[3]);
       const body = await req.json();
       
-      const usuario = atualizar(id, body);
+      const user = update(id, body);
       
-      if (!usuario) {
+      if (!user) {
         return new Response(
-          JSON.stringify({ error: "Usuário não encontrado" }),
+          JSON.stringify({ error: "User not found" }),
           { status: 404, headers }
         );
       }
       
-      return new Response(JSON.stringify(usuario), { status: 200, headers });
+      return new Response(JSON.stringify(user), { status: 200, headers });
     } catch {
       return new Response(
-        JSON.stringify({ error: "JSON inválido" }),
+        JSON.stringify({ error: "Invalid JSON" }),
         { status: 400, headers }
       );
     }
@@ -99,30 +99,30 @@ async function handler(req: Request): Promise<Response> {
   // DELETE /api/usuarios/:id
   if (path.startsWith("/api/usuarios/") && method === "DELETE") {
     const id = parseInt(path.split("/")[3]);
-    const sucesso = deletar(id);
+    const success = remove(id);
     
-    if (!sucesso) {
+    if (!success) {
       return new Response(
-        JSON.stringify({ error: "Usuário não encontrado" }),
+        JSON.stringify({ error: "User not found" }),
         { status: 404, headers }
       );
     }
     
     return new Response(
-      JSON.stringify({ message: "Usuário deletado" }),
+      JSON.stringify({ message: "User deleted" }),
       { status: 200, headers }
     );
   }
 
   return new Response(
-    JSON.stringify({ error: "Endpoint não encontrado" }),
+    JSON.stringify({ error: "Endpoint not found" }),
     { status: 404, headers }
   );
 }
 
-criarTabela();
+createTable();
 
-console.log(`🚀 SQLite API rodando em http://localhost:${PORT}`);
+console.log(`🚀 SQLite API running at http://localhost:${PORT}`);
 console.log(`📡 Endpoints:`);
 console.log(`   GET    /api/usuarios`);
 console.log(`   GET    /api/usuarios/:id`);

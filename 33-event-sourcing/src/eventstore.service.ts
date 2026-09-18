@@ -1,12 +1,12 @@
 /**
- * Desafio 33: Event Sourcing - Service
+ * Challenge 33: Event Sourcing - Service
  */
 
 export interface Event {
   id: string;
   aggregateId: string;
-  tipo: string;
-  dados: unknown;
+  type: string;
+  data: unknown;
   timestamp: string;
   version: number;
 }
@@ -25,17 +25,17 @@ export interface EventStore {
   saveSnapshot(snapshot: Omit<Snapshot, "timestamp">): void;
 }
 
-export function criarEventStore(): EventStore {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createEventStore(): EventStore {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
-export function aplicarEvento(state: unknown, event: Event): unknown {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function applyEvent(state: unknown, event: Event): unknown {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
-export function reconstruirEstado(events: Event[]): unknown {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function reconstructState(events: Event[]): unknown {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

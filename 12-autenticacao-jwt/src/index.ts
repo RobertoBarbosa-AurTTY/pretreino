@@ -1,12 +1,12 @@
 /**
- * Desafio 12: Autenticação JWT
+ * Challenge 12: JWT Authentication
  * 
- * API de autenticação completa com JWT.
+ * Complete authentication API with JWT.
  */
 
 import { 
   login, 
-  validarToken, 
+  validateToken, 
   refresh, 
   logout,
   isAdmin 
@@ -14,10 +14,10 @@ import {
 
 const PORT = parseInt(Deno.env.get("PORT") || "3000");
 
-// Dados de exemplo
-const dadosProtegidos = [
-  { id: 1, titulo: "Documento Secreto", conteudo: "Conteúdo confidencial" },
-  { id: 2, titulo: "Relatório Anual", conteudo: "Dados financeiros" }
+// Sample data
+const protectedData = [
+  { id: 1, title: "Secret Document", content: "Confidential content" },
+  { id: 2, title: "Annual Report", content: "Financial data" }
 ];
 
 async function handler(req: Request): Promise<Response> {
@@ -41,35 +41,35 @@ async function handler(req: Request): Promise<Response> {
   if (path === "/api/login" && method === "POST") {
     try {
       const body = await req.json();
-      const { email, senha } = body;
+      const { email, senha: password } = body;
 
-      if (!email || !senha) {
+      if (!email || !password) {
         return new Response(
-          JSON.stringify({ error: "Email e senha são obrigatórios" }),
+          JSON.stringify({ error: "Email and password are required" }),
           { status: 400, headers }
         );
       }
 
-      const resultado = await login(email, senha);
+      const result = await login(email, password);
 
-      if (!resultado.success) {
+      if (!result.success) {
         return new Response(
-          JSON.stringify({ error: resultado.error }),
+          JSON.stringify({ error: result.error }),
           { status: 401, headers }
         );
       }
 
       return new Response(
         JSON.stringify({
-          message: "Login realizado com sucesso",
-          token: resultado.token,
-          refreshToken: resultado.refreshToken
+          message: "Login successful",
+          token: result.token,
+          refreshToken: result.refreshToken
         }),
         { status: 200, headers }
       );
     } catch {
       return new Response(
-        JSON.stringify({ error: "JSON inválido" }),
+        JSON.stringify({ error: "Invalid JSON" }),
         { status: 400, headers }
       );
     }
@@ -83,31 +83,31 @@ async function handler(req: Request): Promise<Response> {
 
       if (!refreshToken) {
         return new Response(
-          JSON.stringify({ error: "Refresh token é obrigatório" }),
+          JSON.stringify({ error: "Refresh token is required" }),
           { status: 400, headers }
         );
       }
 
-      const resultado = await refresh(refreshToken);
+      const result = await refresh(refreshToken);
 
-      if (!resultado.success) {
+      if (!result.success) {
         return new Response(
-          JSON.stringify({ error: resultado.error }),
+          JSON.stringify({ error: result.error }),
           { status: 401, headers }
         );
       }
 
       return new Response(
         JSON.stringify({
-          message: "Token renovado",
-          token: resultado.token,
-          refreshToken: resultado.refreshToken
+          message: "Token renewed",
+          token: result.token,
+          refreshToken: result.refreshToken
         }),
         { status: 200, headers }
       );
     } catch {
       return new Response(
-        JSON.stringify({ error: "JSON inválido" }),
+        JSON.stringify({ error: "Invalid JSON" }),
         { status: 400, headers }
       );
     }
@@ -119,7 +119,7 @@ async function handler(req: Request): Promise<Response> {
     
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return new Response(
-        JSON.stringify({ error: "Token não fornecido" }),
+        JSON.stringify({ error: "Token not provided" }),
         { status: 401, headers }
       );
     }
@@ -128,7 +128,7 @@ async function handler(req: Request): Promise<Response> {
     logout(token);
 
     return new Response(
-      JSON.stringify({ message: "Logout realizado com sucesso" }),
+      JSON.stringify({ message: "Logout successful" }),
       { status: 200, headers }
     );
   }
@@ -139,17 +139,17 @@ async function handler(req: Request): Promise<Response> {
     
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return new Response(
-        JSON.stringify({ error: "Token não fornecido" }),
+        JSON.stringify({ error: "Token not provided" }),
         { status: 401, headers }
       );
     }
 
     const token = authHeader.split(" ")[1];
-    const payload = await validarToken(token);
+    const payload = await validateToken(token);
 
     if (!payload) {
       return new Response(
-        JSON.stringify({ error: "Token inválido ou expirado" }),
+        JSON.stringify({ error: "Invalid or expired token" }),
         { status: 401, headers }
       );
     }
@@ -164,64 +164,64 @@ async function handler(req: Request): Promise<Response> {
     );
   }
 
-  // GET /api/documents (rota protegida)
+  // GET /api/documents (protected route)
   if (path === "/api/documents" && method === "GET") {
     const authHeader = req.headers.get("Authorization");
     
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return new Response(
-        JSON.stringify({ error: "Token não fornecido" }),
+        JSON.stringify({ error: "Token not provided" }),
         { status: 401, headers }
       );
     }
 
     const token = authHeader.split(" ")[1];
-    const payload = await validarToken(token);
+    const payload = await validateToken(token);
 
     if (!payload) {
       return new Response(
-        JSON.stringify({ error: "Token inválido ou expirado" }),
+        JSON.stringify({ error: "Invalid or expired token" }),
         { status: 401, headers }
       );
     }
 
     return new Response(
-      JSON.stringify(dadosProtegidos),
+      JSON.stringify(protectedData),
       { status: 200, headers }
     );
   }
 
-  // DELETE /api/admin/users/:id (rota admin)
+  // DELETE /api/admin/users/:id (admin route)
   if (path.startsWith("/api/admin/users/") && method === "DELETE") {
     const authHeader = req.headers.get("Authorization");
     
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return new Response(
-        JSON.stringify({ error: "Token não fornecido" }),
+        JSON.stringify({ error: "Token not provided" }),
         { status: 401, headers }
       );
     }
 
     const token = authHeader.split(" ")[1];
-    const payload = await validarToken(token);
+    const payload = await validateToken(token);
 
     if (!payload) {
       return new Response(
-        JSON.stringify({ error: "Token inválido ou expirado" }),
+        JSON.stringify({ error: "Invalid or expired token" }),
         { status: 401, headers }
       );
     }
 
     if (!isAdmin(payload)) {
       return new Response(
-        JSON.stringify({ error: "Acesso negado. Apenas admins." }),
+        JSON.stringify({ error: "Access denied. Admins only." }),
         { status: 403, headers }
       );
     }
 
     const userId = path.split("/")[4];
     return new Response(
-      JSON.stringify({ message: `Usuário ${userId} deletado` }),
+      JSON.stringify({ message: `User ${userId} deleted` }),
       { status: 200, headers }
     );
   }
@@ -235,12 +235,12 @@ async function handler(req: Request): Promise<Response> {
   }
 
   return new Response(
-    JSON.stringify({ error: "Endpoint não encontrado" }),
+    JSON.stringify({ error: "Endpoint not found" }),
     { status: 404, headers }
   );
 }
 
-console.log(`🚀 Auth API rodando em http://localhost:${PORT}`);
+console.log(`🚀 Auth API running at http://localhost:${PORT}`);
 console.log(`📡 Endpoints:`);
 console.log(`   POST /api/login`);
 console.log(`   POST /api/refresh`);

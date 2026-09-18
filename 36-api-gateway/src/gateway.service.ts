@@ -1,5 +1,5 @@
 /**
- * Desafio 36: API Gateway - Service
+ * Challenge 36: API Gateway - Service
  */
 
 export interface Route {
@@ -19,9 +19,9 @@ export interface Gateway {
   handle(req: Request): Promise<Response>;
 }
 
-export function criarGateway(config: GatewayConfig): Gateway {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createGateway(config: GatewayConfig): Gateway {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 export function proxyRequest(
@@ -29,6 +29,6 @@ export function proxyRequest(
   targetUrl: string,
   stripPrefix?: boolean
 ): Promise<Response> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

@@ -1,7 +1,7 @@
 /**
- * Desafio 23: Cache com Redis
+ * Challenge 23: Redis Cache
  * 
- * Serviço de cache usando Redis.
+ * Cache service using Redis.
  */
 
 interface CacheConfig {
@@ -24,61 +24,61 @@ interface CacheStats {
 }
 
 /**
- * Conecta ao Redis
+ * Connect to Redis
  */
-export async function conectarRedis(url: string): Promise<void> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function connectRedis(url: string): Promise<void> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Desconecta do Redis
+ * Disconnect from Redis
  */
 export async function disconnectRedis(): Promise<void> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Obtém valor do cache
+ * Get cache value
  */
-export async function obterCache<T>(chave: string): Promise<CacheResult<T>> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function getCache<T>(key: string): Promise<CacheResult<T>> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Define valor no cache
+ * Set cache value
  */
-export async function definirCache<T>(
-  chave: string,
-  valor: T,
+export async function setCache<T>(
+  key: string,
+  value: T,
   ttl?: number
 ): Promise<void> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Invalida cache por chave
+ * Invalidate cache by key
  */
-export async function invalidarCache(chave: string): Promise<boolean> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function invalidateCache(key: string): Promise<boolean> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Invalida cache por padrão
+ * Invalidate cache by pattern
  */
-export async function invalidarCachePorPadrao(padrao: string): Promise<number> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function invalidateCacheByPattern(pattern: string): Promise<number> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Retorna estatísticas do cache
+ * Return cache statistics
  */
-export async function estatisticasCache(): Promise<CacheStats> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function getCacheStats(): Promise<CacheStats> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

@@ -1,5 +1,5 @@
 /**
- * Desafio 39: Idempotency - Service
+ * Challenge 39: Idempotency - Service
  */
 
 export interface IdempotencyKey {
@@ -22,7 +22,7 @@ export interface IdempotencyService {
   fail(key: string): Promise<void>;
 }
 
-export function criarServico(ttlMs: number): IdempotencyService {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createService(ttlMs: number): IdempotencyService {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

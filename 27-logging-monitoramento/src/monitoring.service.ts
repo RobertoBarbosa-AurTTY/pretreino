@@ -1,7 +1,7 @@
 /**
- * Desafio 27: Logging e Monitoramento
+ * Challenge 27: Logging and Monitoring
  * 
- * Serviço de logging estruturado e monitoramento.
+ * Structured logging and monitoring service.
  */
 
 interface LogEntry {
@@ -48,61 +48,61 @@ interface AlertRule {
 }
 
 /**
- * Cria logger estruturado
+ * Create structured logger
  */
-export function criarLogger(service: string, level?: string): Logger {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createLogger(service: string, level?: string): Logger {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Registra log
+ * Register log
  */
-export function registrarLog(entry: Omit<LogEntry, "timestamp">): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function registerLog(entry: Omit<LogEntry, "timestamp">): void {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Registra métrica
+ * Register metric
  */
-export function criarMetrica(
+export function createMetric(
   name: string,
   value: number,
   tags?: Record<string, string>
 ): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Inicia trace span
+ * Start trace span
  */
-export function iniciarTracing(
+export function startTracing(
   operation: string,
   traceId?: string
 ): TraceSpan {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Finaliza trace span
+ * Finish trace span
  */
-export function finalizarSpan(
+export function finishSpan(
   span: TraceSpan,
   status: "ok" | "error"
 ): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Configura alertas
+ * Configure alerts
  */
-export function configurarAlertas(rules: AlertRule[]): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function configureAlerts(rules: AlertRule[]): void {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**

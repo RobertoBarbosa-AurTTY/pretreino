@@ -1,19 +1,19 @@
 /**
- * Desafio 21: Job Scheduler
+ * Challenge 21: Job Scheduler
  * 
- * API de agendamento de tarefas.
+ * Task scheduling API.
  */
 
 import {
-  criarJob,
-  listarJobs,
-  buscarJobPorId,
+  createJob,
+  listJobs,
+  getJobById,
   toggleJob,
-  deletarJob,
-  executarJob,
-  listarExecucoes,
-  iniciarTodos,
-  pararTodos
+  deleteJob,
+  executeJob,
+  listExecutions,
+  startAll,
+  stopAll
 } from "./scheduler.service.ts";
 
 const PORT = parseInt(Deno.env.get("PORT") || "3009");
@@ -35,7 +35,7 @@ async function handler(req: Request): Promise<Response> {
   try {
     // GET /api/jobs
     if (path === "/api/jobs" && method === "GET") {
-      const jobs = listarJobs();
+      const jobs = listJobs();
       return new Response(JSON.stringify(jobs), { status: 200, headers });
     }
 
@@ -43,25 +43,25 @@ async function handler(req: Request): Promise<Response> {
     if (path === "/api/jobs" && method === "POST") {
       const body = await req.json();
       
-      if (!body.nome || !body.cron || !body.comando) {
+      if (!body.name || !body.cron || !body.command) {
         return new Response(
-          JSON.stringify({ error: "Nome, cron e comando são obrigatórios" }),
+          JSON.stringify({ error: "Name, cron and command are required" }),
           { status: 400, headers }
         );
       }
       
-      const job = criarJob(body);
+      const job = createJob(body);
       return new Response(JSON.stringify(job), { status: 201, headers });
     }
 
     // GET /api/jobs/:id
     if (path.match(/^\/api\/jobs\/[^/]+$/) && method === "GET") {
-      const id = path.split("/")[3];
-      const job = buscarJobPorId(id);
+      const id = path.split("/")[3]!;
+      const job = getJobById(id);
       
       if (!job) {
         return new Response(
-          JSON.stringify({ error: "Job não encontrado" }),
+          JSON.stringify({ error: "Job not found" }),
           { status: 404, headers }
         );
       }
@@ -69,16 +69,16 @@ async function handler(req: Request): Promise<Response> {
       return new Response(JSON.stringify(job), { status: 200, headers });
     }
 
-    // PATCH /api/jobs/:id (ativar/desativar)
+    // PATCH /api/jobs/:id (activate/deactivate)
     if (path.match(/^\/api\/jobs\/[^/]+$/) && method === "PATCH") {
-      const id = path.split("/")[3];
+      const id = path.split("/")[3]!;
       const body = await req.json();
       
-      const job = toggleJob(id, body.ativo);
+      const job = toggleJob(id, body.active);
       
       if (!job) {
         return new Response(
-          JSON.stringify({ error: "Job não encontrado" }),
+          JSON.stringify({ error: "Job not found" }),
           { status: 404, headers }
         );
       }
@@ -88,34 +88,34 @@ async function handler(req: Request): Promise<Response> {
 
     // DELETE /api/jobs/:id
     if (path.match(/^\/api\/jobs\/[^/]+$/) && method === "DELETE") {
-      const id = path.split("/")[3];
-      const sucesso = deletarJob(id);
+      const id = path.split("/")[3]!;
+      const success = deleteJob(id);
       
-      if (!sucesso) {
+      if (!success) {
         return new Response(
-          JSON.stringify({ error: "Job não encontrado" }),
+          JSON.stringify({ error: "Job not found" }),
           { status: 404, headers }
         );
       }
       
       return new Response(
-        JSON.stringify({ message: "Job deletado" }),
+        JSON.stringify({ message: "Job deleted" }),
         { status: 200, headers }
       );
     }
 
     // POST /api/jobs/:id/executar
     if (path.match(/^\/api\/jobs\/[^/]+\/executar$/) && method === "POST") {
-      const id = path.split("/")[3];
-      const execucao = await executarJob(id);
-      return new Response(JSON.stringify(execucao), { status: 200, headers });
+      const id = path.split("/")[3]!;
+      const execution = await executeJob(id);
+      return new Response(JSON.stringify(execution), { status: 200, headers });
     }
 
     // GET /api/jobs/:id/execucoes
     if (path.match(/^\/api\/jobs\/[^/]+\/execucoes$/) && method === "GET") {
-      const id = path.split("/")[3];
-      const execucoes = listarExecucoes(id);
-      return new Response(JSON.stringify(execucoes), { status: 200, headers });
+      const id = path.split("/")[3]!;
+      const executions = listExecutions(id);
+      return new Response(JSON.stringify(executions), { status: 200, headers });
     }
 
     // GET /health
@@ -127,22 +127,22 @@ async function handler(req: Request): Promise<Response> {
     }
 
     return new Response(
-      JSON.stringify({ error: "Endpoint não encontrado" }),
+      JSON.stringify({ error: "Endpoint not found" }),
       { status: 404, headers }
     );
 
   } catch (error) {
     return new Response(
-      JSON.stringify({ error: "Erro interno do servidor" }),
+      JSON.stringify({ error: "Internal server error" }),
       { status: 500, headers }
     );
   }
 }
 
-// Iniciar jobs ao ligar
-iniciarTodos();
+// Start jobs on startup
+startAll();
 
-console.log(`🚀 Job Scheduler API rodando em http://localhost:${PORT}`);
+console.log(`🚀 Job Scheduler API running at http://localhost:${PORT}`);
 console.log(`📡 Endpoints:`);
 console.log(`   GET    /api/jobs`);
 console.log(`   POST   /api/jobs`);

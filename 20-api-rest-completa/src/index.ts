@@ -1,17 +1,17 @@
 /**
- * Desafio 20: API REST Completa
+ * Challenge 20: Complete REST API
  * 
- * API REST completa com paginação, filtros e ordenação.
+ * Complete REST API with pagination, filters and sorting.
  */
 
 import {
-  listarProdutos,
-  buscarPorId,
-  criarProduto,
-  atualizarProduto,
-  deletarProduto,
-  listarCategorias
-} from "./produto.service.ts";
+  listProducts,
+  findById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  listCategories
+} from "./product.service.ts";
 
 const PORT = parseInt(Deno.env.get("PORT") || "3008");
 
@@ -35,21 +35,21 @@ async function handler(req: Request): Promise<Response> {
       const page = parseInt(url.searchParams.get("page") || "1");
       const limit = parseInt(url.searchParams.get("limit") || "10");
       const search = url.searchParams.get("search") || undefined;
-      const categoria = url.searchParams.get("categoria") || undefined;
-      const minPreco = url.searchParams.get("minPreco") 
+      const category = url.searchParams.get("categoria") || undefined;
+      const minPrice = url.searchParams.get("minPreco") 
         ? parseFloat(url.searchParams.get("minPreco")!) 
         : undefined;
-      const maxPreco = url.searchParams.get("maxPreco") 
+      const maxPrice = url.searchParams.get("maxPreco") 
         ? parseFloat(url.searchParams.get("maxPreco")!) 
         : undefined;
       const sortField = url.searchParams.get("sort") || "id";
       const sortDirection = url.searchParams.get("direction") || "asc";
       
-      const result = listarProdutos(page, limit, {
+      const result = listProducts(page, limit, {
         search,
-        categoria,
-        minPreco,
-        maxPreco
+        category,
+        minPrice,
+        maxPrice
       }, {
         field: sortField,
         direction: sortDirection as "asc" | "desc"
@@ -60,23 +60,23 @@ async function handler(req: Request): Promise<Response> {
 
     // GET /api/produtos/categorias
     if (path === "/api/produtos/categorias" && method === "GET") {
-      const categorias = listarCategorias();
-      return new Response(JSON.stringify(categorias), { status: 200, headers });
+      const categories = listCategories();
+      return new Response(JSON.stringify(categories), { status: 200, headers });
     }
 
     // GET /api/produtos/:id
     if (path.startsWith("/api/produtos/") && !path.includes("categorias") && method === "GET") {
       const id = parseInt(path.split("/")[3]);
-      const produto = buscarPorId(id);
+      const product = findById(id);
       
-      if (!produto) {
+      if (!product) {
         return new Response(
-          JSON.stringify({ error: "Produto não encontrado" }),
+          JSON.stringify({ error: "Product not found" }),
           { status: 404, headers }
         );
       }
       
-      return new Response(JSON.stringify(produto), { status: 200, headers });
+      return new Response(JSON.stringify(product), { status: 200, headers });
     }
 
     // POST /api/produtos
@@ -85,28 +85,28 @@ async function handler(req: Request): Promise<Response> {
       
       if (!body.nome || body.preco === undefined) {
         return new Response(
-          JSON.stringify({ error: "Nome e preço são obrigatórios" }),
+          JSON.stringify({ error: "Name and price are required" }),
           { status: 400, headers }
         );
       }
       
       if (body.preco < 0) {
         return new Response(
-          JSON.stringify({ error: "Preço não pode ser negativo" }),
+          JSON.stringify({ error: "Price cannot be negative" }),
           { status: 400, headers }
         );
       }
       
-      const produto = criarProduto({
+      const product = createProduct({
         nome: body.nome,
-        descricao: body.descricao,
+        description: body.description,
         preco: body.preco,
-        categoria: body.categoria || "geral",
-        estoque: body.estoque || 0,
-        ativo: body.ativo !== false
+        category: body.category || "general",
+        stock: body.stock || 0,
+        active: body.active !== false
       });
       
-      return new Response(JSON.stringify(produto), { status: 201, headers });
+      return new Response(JSON.stringify(product), { status: 201, headers });
     }
 
     // PUT /api/produtos/:id
@@ -114,32 +114,32 @@ async function handler(req: Request): Promise<Response> {
       const id = parseInt(path.split("/")[3]);
       const body = await req.json();
       
-      const produto = atualizarProduto(id, body);
+      const product = updateProduct(id, body);
       
-      if (!produto) {
+      if (!product) {
         return new Response(
-          JSON.stringify({ error: "Produto não encontrado" }),
+          JSON.stringify({ error: "Product not found" }),
           { status: 404, headers }
         );
       }
       
-      return new Response(JSON.stringify(produto), { status: 200, headers });
+      return new Response(JSON.stringify(product), { status: 200, headers });
     }
 
     // DELETE /api/produtos/:id
     if (path.startsWith("/api/produtos/") && method === "DELETE") {
       const id = parseInt(path.split("/")[3]);
-      const sucesso = deletarProduto(id);
+      const success = deleteProduct(id);
       
-      if (!sucesso) {
+      if (!success) {
         return new Response(
-          JSON.stringify({ error: "Produto não encontrado" }),
+          JSON.stringify({ error: "Product not found" }),
           { status: 404, headers }
         );
       }
       
       return new Response(
-        JSON.stringify({ message: "Produto deletado" }),
+        JSON.stringify({ message: "Product deleted" }),
         { status: 200, headers }
       );
     }
@@ -153,19 +153,19 @@ async function handler(req: Request): Promise<Response> {
     }
 
     return new Response(
-      JSON.stringify({ error: "Endpoint não encontrado" }),
+      JSON.stringify({ error: "Endpoint not found" }),
       { status: 404, headers }
     );
 
   } catch (error) {
     return new Response(
-      JSON.stringify({ error: "Erro interno do servidor" }),
+      JSON.stringify({ error: "Internal server error" }),
       { status: 500, headers }
     );
   }
 }
 
-console.log(`🚀 REST API rodando em http://localhost:${PORT}`);
+console.log(`🚀 REST API running at http://localhost:${PORT}`);
 console.log(`📡 Endpoints:`);
 console.log(`   GET    /api/produtos`);
 console.log(`   GET    /api/produtos/categorias`);

@@ -1,7 +1,7 @@
 /**
- * Desafio 30: Segurança de API
+ * Challenge 30: API Security
  * 
- * Serviço de segurança para APIs.
+ * Security service for APIs.
  */
 
 interface SecurityConfig {
@@ -35,12 +35,12 @@ interface ValidationError {
 }
 
 interface SecurityEvent {
-  tipo: "injecao" | "xss" | "rate_limit" | "acesso_nao_autorizado";
+  type: "injection" | "xss" | "rate_limit" | "unauthorized_access";
   ip: string;
   userId?: string;
   endpoint: string;
   timestamp: string;
-  detalhes: Record<string, unknown>;
+  details: Record<string, unknown>;
 }
 
 interface InputSanitizer {
@@ -49,56 +49,56 @@ interface InputSanitizer {
 }
 
 /**
- * Valida entrada contra schema
+ * Validate input against schema
  */
-export function validarEntrada<T>(
+export function validateInput<T>(
   input: unknown,
   schema: ValidationSchema
 ): ValidationResult {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Sanitiza dados
+ * Sanitize data
  */
-export function sanitizarDados<T>(dados: T): T {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function sanitizeData<T>(data: T): T {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Configura CORS
+ * Configure CORS
  */
-export function configurarCORS(config: SecurityConfig["cors"]): (req: Request) => Response | null {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function configureCORS(config: SecurityConfig["cors"]): (req: Request) => Response | null {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Configura rate limiting
+ * Configure rate limiting
  */
-export function configurarRateLimit(
+export function configureRateLimit(
   config: SecurityConfig["rateLimit"]
 ): (req: Request) => boolean {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Configura headers de segurança
+ * Configure security headers
  */
-export function configurarHeadersSeguranca(): Record<string, string> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function configureSecurityHeaders(): Record<string, string> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Detecta ataques
+ * Detect attacks
  */
-export function detectarAtaques(req: Request): SecurityEvent | null {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function detectAttacks(req: Request): SecurityEvent | null {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**

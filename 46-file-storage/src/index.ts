@@ -1,20 +1,20 @@
 /**
- * Desafio 46: File Storage
+ * Challenge 46: File Storage
  */
 
-import { FileStorage, criarStorage } from "./storage.service.ts";
+import { FileStorage, createStorage } from "./storage.service.ts";
 
-async function executar(): Promise<void> {
-  console.log("Iniciando File Storage...");
+async function run(): Promise<void> {
+  console.log("Starting File Storage...");
   try {
-    const storage = criarStorage({ basePath: "./uploads" });
-    console.log("Storage criado");
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    const storage = createStorage({ basePath: "./uploads" });
+    console.log("Storage created");
+    // TODO: Implement
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Error:", error);
     throw error;
   }
 }
 
-executar();
+run();

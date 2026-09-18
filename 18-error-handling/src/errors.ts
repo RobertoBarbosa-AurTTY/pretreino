@@ -1,10 +1,10 @@
 /**
- * Desafio 18: Error Handling
+ * Challenge 18: Error Handling
  * 
- * Sistema de tratamento de erros centralizado.
+ * Centralized error handling system.
  */
 
-// Códigos de erro
+// Error codes
 export enum ErrorCode {
   VALIDATION_ERROR = "VALIDATION_ERROR",
   NOT_FOUND = "NOT_FOUND",
@@ -16,7 +16,7 @@ export enum ErrorCode {
   BAD_REQUEST = "BAD_REQUEST"
 }
 
-// Classe base de erro
+// Base error class
 export class AppError extends Error {
   public readonly code: ErrorCode;
   public readonly statusCode: number;
@@ -31,18 +31,18 @@ export class AppError extends Error {
     super(message);
     this.name = "AppError";
     this.code = code;
-    this.statusCode = 0; // TODO: Mapear código para status HTTP
+    this.statusCode = 0; // TODO: Map code to HTTP status
     this.details = details;
     this.timestamp = new Date().toISOString();
   }
 
   toJSON() {
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    // TODO: Implement
+    throw new Error("Not implemented");
   }
 }
 
-// Erros específicos
+// Specific errors
 export class ValidationError extends AppError {
   constructor(message: string, details?: any) {
     super(message, ErrorCode.VALIDATION_ERROR, details);
@@ -53,22 +53,22 @@ export class ValidationError extends AppError {
 export class NotFoundError extends AppError {
   constructor(resource: string, id?: string | number) {
     const message = id 
-      ? `${resource} com ID ${id} não encontrado`
-      : `${resource} não encontrado`;
+      ? `${resource} with ID ${id} not found`
+      : `${resource} not found`;
     super(message, ErrorCode.NOT_FOUND);
     this.name = "NotFoundError";
   }
 }
 
 export class UnauthorizedError extends AppError {
-  constructor(message: string = "Não autorizado") {
+  constructor(message: string = "Not authorized") {
     super(message, ErrorCode.UNAUTHORIZED);
     this.name = "UnauthorizedError";
   }
 }
 
 export class ForbiddenError extends AppError {
-  constructor(message: string = "Acesso negado") {
+  constructor(message: string = "Access denied") {
     super(message, ErrorCode.FORBIDDEN);
     this.name = "ForbiddenError";
   }
@@ -81,14 +81,14 @@ export class ConflictError extends AppError {
   }
 }
 
-// Handler de erros
+// Error handler
 export function handleError(error: unknown): Response {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
-// Logger de erros
+// Error logger
 export function logError(error: AppError, context?: string): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

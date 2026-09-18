@@ -1,5 +1,5 @@
 /**
- * Desafio 47: Search Engine - Service
+ * Challenge 47: Search Engine - Service
  */
 
 export interface Document {
@@ -29,7 +29,7 @@ export interface SearchEngine {
   autocomplete(prefix: string): string[];
 }
 
-export function criarEngine(): SearchEngine {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createEngine(): SearchEngine {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

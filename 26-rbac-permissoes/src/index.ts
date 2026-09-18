@@ -1,43 +1,43 @@
 /**
- * Desafio 26: RBAC - Controle de Permissões
+ * Challenge 26: RBAC - Permission Control
  * 
- * Sistema de controle de acesso baseado em papéis.
+ * Role-based access control system.
  */
 
 import {
-  criarRole,
-  atribuirRole,
-  verificarPermissao,
-  middlewareAutorizacao,
-  registrarAcesso
+  createRole,
+  assignRole,
+  checkPermission,
+  authorizationMiddleware,
+  logAccess
 } from "./rbac.service.ts";
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarRBAC(): Promise<void> {
-  console.log("Iniciando sistema de RBAC...");
+async function runRBAC(): Promise<void> {
+  console.log("Starting RBAC system...");
   
   try {
-    // Configurações do .env
-    const arquivoRoles = Deno.env.get("ARQUIVO_ROLES") || "./data/roles.json";
-    const habilitarAuditoria = Deno.env.get("HABILITAR_AUDITORIA") === "true";
+    // .env settings
+    const rolesFile = Deno.env.get("ARQUIVO_ROLES") || "./data/roles.json";
+    const enableAudit = Deno.env.get("HABILITAR_AUDITORIA") === "true";
     
-    console.log(`Arquivo de roles: ${arquivoRoles}`);
-    console.log(`Auditoria habilitada: ${habilitarAuditoria}`);
+    console.log(`Roles file: ${rolesFile}`);
+    console.log(`Audit enabled: ${enableAudit}`);
     
-    // TODO: Implementar pipeline
-    // 1. Carregar roles
-    // 2. Atribuir roles a usuários
-    // 3. Verificar permissões
-    // 4. Registrar acessos
+    // TODO: Implement pipeline
+    // 1. Load roles
+    // 2. Assign roles to users
+    // 3. Check permissions
+    // 4. Log accesses
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro no RBAC:", error);
+    console.error("Error in RBAC:", error);
     throw error;
   }
 }
 
-// Execução
-executarRBAC();
+// Execution
+runRBAC();

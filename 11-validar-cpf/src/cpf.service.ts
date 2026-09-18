@@ -1,56 +1,56 @@
 /**
- * Desafio 11: Validar CPF
+ * Challenge 11: Validate CPF
  * 
- * Serviço de validação e geração de CPFs.
+ * CPF validation and generation service.
  */
 
 /**
- * Valida CPF
+ * Validates a CPF
  */
-export function validarCPF(cpf: string): boolean {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function validateCpf(cpf: string): boolean {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Formata CPF
+ * Formats a CPF
  */
-export function formatarCPF(cpf: string): string {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function formatCpf(cpf: string): string {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Gera CPF válido
+ * Generates a valid CPF
  */
-export function gerarCPF(): string {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function generateCpf(): string {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Valida lista de CPFs
+ * Validates a list of CPFs
  */
-export function validarListaCPFs(cpfs: string[]): { valido: string; invalido: string[] } {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function validateCpfList(cpfs: string[]): { valid: string; invalid: string[] } {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Lê CPFs de arquivo
+ * Reads CPFs from file
  */
-export async function lerCPFsDeArquivo(caminhoArquivo: string): Promise<string[]> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function readCpfsFromFile(filePath: string): Promise<string[]> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Salva CPFs em arquivo
+ * Saves CPFs to file
  */
-export async function salvarCPFsEmArquivo(
+export async function saveCpfsToFile(
   cpfs: string[],
-  caminhoArquivo: string
+  filePath: string
 ): Promise<void> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

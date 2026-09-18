@@ -1,43 +1,43 @@
 /**
- * Desafio 22: Autenticação Multi-Tenant
+ * Challenge 22: Multi-Tenant Authentication
  * 
- * Sistema de autenticação e autorização multi-tenant.
+ * Multi-tenant authentication and authorization system.
  */
 
 import {
-  criarTenant,
+  createTenant,
   loginTenant,
-  listarUsuarios,
-  criarUsuarioTenant,
-  obterConfigTenant
+  listUsers,
+  createTenantUser,
+  getTenantConfig
 } from "./tenant.service.ts";
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarMultiTenant(): Promise<void> {
-  console.log("Iniciando sistema multi-tenant...");
+async function runMultiTenant(): Promise<void> {
+  console.log("Starting multi-tenant system...");
   
   try {
-    // Configurações do .env
+    // .env settings
     const defaultTenantId = Deno.env.get("DEFAULT_TENANT_ID") || "default";
     const maxTenants = parseInt(Deno.env.get("MAX_TENANTS") || "100");
     
-    console.log(`Tenant padrão: ${defaultTenantId}`);
+    console.log(`Default tenant: ${defaultTenantId}`);
     console.log(`Max tenants: ${maxTenants}`);
     
-    // TODO: Implementar pipeline
-    // 1. Criar tenant
-    // 2. Cadastrar usuários no tenant
-    // 3. Login com contexto de tenant
-    // 4. Acessar dados isolados
+    // TODO: Implement pipeline
+    // 1. Create tenant
+    // 2. Register users in tenant
+    // 3. Login with tenant context
+    // 4. Access isolated data
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro no multi-tenant:", error);
+    console.error("Error in multi-tenant:", error);
     throw error;
   }
 }
 
-// Execução
-executarMultiTenant();
+// Execution
+runMultiTenant();

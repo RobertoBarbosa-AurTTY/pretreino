@@ -1,14 +1,14 @@
 /**
- * Desafio 8: Cache de API Externa
+ * Challenge 8: External API Cache
  * 
- * Sistema de cache para chamadas a APIs externas.
- * A Mock API deve estar rodando: cd ../mock-api && deno task dev
+ * Caching system for external API calls.
+ * The Mock API must be running: cd ../mock-api && deno task dev
  */
 
 interface CacheEntry<T> {
-  chave: string;
-  dados: T;
-  dataExpiracao: number;
+  key: string;
+  data: T;
+  expiresAt: number;
   hits: number;
 }
 
@@ -16,97 +16,97 @@ interface CacheStats {
   hits: number;
   misses: number;
   hitRate: number;
-  tamanho: number;
+  size: number;
 }
 
-interface ConfiguracaoCache {
-  ttlPadrao: number;
-  maxEntradas: number;
-  persistir: boolean;
+interface CacheConfig {
+  defaultTtl: number;
+  maxEntries: number;
+  persist: boolean;
 }
 
 export class Cache<T> {
   private cache: Map<string, CacheEntry<T>> = new Map();
-  private config: ConfiguracaoCache;
+  private config: CacheConfig;
   private stats = { hits: 0, misses: 0 };
 
-  constructor(config: ConfiguracaoCache) {
+  constructor(config: CacheConfig) {
     this.config = config;
   }
 
   /**
-   * Busca dados do cache
+   * Fetches data from the cache
    */
-  async buscar(chave: string): Promise<T | null> {
-    // TODO: Implementar
-    throw new Error("Não implementado");
+  async get(key: string): Promise<T | null> {
+    // TODO: Implement
+    throw new Error("Not implemented");
   }
 
   /**
-   * Salva dados no cache
+   * Saves data to the cache
    */
-  async salvar(chave: string, dados: T, ttl?: number): Promise<void> {
-    // TODO: Implementar
-    throw new Error("Não implementado");
+  async set(key: string, data: T, ttl?: number): Promise<void> {
+    // TODO: Implement
+    throw new Error("Not implemented");
   }
 
   /**
-   * Busca dados ou busca na API se não estiver em cache
+   * Fetches data or fetches from the API if not cached
    */
-  async buscarOuBuscar<K>(
-    chave: string,
-    buscarFn: () => Promise<K>,
+  async getOrFetch<K>(
+    key: string,
+    fetchFn: () => Promise<K>,
     ttl?: number
   ): Promise<K> {
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    // TODO: Implement
+    throw new Error("Not implemented");
   }
 
   /**
-   * Invalida entrada do cache
+   * Invalidates a cache entry
    */
-  async invalidar(chave: string): Promise<boolean> {
-    // TODO: Implementar
-    throw new Error("Não implementado");
+  async invalidate(key: string): Promise<boolean> {
+    // TODO: Implement
+    throw new Error("Not implemented");
   }
 
   /**
-   * Limpa todo o cache
+   * Clears the whole cache
    */
-  async limpar(): Promise<void> {
-    // TODO: Implementar
-    throw new Error("Não implementado");
+  async clear(): Promise<void> {
+    // TODO: Implement
+    throw new Error("Not implemented");
   }
 
   /**
-   * Retorna estatísticas do cache
+   * Returns cache statistics
    */
-  obterStats(): CacheStats {
-    // TODO: Implementar
-    throw new Error("Não implementado");
+  getStats(): CacheStats {
+    // TODO: Implement
+    throw new Error("Not implemented");
   }
 
   /**
-   * Remove entrada menos usada
+   * Removes least used entry
    */
-  private removerMenosUsada(): void {
-    // TODO: Implementar
-    throw new Error("Não implementado");
+  private removeLeastUsed(): void {
+    // TODO: Implement
+    throw new Error("Not implemented");
   }
 }
 
 /**
- * Busca dados da API externa (Mock API)
+ * Fetches data from the external API (Mock API)
  */
-export async function buscarUsuarios(apiUrl: string): Promise<unknown[]> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function fetchUsers(apiUrl: string): Promise<unknown[]> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Busca produtos da API externa (Mock API)
+ * Fetches products from the external API (Mock API)
  */
-export async function buscarProdutos(apiUrl: string): Promise<unknown[]> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function fetchProducts(apiUrl: string): Promise<unknown[]> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

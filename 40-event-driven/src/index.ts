@@ -1,20 +1,20 @@
 /**
- * Desafio 40: Event Driven Architecture
+ * Challenge 40: Event Driven Architecture
  */
 
-import { EventBus, criarEventBus } from "./eventbus.service.ts";
+import { EventBus, createEventBus } from "./eventbus.service.ts";
 
-async function executar(): Promise<void> {
-  console.log("Iniciando Event Driven...");
+async function run(): Promise<void> {
+  console.log("Starting Event Driven...");
   try {
-    const bus = criarEventBus();
-    console.log("Event Bus criado");
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    const bus = createEventBus();
+    console.log("Event Bus created");
+    // TODO: Implement
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Error:", error);
     throw error;
   }
 }
 
-executar();
+run();

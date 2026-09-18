@@ -1,5 +1,5 @@
 /**
- * Desafio 35: Resilience Patterns - Service
+ * Challenge 35: Resilience Patterns - Service
  */
 
 export class CircuitBreaker {
@@ -13,8 +13,8 @@ export class CircuitBreaker {
   ) {}
 
   async execute<T>(fn: () => Promise<T>): Promise<T> {
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    // TODO: Implement
+    throw new Error("Not implemented");
   }
 
   getStatus() {
@@ -32,8 +32,8 @@ export class Bulkhead {
   ) {}
 
   async execute<T>(fn: () => Promise<T>): Promise<T> {
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    // TODO: Implement
+    throw new Error("Not implemented");
   }
 }
 
@@ -45,7 +45,7 @@ export class Retry {
   ) {}
 
   async execute<T>(fn: () => Promise<T>): Promise<T> {
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    // TODO: Implement
+    throw new Error("Not implemented");
   }
 }

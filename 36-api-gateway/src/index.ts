@@ -1,25 +1,25 @@
 /**
- * Desafio 36: API Gateway
+ * Challenge 36: API Gateway
  */
 
-import { Gateway, criarGateway } from "./gateway.service.ts";
+import { Gateway, createGateway } from "./gateway.service.ts";
 
-async function executar(): Promise<void> {
-  console.log("Iniciando API Gateway...");
+async function run(): Promise<void> {
+  console.log("Starting API Gateway...");
   try {
-    const gateway = criarGateway({
+    const gateway = createGateway({
       routes: [
         { path: "/api/users", service: "http://localhost:3001" },
         { path: "/api/orders", service: "http://localhost:3002" }
       ]
     });
-    console.log("Gateway criado");
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    console.log("Gateway created");
+    // TODO: Implement
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Error:", error);
     throw error;
   }
 }
 
-executar();
+run();

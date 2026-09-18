@@ -1,47 +1,47 @@
 /**
- * Desafio 7: Job de Backup Database
+ * Challenge 7: Database Backup Job
  * 
- * Job que realiza backup de banco de dados e envia para storage.
+ * Job that performs database backup and sends it to storage.
  */
 
-import { executarBackup } from "./backup.service.ts";
+import { executeBackup } from "./backup.service.ts";
 
 /**
- * Job principal
+ * Main job
  */
-async function executarJob(): Promise<void> {
-  console.log("Iniciando job de backup...");
+async function executeJob(): Promise<void> {
+  console.log("Starting backup job...");
   
   try {
-    // Configurações do .env
+    // .env configurations
     const config = {
-      bancoDados: Deno.env.get("DB_NAME") || "meubanco",
+      database: Deno.env.get("DB_NAME") || "mydatabase",
       host: Deno.env.get("DB_HOST") || "localhost",
       port: parseInt(Deno.env.get("DB_PORT") || "5432"),
-      usuario: Deno.env.get("DB_USER") || "admin",
-      senha: Deno.env.get("DB_PASS") || "senha123",
-      bucket: Deno.env.get("BACKUP_BUCKET") || "meu-bucket-backup",
-      regiao: Deno.env.get("BACKUP_REGIAO") || "us-east-1",
-      retencaoDias: parseInt(Deno.env.get("BACKUP_RETENCAO_DIAS") || "7"),
-      pasta: Deno.env.get("BACKUP_PASTA") || "./backups"
+      user: Deno.env.get("DB_USER") || "admin",
+      password: Deno.env.get("DB_PASS") || "password123",
+      bucket: Deno.env.get("BACKUP_BUCKET") || "my-backup-bucket",
+      region: Deno.env.get("BACKUP_REGIAO") || "us-east-1",
+      retentionDays: parseInt(Deno.env.get("BACKUP_RETENCAO_DIAS") || "7"),
+      folder: Deno.env.get("BACKUP_PASTA") || "./backups"
     };
     
-    console.log(`Banco: ${config.bancoDados}`);
-    console.log(`Retenção: ${config.retencaoDias} dias`);
+    console.log(`Database: ${config.database}`);
+    console.log(`Retention: ${config.retentionDays} days`);
     
-    // Criar pasta de backups se não existir
-    await Deno.mkdir(config.pasta, { recursive: true });
+    // Create backups folder if it does not exist
+    await Deno.mkdir(config.folder, { recursive: true });
     
-    // TODO: Implementar job
-    // 1. Executar backup
-    // 2. Exibir resultado
+    // TODO: Implement job
+    // 1. Execute backup
+    // 2. Show result
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro no job de backup:", error);
+    console.error("Error in backup job:", error);
     throw error;
   }
 }
 
-// Execução
-executarJob();
+// Execution
+executeJob();

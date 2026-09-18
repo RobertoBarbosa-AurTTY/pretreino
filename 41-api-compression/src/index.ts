@@ -1,19 +1,19 @@
 /**
- * Desafio 41: API Compression
+ * Challenge 41: API Compression
  */
 
 import { compress, decompress } from "./compression.service.ts";
 
-async function executar(): Promise<void> {
-  console.log("Iniciando API Compression...");
+async function run(): Promise<void> {
+  console.log("Starting API Compression...");
   try {
-    console.log("Sistema de compressão pronto");
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    console.log("Compression system ready");
+    // TODO: Implement
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Error:", error);
     throw error;
   }
 }
 
-executar();
+run();

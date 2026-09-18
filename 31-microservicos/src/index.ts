@@ -1,46 +1,46 @@
 /**
- * Desafio 31: Arquitetura de Microserviços
+ * Challenge 31: Microservices Architecture
  * 
- * Sistema de microserviços com comunicação.
+ * Microservice system with communication.
  */
 
 import {
-  criarMicroservico,
-  configurarServiceDiscovery,
-  criarApiGateway,
-  configurarCircuitBreaker,
-  publicarEvento,
-  assinarEvento
+  createMicroservice,
+  configureServiceDiscovery,
+  createApiGateway,
+  configureCircuitBreaker,
+  publishEvent,
+  subscribeEvent
 } from "./microservice.service.ts";
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarMicroservicos(): Promise<void> {
-  console.log("Iniciando arquitetura de microserviços...");
+async function runMicroservices(): Promise<void> {
+  console.log("Starting microservices architecture...");
   
   try {
-    // Configurações do .env
-    const portaBase = parseInt(Deno.env.get("PORT_BASE") || "3000");
+    // .env settings
+    const basePort = parseInt(Deno.env.get("PORT_BASE") || "3000");
     const discoveryUrl = Deno.env.get("DISCOVERY_URL") || "http://localhost:8500";
     const eventBusUrl = Deno.env.get("EVENT_BUS_URL") || "amqp://localhost";
     
-    console.log(`Porta base: ${portaBase}`);
+    console.log(`Base port: ${basePort}`);
     console.log(`Discovery: ${discoveryUrl}`);
     console.log(`Event bus: ${eventBusUrl}`);
     
-    // TODO: Implementar pipeline
-    // 1. Criar microserviços
-    // 2. Configurar service discovery
-    // 3. Criar API Gateway
-    // 4. Configurar comunicação
+    // TODO: Implement pipeline
+    // 1. Create microservices
+    // 2. Configure service discovery
+    // 3. Create API Gateway
+    // 4. Configure communication
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro nos microserviços:", error);
+    console.error("Microservices error:", error);
     throw error;
   }
 }
 
-// Execução
-executarMicroservicos();
+// Execution
+runMicroservices();

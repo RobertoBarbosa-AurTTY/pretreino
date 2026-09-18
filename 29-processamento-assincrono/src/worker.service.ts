@@ -1,100 +1,100 @@
 /**
- * Desafio 29: Processamento Assíncrono
+ * Challenge 29: Asynchronous Processing
  * 
- * Serviço de processamento assíncrono com workers.
+ * Asynchronous processing service with workers.
  */
 
 interface Task<TInput, TOutput> {
   id: string;
-  tipo: string;
+  type: string;
   input: TInput;
-  prioridade: "baixa" | "media" | "alta" | "critica";
-  status: "pendente" | "processando" | "concluida" | "falha" | "cancelada";
-  resultado?: TOutput;
-  erro?: string;
-  progresso: number;
-  criadaEm: string;
-  iniciadaEm?: string;
-  concluidaEm?: string;
-  tentativas: number;
-  maxTentativas: number;
+  priority: "low" | "medium" | "high" | "critical";
+  status: "pending" | "processing" | "completed" | "failed" | "canceled";
+  result?: TOutput;
+  error?: string;
+  progress: number;
+  createdAt: string;
+  startedAt?: string;
+  completedAt?: string;
+  attempts: number;
+  maxAttempts: number;
 }
 
 interface WorkerConfig {
-  maxConcorrentes: number;
+  maxConcurrent: number;
   timeout: number;
   healthCheckInterval: number;
 }
 
 interface ProgressUpdate {
   taskId: string;
-  progresso: number;
-  mensagem?: string;
-  etapa?: string;
+  progress: number;
+  message?: string;
+  stage?: string;
 }
 
 interface WorkerStats {
-  totalProcessadas: number;
-  concluidas: number;
-  falhas: number;
-  tempoMedio: number;
-  filaAtual: number;
+  totalProcessed: number;
+  completed: number;
+  failures: number;
+  avgTime: number;
+  currentQueue: number;
 }
 
 /**
- * Cria pool de workers
+ * Create worker pool
  */
-export function criarPool(config: WorkerConfig): WorkerPool {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createPool(config: WorkerConfig): WorkerPool {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Registra handler para tipo de tarefa
+ * Register handler for task type
  */
-export function registrarHandler<TInput, TOutput>(
-  tipo: string,
+export function registerHandler<TInput, TOutput>(
+  type: string,
   handler: (input: TInput, onProgress: (update: ProgressUpdate) => void) => Promise<TOutput>
 ): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Adiciona tarefa à fila
+ * Add task to queue
  */
-export async function adicionarTarefa<TInput>(
-  tarefa: Omit<Task<TInput, unknown>, "id" | "status" | "progresso" | "criadaEm" | "tentativas">
+export async function addTask<TInput>(
+  task: Omit<Task<TInput, unknown>, "id" | "status" | "progress" | "createdAt" | "attempts">
 ): Promise<Task<TInput, unknown>> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Cancela tarefa
+ * Cancel task
  */
-export async function cancelarTarefa(taskId: string): Promise<boolean> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function cancelTask(taskId: string): Promise<boolean> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Monitora progresso
+ * Monitor progress
  */
-export function monitorarProgresso(
+export function monitorProgress(
   taskId: string,
   callback: (update: ProgressUpdate) => void
 ): () => void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
  * WorkerPool interface
  */
 interface WorkerPool {
-  adicionar<TInput>(tarefa: Omit<Task<TInput, unknown>, "id" | "status" | "progresso" | "criadaEm" | "tentativas">): Promise<Task<TInput, unknown>>;
-  cancelar(taskId: string): Promise<boolean>;
+  add<TInput>(task: Omit<Task<TInput, unknown>, "id" | "status" | "progress" | "createdAt" | "attempts">): Promise<Task<TInput, unknown>>;
+  cancel(taskId: string): Promise<boolean>;
   on(event: string, callback: (...args: unknown[]) => void): void;
   stats(): WorkerStats;
   shutdown(): Promise<void>;

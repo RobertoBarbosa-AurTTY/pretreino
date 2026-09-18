@@ -1,5 +1,5 @@
 /**
- * Desafio 34: CQRS - Service
+ * Challenge 34: CQRS - Service
  */
 
 export interface Command {
@@ -26,13 +26,13 @@ export class CommandBus {
   private handlers = new Map<string, CommandHandler>();
 
   register(type: string, handler: CommandHandler): void {
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    // TODO: Implement
+    throw new Error("Not implemented");
   }
 
   async dispatch(command: Command): Promise<void> {
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    // TODO: Implement
+    throw new Error("Not implemented");
   }
 }
 
@@ -40,12 +40,12 @@ export class QueryBus {
   private handlers = new Map<string, QueryHandler>();
 
   register(type: string, handler: QueryHandler): void {
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    // TODO: Implement
+    throw new Error("Not implemented");
   }
 
   async execute(query: Query): Promise<unknown> {
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    // TODO: Implement
+    throw new Error("Not implemented");
   }
 }

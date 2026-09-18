@@ -1,45 +1,45 @@
 /**
- * Desafio 8: Cache de API Externa
+ * Challenge 8: External API Cache
  * 
- * Sistema de cache para chamadas a APIs externas.
- * A Mock API deve estar rodando: cd ../mock-api && deno task dev
+ * Caching system for external API calls.
+ * The Mock API must be running: cd ../mock-api && deno task dev
  */
 
-import { Cache, buscarUsuarios, buscarProdutos } from "./cache.service.ts";
+import { Cache, fetchUsers, fetchProducts } from "./cache.service.ts";
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarCache(): Promise<void> {
-  console.log("Iniciando demonstração de cache...");
+async function executeCache(): Promise<void> {
+  console.log("Starting cache demonstration...");
   
   try {
-    // Configurações do .env
+    // .env configurations
     const apiUrl = Deno.env.get("API_EXTERNA_URL") || "http://localhost:8080";
     const ttl = parseInt(Deno.env.get("CACHE_TTL") || "300");
-    const maxEntradas = parseInt(Deno.env.get("CACHE_MAX_ENTRIES") || "1000");
+    const maxEntries = parseInt(Deno.env.get("CACHE_MAX_ENTRIES") || "1000");
     
     console.log(`API URL: ${apiUrl}`);
     console.log(`TTL: ${ttl}s`);
     
-    // Criar instância do cache
+    // Create cache instance
     const cache = new Cache<unknown[]>({
-      ttlPadrao: ttl,
-      maxEntradas,
-      persistir: false
+      defaultTtl: ttl,
+      maxEntries,
+      persist: false
     });
     
-    // TODO: Implementar demonstração
-    // 1. Buscar dados com e sem cache
-    // 2. Exibir estatísticas
-    // 3. Invalidar cache
+    // TODO: Implement demonstration
+    // 1. Fetch data with and without cache
+    // 2. Show statistics
+    // 3. Invalidate cache
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro na demonstração:", error);
+    console.error("Error on demonstration:", error);
     throw error;
   }
 }
 
-// Execução
-executarCache();
+// Execution
+executeCache();

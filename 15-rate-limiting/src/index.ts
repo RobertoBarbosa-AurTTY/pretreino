@@ -1,14 +1,14 @@
 /**
- * Desafio 15: Rate Limiting
+ * Challenge 15: Rate Limiting
  * 
- * API com rate limiting implementado.
+ * API with rate limiting implemented.
  */
 
-import { rateLimit, obterEstatisticas } from "./rateLimit.service.ts";
+import { rateLimit, getStats } from "./rateLimit.service.ts";
 
 const PORT = parseInt(Deno.env.get("PORT") || "3003");
 
-// Rate limiters para diferentes endpoints
+// Rate limiters for different endpoints
 const globalLimiter = rateLimit({ windowMs: 60000, maxRequests: 100 });
 const authLimiter = rateLimit({ windowMs: 60000, maxRequests: 10 });
 const apiLimiter = rateLimit({ windowMs: 60000, maxRequests: 50 });
@@ -28,13 +28,13 @@ async function handler(req: Request): Promise<Response> {
     return new Response(null, { status: 204, headers: baseHeaders });
   }
 
-  // Rate limit global
+  // Global rate limit
   const globalResult = globalLimiter(req);
   
   if (!globalResult.allowed) {
     return new Response(
       JSON.stringify({ 
-        error: "Rate limit excedido",
+        error: "Rate limit exceeded",
         retryAfter: globalResult.headers["Retry-After"]
       }),
       { 
@@ -52,14 +52,14 @@ async function handler(req: Request): Promise<Response> {
     );
   }
 
-  // POST /api/login (rate limit mais restritivo)
+  // POST /api/login (more restrictive rate limit)
   if (path === "/api/login" && method === "POST") {
     const authResult = authLimiter(req);
     
     if (!authResult.allowed) {
       return new Response(
         JSON.stringify({ 
-          error: "Muitas tentativas de login",
+          error: "Too many login attempts",
           retryAfter: authResult.headers["Retry-After"]
         }),
         { 
@@ -69,21 +69,21 @@ async function handler(req: Request): Promise<Response> {
       );
     }
     
-    // Simular login
+    // Simulate login
     return new Response(
-      JSON.stringify({ message: "Login realizado" }),
+      JSON.stringify({ message: "Login successful" }),
       { status: 200, headers: { ...baseHeaders, ...authResult.headers } }
     );
   }
 
-  // GET /api/dados (rate limit padrão)
+  // GET /api/dados (default rate limit)
   if (path === "/api/dados" && method === "GET") {
     const apiResult = apiLimiter(req);
     
     if (!apiResult.allowed) {
       return new Response(
         JSON.stringify({ 
-          error: "Muitas requisições à API",
+          error: "Too many API requests",
           retryAfter: apiResult.headers["Retry-After"]
         }),
         { 
@@ -95,7 +95,7 @@ async function handler(req: Request): Promise<Response> {
     
     return new Response(
       JSON.stringify({ 
-        dados: [1, 2, 3],
+        data: [1, 2, 3],
         timestamp: new Date().toISOString()
       }),
       { status: 200, headers: { ...baseHeaders, ...apiResult.headers } }
@@ -104,7 +104,7 @@ async function handler(req: Request): Promise<Response> {
 
   // GET /api/stats
   if (path === "/api/stats" && method === "GET") {
-    const stats = obterEstatisticas();
+    const stats = getStats();
     
     return new Response(
       JSON.stringify(stats),
@@ -113,12 +113,12 @@ async function handler(req: Request): Promise<Response> {
   }
 
   return new Response(
-    JSON.stringify({ error: "Endpoint não encontrado" }),
+    JSON.stringify({ error: "Endpoint not found" }),
     { status: 404, headers: { ...baseHeaders, ...globalResult.headers } }
   );
 }
 
-console.log(`🚀 Rate Limiting API rodando em http://localhost:${PORT}`);
+console.log(`🚀 Rate Limiting API running at http://localhost:${PORT}`);
 console.log(`📡 Endpoints:`);
 console.log(`   GET  /health`);
 console.log(`   POST /api/login (10 req/min)`);

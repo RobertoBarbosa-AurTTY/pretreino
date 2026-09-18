@@ -1,5 +1,5 @@
 /**
- * Desafio 40: Event Driven - Service
+ * Challenge 40: Event Driven - Service
  */
 
 export interface Event {
@@ -20,7 +20,7 @@ export interface EventBus {
   unsubscribe(type: string, handler: EventHandler): void;
 }
 
-export function criarEventBus(): EventBus {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createEventBus(): EventBus {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

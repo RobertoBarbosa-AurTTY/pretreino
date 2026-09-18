@@ -1,21 +1,21 @@
 /**
- * Desafio 17: Validação com Zod
+ * Challenge 17: Zod Validation
  * 
- * API com validação usando Zod.
+ * API with validation using Zod.
  */
 
 import { z, zodValidate, ZodError } from "./zod.ts";
 
 const PORT = parseInt(Deno.env.get("PORT") || "3005");
 
-// Schemas de validação
-const usuarioSchema = z.object({
+// Validation schemas
+const userSchema = z.object({
   nome: z.string("nome"),
   email: z.email("email"),
   idade: z.number("idade")
 });
 
-const produtoSchema = z.object({
+const productSchema = z.object({
   nome: z.string("nome"),
   preco: z.number("preco"),
   descricao: z.string("descricao").optional()
@@ -26,9 +26,9 @@ const headers = {
   "Access-Control-Allow-Origin": "*"
 };
 
-// Dados simulados
-const usuarios: any[] = [];
-const produtos: any[] = [];
+// Simulated data
+const users: any[] = [];
+const products: any[] = [];
 
 async function handler(req: Request): Promise<Response> {
   const url = new URL(req.url);
@@ -43,33 +43,33 @@ async function handler(req: Request): Promise<Response> {
   if (path === "/api/usuarios" && method === "POST") {
     try {
       const body = await req.json();
-      const usuarioValidado = zodValidate(usuarioSchema, body);
+      const validatedUser = zodValidate(userSchema, body);
       
-      const novoUsuario = {
-        id: usuarios.length + 1,
-        ...usuarioValidado,
-        criadoEm: new Date().toISOString()
+      const newUser = {
+        id: users.length + 1,
+        ...validatedUser,
+        createdAt: new Date().toISOString()
       };
       
-      usuarios.push(novoUsuario);
+      users.push(newUser);
       
       return new Response(
-        JSON.stringify({ message: "Usuário criado", usuario: novoUsuario }),
+        JSON.stringify({ message: "User created", user: newUser }),
         { status: 201, headers }
       );
     } catch (error) {
       if (error instanceof ZodError) {
         return new Response(
           JSON.stringify({ 
-            error: "Erro de validação",
-            detalhes: error.errors
+            error: "Validation error",
+            details: error.errors
           }),
           { status: 400, headers }
         );
       }
       
       return new Response(
-        JSON.stringify({ error: "JSON inválido" }),
+        JSON.stringify({ error: "Invalid JSON" }),
         { status: 400, headers }
       );
     }
@@ -79,33 +79,33 @@ async function handler(req: Request): Promise<Response> {
   if (path === "/api/produtos" && method === "POST") {
     try {
       const body = await req.json();
-      const produtoValidado = zodValidate(produtoSchema, body);
+      const validatedProduct = zodValidate(productSchema, body);
       
-      const novoProduto = {
-        id: produtos.length + 1,
-        ...produtoValidado,
-        criadoEm: new Date().toISOString()
+      const newProduct = {
+        id: products.length + 1,
+        ...validatedProduct,
+        createdAt: new Date().toISOString()
       };
       
-      produtos.push(novoProduto);
+      products.push(newProduct);
       
       return new Response(
-        JSON.stringify({ message: "Produto criado", produto: novoProduto }),
+        JSON.stringify({ message: "Product created", product: newProduct }),
         { status: 201, headers }
       );
     } catch (error) {
       if (error instanceof ZodError) {
         return new Response(
           JSON.stringify({ 
-            error: "Erro de validação",
-            detalhes: error.errors
+            error: "Validation error",
+            details: error.errors
           }),
           { status: 400, headers }
         );
       }
       
       return new Response(
-        JSON.stringify({ error: "JSON inválido" }),
+        JSON.stringify({ error: "Invalid JSON" }),
         { status: 400, headers }
       );
     }
@@ -114,7 +114,7 @@ async function handler(req: Request): Promise<Response> {
   // GET /api/usuarios
   if (path === "/api/usuarios" && method === "GET") {
     return new Response(
-      JSON.stringify(usuarios),
+      JSON.stringify(users),
       { status: 200, headers }
     );
   }
@@ -122,7 +122,7 @@ async function handler(req: Request): Promise<Response> {
   // GET /api/produtos
   if (path === "/api/produtos" && method === "GET") {
     return new Response(
-      JSON.stringify(produtos),
+      JSON.stringify(products),
       { status: 200, headers }
     );
   }
@@ -136,12 +136,12 @@ async function handler(req: Request): Promise<Response> {
   }
 
   return new Response(
-    JSON.stringify({ error: "Endpoint não encontrado" }),
+    JSON.stringify({ error: "Endpoint not found" }),
     { status: 404, headers }
   );
 }
 
-console.log(`🚀 Validation API rodando em http://localhost:${PORT}`);
+console.log(`🚀 Validation API running at http://localhost:${PORT}`);
 console.log(`📡 Endpoints:`);
 console.log(`   POST /api/usuarios`);
 console.log(`   POST /api/produtos`);

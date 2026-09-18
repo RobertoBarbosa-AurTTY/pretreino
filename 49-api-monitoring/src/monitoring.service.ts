@@ -1,5 +1,5 @@
 /**
- * Desafio 49: API Monitoring - Service
+ * Challenge 49: API Monitoring - Service
  */
 
 export interface ApiMetric {
@@ -29,7 +29,7 @@ export interface MonitoringService {
   addAlert(rule: AlertRule): void;
 }
 
-export function criarServico(): MonitoringService {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createService(): MonitoringService {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

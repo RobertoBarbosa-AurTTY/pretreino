@@ -1,20 +1,20 @@
 /**
- * Desafio 44: Webhook System
+ * Challenge 44: Webhook System
  */
 
-import { WebhookService, criarServico } from "./webhook.service.ts";
+import { WebhookService, createService } from "./webhook.service.ts";
 
-async function executar(): Promise<void> {
-  console.log("Iniciando Webhook System...");
+async function run(): Promise<void> {
+  console.log("Starting Webhook System...");
   try {
-    const service = criarServico();
-    console.log("Serviço criado");
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    const service = createService();
+    console.log("Service created");
+    // TODO: Implement
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Error:", error);
     throw error;
   }
 }
 
-executar();
+run();

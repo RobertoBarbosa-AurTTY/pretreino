@@ -1,26 +1,26 @@
 /**
- * Desafio 30: Segurança de API
+ * Challenge 30: API Security
  * 
- * Medidas de segurança para proteção de APIs.
+ * Security measures to protect APIs.
  */
 
 import {
-  validarEntrada,
-  sanitizarDados,
-  configurarCORS,
-  configurarRateLimit,
-  configurarHeadersSeguranca,
-  detectarAtaques
+  validateInput,
+  sanitizeData,
+  configureCORS,
+  configureRateLimit,
+  configureSecurityHeaders,
+  detectAttacks
 } from "./security.service.ts";
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarSeguranca(): Promise<void> {
-  console.log("Iniciando sistema de segurança...");
+async function runSecurity(): Promise<void> {
+  console.log("Starting security system...");
   
   try {
-    // Configurações do .env
+    // .env settings
     const corsOrigins = Deno.env.get("CORS_ORIGINS") || "*";
     const rateLimitMax = parseInt(Deno.env.get("RATE_LIMIT_MAX") || "100");
     const rateLimitWindow = parseInt(Deno.env.get("RATE_LIMIT_WINDOW") || "60000");
@@ -28,18 +28,18 @@ async function executarSeguranca(): Promise<void> {
     console.log(`CORS origins: ${corsOrigins}`);
     console.log(`Rate limit: ${rateLimitMax} requests/${rateLimitWindow}ms`);
     
-    // TODO: Implementar pipeline
-    // 1. Configurar CORS
-    // 2. Configurar rate limiting
-    // 3. Validar entrada
-    // 4. Detectar ataques
+    // TODO: Implement pipeline
+    // 1. Configure CORS
+    // 2. Configure rate limiting
+    // 3. Validate input
+    // 4. Detect attacks
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro na segurança:", error);
+    console.error("Error in security:", error);
     throw error;
   }
 }
 
-// Execução
-executarSeguranca();
+// Execution
+runSecurity();

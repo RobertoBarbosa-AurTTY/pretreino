@@ -1,20 +1,20 @@
 /**
- * Desafio 49: API Monitoring
+ * Challenge 49: API Monitoring
  */
 
-import { MonitoringService, criarServico } from "./monitoring.service.ts";
+import { MonitoringService, createService } from "./monitoring.service.ts";
 
-async function executar(): Promise<void> {
-  console.log("Iniciando API Monitoring...");
+async function run(): Promise<void> {
+  console.log("Starting API Monitoring...");
   try {
-    const service = criarServico();
-    console.log("Serviço criado");
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    const service = createService();
+    console.log("Service created");
+    // TODO: Implement
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Error:", error);
     throw error;
   }
 }
 
-executar();
+run();

@@ -1,7 +1,7 @@
 /**
- * Desafio 15: Rate Limiting
+ * Challenge 15: Rate Limiting
  * 
- * Serviço de rate limiting para APIs.
+ * Rate limiting service for APIs.
  */
 
 export interface RateLimitConfig {
@@ -18,44 +18,44 @@ export interface RateLimitResult {
 }
 
 /**
- * Obter chave do cliente
+ * Get client key
  */
-export function obterChaveCliente(req: Request): string {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function getClientKey(req: Request): string {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Verificar rate limit
+ * Check rate limit
  */
-export function verificarRateLimit(
-  chave: string,
+export function checkRateLimit(
+  key: string,
   config: Partial<RateLimitConfig> = {}
 ): RateLimitResult {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Criar middleware de rate limit
+ * Create rate limit middleware
  */
 export function rateLimit(config: Partial<RateLimitConfig> = {}) {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Limpar registros expirados
+ * Clean up expired entries
  */
-export function limparExpirados(): number {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function cleanupExpired(): number {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Obter estatísticas
+ * Get statistics
  */
-export function obterEstatisticas(): { totalChaves: number; totalRequisicoes: number } {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function getStats(): { totalKeys: number; totalRequests: number } {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

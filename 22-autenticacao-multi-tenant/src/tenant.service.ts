@@ -1,24 +1,24 @@
 /**
- * Desafio 22: Autenticação Multi-Tenant
+ * Challenge 22: Multi-Tenant Authentication
  * 
- * Serviço de autenticação e autorização multi-tenant.
+ * Multi-tenant authentication and authorization service.
  */
 
 interface Tenant {
   id: string;
-  nome: string;
-  dominio: string;
+  name: string;
+  domain: string;
   config: TenantConfig;
-  status: "ativo" | "inativo" | "suspenso";
-  criadoEm: string;
+  status: "active" | "inactive" | "suspended";
+  createdAt: string;
 }
 
 interface TenantConfig {
-  maxUsuarios: number;
-  funcionalidades: string[];
+  maxUsers: number;
+  features: string[];
   branding: {
     logo?: string;
-    corPrimaria: string;
+    primaryColor: string;
   };
 }
 
@@ -26,10 +26,10 @@ interface TenantUser {
   id: string;
   tenantId: string;
   email: string;
-  senha: string;
+  password: string;
   role: string;
-  permissoes: string[];
-  criadoEm: string;
+  permissions: string[];
+  createdAt: string;
 }
 
 interface TenantContext {
@@ -39,68 +39,68 @@ interface TenantContext {
 }
 
 interface LoginResult {
-  sucesso: boolean;
+  success: boolean;
   context?: TenantContext;
   token?: string;
-  erro?: string;
+  error?: string;
 }
 
 /**
- * Cria novo tenant
+ * Create new tenant
  */
-export async function criarTenant(
-  dados: Omit<Tenant, "id" | "criadoEm">
+export async function createTenant(
+  data: Omit<Tenant, "id" | "createdAt">
 ): Promise<Tenant> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Login com contexto de tenant
+ * Login with tenant context
  */
 export async function loginTenant(
-  dominio: string,
+  domain: string,
   email: string,
-  senha: string
+  password: string
 ): Promise<LoginResult> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Lista usuários do tenant
+ * List tenant users
  */
-export async function listarUsuarios(tenantId: string): Promise<TenantUser[]> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function listUsers(tenantId: string): Promise<TenantUser[]> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Cria usuário no tenant
+ * Create user in tenant
  */
-export async function criarUsuarioTenant(
+export async function createTenantUser(
   tenantId: string,
-  dados: Omit<TenantUser, "id" | "tenantId" | "criadoEm">
+  data: Omit<TenantUser, "id" | "tenantId" | "createdAt">
 ): Promise<TenantUser> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Obtém configuração do tenant
+ * Get tenant configuration
  */
-export async function obterConfigTenant(tenantId: string): Promise<TenantConfig> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function getTenantConfig(tenantId: string): Promise<TenantConfig> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Valida se usuário pertence ao tenant
+ * Validate if user belongs to tenant
  */
-export function validarTenantContext(
+export function validateTenantContext(
   context: TenantContext,
-  recursoTenantId: string
+  resourceTenantId: string
 ): boolean {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

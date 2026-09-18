@@ -1,7 +1,7 @@
 /**
- * Desafio 16: WebSocket
+ * Challenge 16: WebSocket
  * 
- * Serviço de WebSocket para comunicação em tempo real.
+ * WebSocket service for real-time communication.
  */
 
 export interface WebSocketMessage {
@@ -22,65 +22,65 @@ export interface Client {
 }
 
 /**
- * Gerar ID único
+ * Generate unique ID
  */
-export function gerarId(): string {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function generateId(): string {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Adicionar cliente
+ * Add client
  */
-export function adicionarCliente(client: Client): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function addClient(client: Client): void {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Remover cliente
+ * Remove client
  */
-export function removerCliente(id: string): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function removeClient(id: string): void {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Enviar mensagem para todos na sala
+ * Send message to everyone in the room
  */
 export function broadcast(message: WebSocketMessage, excludeId?: string): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Enviar para cliente específico
+ * Send to a specific client
  */
-export function enviarParaCliente(clientId: string, message: WebSocketMessage): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function sendToClient(clientId: string, message: WebSocketMessage): void {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Entrar em sala
+ * Join a room
  */
-export function entrarNaSala(clientId: string, novaSala: string): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function joinRoom(clientId: string, newRoom: string): void {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Listar usuários na sala
+ * List users in the room
  */
-export function listarUsuariosNaSala(room: string): string[] {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function listUsersInRoom(room: string): string[] {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Obter estatísticas
+ * Get statistics
  */
-export function obterEstatisticas(): { totalClientes: number; totalSalas: number } {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function getStats(): { totalClients: number; totalRooms: number } {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

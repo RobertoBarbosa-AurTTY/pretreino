@@ -1,114 +1,114 @@
 /**
- * Desafio 21: Job Scheduler
+ * Challenge 21: Job Scheduler
  * 
- * Serviço de agendamento de tarefas.
+ * Task scheduling service.
  */
 
 export interface Job {
   id: string;
-  nome: string;
+  name: string;
   cron: string;
-  comando: string;
-  ativo: boolean;
-  ultimaExecucao?: string;
-  proximaExecucao?: string;
-  criadoEm: string;
+  command: string;
+  active: boolean;
+  lastRun?: string;
+  nextRun?: string;
+  createdAt: string;
 }
 
-export interface Execucao {
+export interface Execution {
   id: string;
   jobId: string;
-  inicio: string;
-  fim?: string;
-  status: "sucesso" | "erro" | "em_execucao";
-  resultado?: string;
-  erro?: string;
+  start: string;
+  end?: string;
+  status: "success" | "error" | "running";
+  result?: string;
+  error?: string;
 }
 
 /**
- * Criar job
+ * Create job
  */
-export function criarJob(dados: Omit<Job, "id" | "criadoEm" | "ativo">): Job {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createJob(data: Omit<Job, "id" | "createdAt" | "active">): Job {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Listar jobs
+ * List jobs
  */
-export function listarJobs(): Job[] {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function listJobs(): Job[] {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Buscar job por ID
+ * Get job by ID
  */
-export function buscarJobPorId(id: string): Job | undefined {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function getJobById(id: string): Job | undefined {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Ativar/desativar job
+ * Activate/deactivate job
  */
-export function toggleJob(id: string, ativo: boolean): Job | null {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function toggleJob(id: string, active: boolean): Job | null {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Deletar job
+ * Delete job
  */
-export function deletarJob(id: string): boolean {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function deleteJob(id: string): boolean {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Executar job
+ * Execute job
  */
-export async function executarJob(id: string): Promise<Execucao> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function executeJob(id: string): Promise<Execution> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Listar execuções de um job
+ * List executions of a job
  */
-export function listarExecucoes(jobId: string): Execucao[] {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function listExecutions(jobId: string): Execution[] {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Iniciar job (criar intervalo)
+ * Start job (create interval)
  */
-function iniciarJob(id: string): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+function startJob(id: string): void {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Parar job
+ * Stop job
  */
-function pararJob(id: string): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+function stopJob(id: string): void {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Iniciar todos os jobs ativos
+ * Start all active jobs
  */
-export function iniciarTodos(): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function startAll(): void {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Parar todos os jobs
+ * Stop all jobs
  */
-export function pararTodos(): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function stopAll(): void {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

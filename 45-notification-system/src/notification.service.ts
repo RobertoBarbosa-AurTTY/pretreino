@@ -1,5 +1,5 @@
 /**
- * Desafio 45: Notification System - Service
+ * Challenge 45: Notification System - Service
  */
 
 export interface Notification {
@@ -23,7 +23,7 @@ export interface NotificationService {
   setPreferences(userId: string, prefs: UserPreferences): void;
 }
 
-export function criarServico(): NotificationService {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createService(): NotificationService {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

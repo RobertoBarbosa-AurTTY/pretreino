@@ -1,49 +1,49 @@
 /**
- * Desafio 4: Importação de CSV
+ * Challenge 4: CSV Import
  * 
- * Serviço que importa dados de CSV, valida e processa.
+ * Service that imports data from CSV, validates and processes it.
  */
 
-import { importarCSV } from "./importador.service.ts";
+import { importCSV } from "./importer.service.ts";
 
 /**
- * Gera relatório de erros
+ * Generates errors report
  */
-async function gerarRelatorioErros(
-  erros: Array<{ linha: number; campo: string; erro: string; valor: string }>,
-  caminhoSaida: string
+async function generateErrorReport(
+  errors: Array<{ line: number; field: string; error: string; value: string }>,
+  outputPath: string
 ): Promise<void> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarImportacao(): Promise<void> {
-  console.log("Iniciando importação de CSV...");
+async function executeImport(): Promise<void> {
+  console.log("Starting CSV import...");
   
   try {
-    // Configurações do .env
-    const pastaImportacao = Deno.env.get("PASTA_IMPORTACAO") || "./data";
-    const arquivoEntrada = Deno.env.get("ARQUIVO_ENTRADA") || "clientes.csv";
-    const pastaErros = Deno.env.get("PASTA_ERROS") || "./data/erros";
+    // .env configurations
+    const importFolder = Deno.env.get("PASTA_IMPORTACAO") || "./data";
+    const inputFile = Deno.env.get("ARQUIVO_ENTRADA") || "clientes.csv";
+    const errorsFolder = Deno.env.get("PASTA_ERROS") || "./data/erros";
     
-    const caminhoArquivo = `${pastaImportacao}/${arquivoEntrada}`;
+    const filePath = `${importFolder}/${inputFile}`;
     
-    console.log(`Arquivo: ${caminhoArquivo}`);
+    console.log(`File: ${filePath}`);
     
-    // TODO: Implementar pipeline
-    // 1. Importar e validar
-    // 2. Exibir resultados
-    // 3. Gerar relatório de erros
+    // TODO: Implement pipeline
+    // 1. Import and validate
+    // 2. Show results
+    // 3. Generate errors report
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro na importação:", error);
+    console.error("Error on import:", error);
     throw error;
   }
 }
 
-// Execução
-executarImportacao();
+// Execution
+executeImport();

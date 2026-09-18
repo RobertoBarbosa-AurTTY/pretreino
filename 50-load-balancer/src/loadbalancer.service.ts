@@ -1,5 +1,5 @@
 /**
- * Desafio 50: Load Balancer - Service
+ * Challenge 50: Load Balancer - Service
  */
 
 export interface Backend {
@@ -24,7 +24,7 @@ export interface LoadBalancer {
   getBackends(): Backend[];
 }
 
-export function criarLoadBalancer(config: LoadBalancerConfig): LoadBalancer {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createLoadBalancer(config: LoadBalancerConfig): LoadBalancer {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

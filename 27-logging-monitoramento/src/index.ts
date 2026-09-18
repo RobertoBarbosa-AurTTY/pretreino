@@ -1,25 +1,25 @@
 /**
- * Desafio 27: Logging e Monitoramento
+ * Challenge 27: Logging and Monitoring
  * 
- * Sistema de logging estruturado e monitoramento.
+ * Structured logging and monitoring system.
  */
 
 import {
-  criarLogger,
-  registrarLog,
-  criarMetrica,
-  iniciarTracing,
-  configurarAlertas
+  createLogger,
+  registerLog,
+  createMetric,
+  startTracing,
+  configureAlerts
 } from "./monitoring.service.ts";
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarMonitoramento(): Promise<void> {
-  console.log("Iniciando sistema de monitoramento...");
+async function runMonitoring(): Promise<void> {
+  console.log("Starting monitoring system...");
   
   try {
-    // Configurações do .env
+    // .env settings
     const logLevel = Deno.env.get("LOG_LEVEL") || "info";
     const service = Deno.env.get("SERVICE_NAME") || "api";
     const enableTracing = Deno.env.get("ENABLE_TRACING") === "true";
@@ -28,18 +28,18 @@ async function executarMonitoramento(): Promise<void> {
     console.log(`Service: ${service}`);
     console.log(`Tracing: ${enableTracing}`);
     
-    // TODO: Implementar pipeline
-    // 1. Criar logger
-    // 2. Registrar logs
-    // 3. Coletar métricas
-    // 4. Configurar alertas
+    // TODO: Implement pipeline
+    // 1. Create logger
+    // 2. Register logs
+    // 3. Collect metrics
+    // 4. Configure alerts
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro no monitoramento:", error);
+    console.error("Error in monitoring:", error);
     throw error;
   }
 }
 
-// Execução
-executarMonitoramento();
+// Execution
+runMonitoring();

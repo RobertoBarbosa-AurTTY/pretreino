@@ -1,20 +1,20 @@
 /**
- * Desafio 31: Arquitetura de Microserviços
+ * Challenge 31: Microservices Architecture
  * 
- * Serviço de microserviços com comunicação.
+ * Microservice service with communication.
  */
 
 interface MicroserviceConfig {
-  nome: string;
-  versao: string;
-  porta: number;
-  dependencias: string[];
+  name: string;
+  version: string;
+  port: number;
+  dependencies: string[];
   healthCheck: string;
 }
 
 interface ServiceEndpoint {
-  servico: string;
-  metodo: string;
+  service: string;
+  method: string;
   path: string;
   timeout: number;
   retries: number;
@@ -22,48 +22,48 @@ interface ServiceEndpoint {
 
 interface Event {
   id: string;
-  tipo: string;
-  origem: string;
-  dados: unknown;
+  type: string;
+  source: string;
+  data: unknown;
   timestamp: string;
-  versao: string;
+  version: string;
 }
 
 interface ServiceDiscovery {
-  registrar(config: MicroserviceConfig): Promise<void>;
-  discovering(servico: string): Promise<ServiceInstance>;
-  listar(): Promise<ServiceInstance[]>;
+  register(config: MicroserviceConfig): Promise<void>;
+  discovering(service: string): Promise<ServiceInstance>;
+  list(): Promise<ServiceInstance[]>;
 }
 
 interface ServiceInstance {
-  nome: string;
+  name: string;
   host: string;
-  porta: number;
+  port: number;
   status: "healthy" | "unhealthy";
   metadata: Record<string, unknown>;
 }
 
 interface ApiGateway {
-  roteamento: Route[];
+  routing: Route[];
   middleware: Middleware[];
   rateLimit: RateLimitConfig;
 }
 
 interface CircuitBreaker {
-  estado: "fechado" | "aberto" | "meio_aberto";
-  falhasConsecutivas: number;
-  ultimaFalha?: string;
-  proximaTentativa?: string;
+  status: "fechado" | "aberto" | "meio_aberto";
+  consecutiveFailures: number;
+  lastFailure?: string;
+  nextAttempt?: string;
 }
 
 interface Route {
   path: string;
-  servico: string;
-  metodo?: string;
+  service: string;
+  method?: string;
 }
 
 interface Middleware {
-  nome: string;
+  name: string;
   handler: (req: Request) => Promise<Request | Response>;
 }
 
@@ -73,63 +73,63 @@ interface RateLimitConfig {
 }
 
 /**
- * Cria microserviço
+ * Creates a microservice
  */
-export function criarMicroservico(config: MicroserviceConfig): Microservice {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createMicroservice(config: MicroserviceConfig): Microservice {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Configura service discovery
+ * Configures service discovery
  */
-export function configurarServiceDiscovery(url: string): ServiceDiscovery {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function configureServiceDiscovery(url: string): ServiceDiscovery {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Cria API Gateway
+ * Creates an API Gateway
  */
-export function criarApiGateway(config: {
+export function createApiGateway(config: {
   port: number;
   routes: Route[];
 }): ApiGateway {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Configura circuit breaker
+ * Configures circuit breaker
  */
-export function configurarCircuitBreaker(
-  servico: string,
+export function configureCircuitBreaker(
+  service: string,
   options?: {
     failureThreshold?: number;
     resetTimeout?: number;
   }
 ): CircuitBreaker {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Publica evento
+ * Publishes an event
  */
-export async function publicarEvento(evento: Omit<Event, "id" | "timestamp">): Promise<void> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export async function publishEvent(event: Omit<Event, "id" | "timestamp">): Promise<void> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Assina evento
+ * Subscribes to an event
  */
-export function assinarEvento(
-  tipo: string,
-  handler: (evento: Event) => Promise<void>
+export function subscribeEvent(
+  type: string,
+  handler: (event: Event) => Promise<void>
 ): () => void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**

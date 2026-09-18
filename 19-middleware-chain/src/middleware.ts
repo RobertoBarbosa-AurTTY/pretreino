@@ -1,7 +1,7 @@
 /**
- * Desafio 19: Middleware Chain
+ * Challenge 19: Middleware Chain
  * 
- * Sistema de middlewares encadeados.
+ * Chained middleware system.
  */
 
 export interface Context {
@@ -15,56 +15,56 @@ export interface Context {
 export type Next = () => Promise<void>;
 export type Middleware = (ctx: Context, next: Next) => Promise<void>;
 
-// Criar contexto
+// Create context
 export function createContext(req: Request): Context {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
-// Compor middlewares
+// Compose middlewares
 export function compose(...middlewares: Middleware[]): Middleware {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
-// Middleware de logging
+// Logging middleware
 export const logger: Middleware = async (ctx: Context, next: Next) => {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 };
 
-// Middleware de request ID
+// Request ID middleware
 export const requestId: Middleware = async (ctx: Context, next: Next) => {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 };
 
-// Middleware de timing
+// Timing middleware
 export const timing: Middleware = async (ctx: Context, next: Next) => {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 };
 
-// Middleware de CORS
+// CORS middleware
 export const cors: Middleware = async (ctx: Context, next: Next) => {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 };
 
-// Middleware de body parser
+// Body parser middleware
 export const bodyParser: Middleware = async (ctx: Context, next: Next) => {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 };
 
-// Criar middleware de autenticação
-export function authMiddleware(tokenValido: string): Middleware {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+// Create authentication middleware
+export function authMiddleware(validToken: string): Middleware {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
-// Criar middleware de role
+// Create role middleware
 export function roleMiddleware(...roles: string[]): Middleware {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

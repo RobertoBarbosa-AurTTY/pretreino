@@ -1,5 +1,5 @@
 /**
- * Desafio 38: Distributed Lock - Service
+ * Challenge 38: Distributed Lock - Service
  */
 
 export interface Lock {
@@ -27,7 +27,7 @@ export interface DistributedLock {
   isLocked(resource: string): boolean;
 }
 
-export function criarLock(options: LockOptions): DistributedLock {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createLock(options: LockOptions): DistributedLock {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

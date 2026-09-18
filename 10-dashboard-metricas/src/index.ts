@@ -1,40 +1,40 @@
 /**
- * Desafio 10: Dashboard de Métricas
+ * Challenge 10: Metrics Dashboard
  * 
- * Serviço que coleta, processa e serve métricas de aplicação.
- * A Mock API deve estar rodando: cd ../mock-api && deno task dev
+ * Service that collects, processes and serves application metrics.
+ * The Mock API must be running: cd ../mock-api && deno task dev
  */
 
 import { 
-  registrarMetrica, 
-  buscarMetricas, 
-  agregarMetricas,
-  gerarMetricasSimuladas 
-} from "./metrica.service.ts";
+  registerMetric, 
+  fetchMetrics, 
+  aggregateMetrics,
+  generateSimulatedMetrics 
+} from "./metric.service.ts";
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarDashboard(): Promise<void> {
-  console.log("Iniciando dashboard de métricas...");
+async function executeDashboard(): Promise<void> {
+  console.log("Starting metrics dashboard...");
   
   try {
-    // Configurações do .env
+    // .env configurations
     const apiUrl = Deno.env.get("API_BASE_URL") || "http://localhost:8080";
     
     console.log(`API URL: ${apiUrl}`);
     
-    // TODO: Implementar pipeline
-    // 1. Gerar métricas simuladas
-    // 2. Buscar métricas
-    // 3. Agregar e mostrar estatísticas
+    // TODO: Implement pipeline
+    // 1. Generate simulated metrics
+    // 2. Fetch metrics
+    // 3. Aggregate and show statistics
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro no dashboard:", error);
+    console.error("Error on dashboard:", error);
     throw error;
   }
 }
 
-// Execução
-executarDashboard();
+// Execution
+executeDashboard();

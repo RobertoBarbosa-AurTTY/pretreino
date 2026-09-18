@@ -1,20 +1,20 @@
 /**
- * Desafio 48: Task Scheduler
+ * Challenge 48: Task Scheduler
  */
 
-import { Scheduler, criarScheduler } from "./scheduler.service.ts";
+import { Scheduler, createScheduler } from "./scheduler.service.ts";
 
-async function executar(): Promise<void> {
-  console.log("Iniciando Task Scheduler...");
+async function run(): Promise<void> {
+  console.log("Starting Task Scheduler...");
   try {
-    const scheduler = criarScheduler();
-    console.log("Scheduler criado");
-    // TODO: Implementar
-    throw new Error("Não implementado");
+    const scheduler = createScheduler();
+    console.log("Scheduler created");
+    // TODO: Implement
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro:", error);
+    console.error("Error:", error);
     throw error;
   }
 }
 
-executar();
+run();

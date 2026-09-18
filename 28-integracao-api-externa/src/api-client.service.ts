@@ -1,7 +1,7 @@
 /**
- * Desafio 28: Integração com API Externa
+ * Challenge 28: External API Integration
  * 
- * Cliente HTTP para integração com APIs externas.
+ * HTTP client for external API integration.
  */
 
 interface ApiConfig {
@@ -52,40 +52,40 @@ interface RateLimitState {
 }
 
 /**
- * Cria cliente API
+ * Create API client
  */
-export function criarCliente(config: ApiConfig): ApiClient {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createClient(config: ApiConfig): ApiClient {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Faz requisição
+ * Make request
  */
-export async function fazerRequisicao<TRequest, TResponse>(
+export async function makeRequest<TRequest, TResponse>(
   request: ApiRequest<TRequest>
 ): Promise<ApiResponse<TResponse>> {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Obtém estado do circuit breaker
+ * Get circuit breaker state
  */
-export function obterEstadoCircuitBreaker(): CircuitBreakerState {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function getCircuitBreakerState(): CircuitBreakerState {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Configura fallback
+ * Configure fallback
  */
-export function configurarFallback<T>(
+export function configureFallback<T>(
   path: string,
   fallback: () => Promise<T>
 ): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**

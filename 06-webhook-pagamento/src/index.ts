@@ -1,41 +1,41 @@
 /**
- * Desafio 6: Webhook de Pagamento
+ * Challenge 6: Payment Webhook
  * 
- * Serviço que envia webhooks de pagamento para a Mock API.
- * A Mock API deve estar rodando: cd ../mock-api && deno task dev
+ * Service that sends payment webhooks to the Mock API.
+ * The Mock API must be running: cd ../mock-api && deno task dev
  */
 
 import { 
-  enviarWebhook, 
-  carregarWebhooksPendentes,
-  validarWebhook 
+  sendWebhook, 
+  loadPendingWebhooks,
+  validateWebhook 
 } from "./webhook.handler.ts";
 
 /**
- * Pipeline principal
+ * Main pipeline
  */
-async function executarServicoWebhook(): Promise<void> {
-  console.log("Iniciando serviço de webhook de pagamento...");
+async function executeWebhookService(): Promise<void> {
+  console.log("Starting payment webhook service...");
   
   try {
-    // Configurações do .env
+    // .env configurations
     const apiUrl = Deno.env.get("API_BASE_URL") || "http://localhost:8080";
-    const webhookSecret = Deno.env.get("WEBHOOK_SECRET") || "seu_secret_aqui";
-    const arquivoWebhooks = Deno.env.get("ARQUIVO_WEBHOOKS") || "./data/exemplo-webhook.json";
+    const webhookSecret = Deno.env.get("WEBHOOK_SECRET") || "your_secret_here";
+    const webhooksFile = Deno.env.get("ARQUIVO_WEBHOOKS") || "./data/exemplo-webhook.json";
     
     console.log(`API URL: ${apiUrl}`);
     
-    // TODO: Implementar pipeline
-    // 1. Carregar webhooks pendentes
-    // 2. Validar e enviar webhooks
-    // 3. Exibir resultados
+    // TODO: Implement pipeline
+    // 1. Load pending webhooks
+    // 2. Validate and send webhooks
+    // 3. Show results
     
-    throw new Error("Não implementado");
+    throw new Error("Not implemented");
   } catch (error) {
-    console.error("Erro no serviço de webhook:", error);
+    console.error("Error in webhook service:", error);
     throw error;
   }
 }
 
-// Execução
-executarServicoWebhook();
+// Execution
+executeWebhookService();

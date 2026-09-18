@@ -1,77 +1,77 @@
 /**
- * Desafio 13: Database SQLite
+ * Challenge 13: SQLite Database
  * 
- * Serviço de banco de dados SQLite.
+ * SQLite database service.
  */
 
-export interface Usuario {
+export interface User {
   id?: number;
   nome: string;
   email: string;
-  criadoEm?: string;
-  atualizadoEm?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 /**
- * Criar tabela (simulado)
+ * Create table (simulated)
  */
-export function criarTabela(): void {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createTable(): void {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Listar todos os usuários
+ * List all users
  */
-export function listarTodos(): Usuario[] {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function listAll(): User[] {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Buscar por ID
+ * Find by ID
  */
-export function buscarPorId(id: number): Usuario | undefined {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function findById(id: number): User | undefined {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Criar usuário
+ * Create user
  */
-export function criar(usuario: Omit<Usuario, "id" | "criadoEm" | "atualizadoEm">): Usuario {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function create(user: Omit<User, "id" | "createdAt" | "updatedAt">): User {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Atualizar usuário
+ * Update user
  */
-export function atualizar(id: number, dados: Partial<Usuario>): Usuario | null {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function update(id: number, data: Partial<User>): User | null {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Deletar usuário
+ * Delete user
  */
-export function deletar(id: number): boolean {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function remove(id: number): boolean {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Buscar por email
+ * Find by email
  */
-export function buscarPorEmail(email: string): Usuario | undefined {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function findByEmail(email: string): User | undefined {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**
- * Contar usuários
+ * Count users
  */
-export function contar(): number {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function count(): number {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

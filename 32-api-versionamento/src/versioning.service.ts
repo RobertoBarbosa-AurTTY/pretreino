@@ -1,12 +1,12 @@
 /**
- * Desafio 32: Versionamento de API - Service
+ * Challenge 32: API Versioning - Service
  */
 
 interface ApiVersion {
-  versao: string;
+  version: string;
   status: "ativa" | "deprecada" | "obsoleta";
-  dataDeprecacao?: string;
-  dataRemocao?: string;
+  deprecationDate?: string;
+  removalDate?: string;
 }
 
 interface Router {
@@ -14,20 +14,20 @@ interface Router {
   post(path: string, handler: Function): void;
 }
 
-export function criarRouter(versoes: ApiVersion[]): Router {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function createRouter(versions: ApiVersion[]): Router {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
-export function middlewareVersionamento(req: Request): Request {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+export function versioningMiddleware(req: Request): Request {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
-export function adicionarDeprecationHeaders(
+export function addDeprecationHeaders(
   response: Response,
-  versao: string
+  version: string
 ): Response {
-  // TODO: Implementar
-  throw new Error("Não implementado");
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
