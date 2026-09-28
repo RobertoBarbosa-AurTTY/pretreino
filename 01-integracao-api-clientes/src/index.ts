@@ -43,6 +43,7 @@ const outputDir = Deno.env.get("OUTPUT_DIR") || "./output";
 const outputFile = Deno.env.get("OUTPUT_FILE") || "clientes-ativos.json";
 
 try {
+  await login(config);
   await executePipeline(config, `${outputDir}/${outputFile}`);
 } catch (error) {
   console.error("Pipeline failed:", error);

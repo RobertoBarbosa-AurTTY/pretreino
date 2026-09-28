@@ -6,6 +6,8 @@
  * Implement the functions below following the requirements in the README.
  */
 
+import { error } from "node:console";
+
 export interface Client {
   id: string;
   name: string;
@@ -31,8 +33,35 @@ export interface APIConfig {
  * - Throw an error if the response is not 2xx
  */
 export async function login(config: APIConfig): Promise<string> {
-  // TODO: Implement
-  throw new Error("Not implemented");
+     const user = {
+        email: config.email,
+        password: config.password
+      }
+    try {
+      const loginUser = await fetch(`${config.url}/api/auth/login`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      })
+
+      if (!loginUser.ok){
+        throw new Error(`Error: ${loginUser.status}`)
+      }
+
+      const resultado = await loginUser.json();
+      const token = resultado.token
+
+      if (!token){
+        throw new Error('Error token...')
+      }
+      
+      return token
+
+    } catch (error) {
+        throw new Error("Not implemented");
+    }
 }
 
 /**
