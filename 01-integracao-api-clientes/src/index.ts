@@ -44,7 +44,8 @@ const outputFile = Deno.env.get("OUTPUT_FILE") || "clientes-ativos.json";
 
 try {
   const token = await login(config);
-  await fetchClients(config, token)
+  const client = await fetchClients(config, token);
+  const active = await filterActive(client)
   await executePipeline(config, `${outputDir}/${outputFile}`);
 } catch (error) {
   console.error("Pipeline failed:", error);

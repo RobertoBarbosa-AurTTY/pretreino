@@ -102,8 +102,7 @@ export async function fetchClients(
  * - Filter clients by status === "ativo"
  */
 export function filterActive(clients: Client[]): Client[] {
-  // TODO: Implement
-  throw new Error("Not implemented");
+  return clients.filter((c) => c.status === 'ativo');
 }
 
 /**
