@@ -1,6 +1,6 @@
 /**
  * Challenge 14: File Upload
- * 
+ *
  * File upload and management service.
  */
 
@@ -10,6 +10,7 @@ export interface UploadedFile {
   originalName: string;
   type: string;
   size: number;
+  description?: string;
   path: string;
   createdAt: string;
 }
@@ -33,7 +34,7 @@ export function validateFile(type: string, size: number): string | null {
  */
 export async function saveFile(
   file: File,
-  description?: string
+  description?: string,
 ): Promise<UploadResult> {
   // TODO: Implement
   throw new Error("Not implemented");

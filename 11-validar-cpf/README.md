@@ -1,127 +1,113 @@
-# Desafio: Validador de CPF em TypeScript
+# Desafio 11: Validador de CPF
 
-## 📋 Sobre o Desafio
-
-Este desafio é projetado para praticar lógica de programação, manipulação de strings, arrays e operações matemáticas em TypeScript.
+**Dificuldade:** ⭐
 
 ## 🎯 Objetivo
 
-Criar uma função que valide um número de CPF (Cadastro de Pessoas Físicas) brasileiro, verificando se os dígitos verificadores estão corretos.
+Implementar a validação, formatação e geração de CPFs brasileiros, verificando
+os dígitos verificadores, e processar listas de CPFs lidas de arquivos.
 
-## 📐 Regras de Validação
+## 📋 Contexto Real
 
-### Estrutura do CPF
-- O CPF deve ter **11 dígitos**
-- Aceita formatos: `XXX.XXX.XXX-XX` ou `XXXXXXXXXXX`
+Todo sistema brasileiro que cadastra pessoas físicas (e-commerce, bancos, ERPs)
+precisa validar CPF antes de salvar ou enviar para outro sistema. A validação
+local evita chamadas desnecessárias a serviços externos e rejeita erros de
+digitação logo na entrada.
 
-### Cálculo dos Dígitos Verificadores
+### Regras do CPF
 
-#### Primeiro Dígito (posição 10):
-```
-Pesos: 10, 9, 8, 7, 6, 5, 4, 3, 2
-Fórmula: (soma dos produtos) % 11
-Se resultado = 0 ou 1 → dígito = 0
-Caso contrário → dígito = 11 - resultado
-```
+- O CPF tem **11 dígitos**; aceita `XXX.XXX.XXX-XX` ou `XXXXXXXXXXX`.
+- **1º dígito verificador:** multiplique os 9 primeiros dígitos pelos pesos
+  `10, 9, …, 2`, some e calcule `resto = soma % 11`. Se `resto < 2` → dígito
+  `0`; senão → `11 - resto`.
+- **2º dígito verificador:** mesma conta com os 10 primeiros dígitos e pesos
+  `11, 10, …, 2`.
+- CPFs com todos os dígitos iguais (ex: `111.111.111-11`) são **inválidos**.
 
-#### Segundo Dígito (posição 11):
-```
-Pesos: 11, 10, 9, 8, 7, 6, 5, 4, 3, 2
-Fórmula: (soma dos produtos) % 11
-Se resultado = 0 ou 1 → dígito = 0
-Caso contrário → dígito = 11 - resultado
-```
+## 📐 Requisitos
 
-### Regra Adicional
-- CPFs com todos os dígitos iguais são considerados **inválidos** (ex: 111.111.111-11)
+- [ ] `validateCpf(cpf)` retorna `true` para CPFs válidos, com ou sem pontuação
+      (`.` e `-`)
+- [ ] `validateCpf` retorna `false` para: dígito verificador incorreto, menos ou
+      mais de 11 dígitos, string vazia, letras, todos os dígitos iguais
+- [ ] `formatCpf(cpf)` recebe um CPF com ou sem pontuação e retorna
+      `XXX.XXX.XXX-XX`
+- [ ] `formatCpf` lança erro se a entrada não tiver exatamente 11 dígitos
+- [ ] `generateCpf()` retorna uma string de 11 dígitos (sem pontuação) que passa
+      em `validateCpf`
+- [ ] `validateCpfList(cpfs)` retorna `{ valid, invalid }` com os CPFs originais
+      separados, preservando a ordem de entrada
+- [ ] `readCpfsFromFile(path)` lê um CPF por linha, remove espaços nas pontas e
+      ignora linhas vazias (aceita `\n` e `\r\n`)
+- [ ] `saveCpfsToFile(cpfs, path)` grava um CPF por linha
+- [ ] `src/index.ts`: no modo `validate`, lê `INPUT_FILE` e mostra válidos e
+      inválidos; no modo `generate`, gera `GENERATE_COUNT` CPFs e salva em
+      `OUTPUT_FILE`
+- [ ] Nenhuma biblioteca externa de validação
 
-## 🚀 Requisitos
-
-- [ ] Criar função `validarCPF(cpf: string | number): boolean`
-- [ ] Remover caracteres especiais (`.`, `-`, `,`)
-- [ ] Validar tamanho (11 dígitos)
-- [ ] Implementar cálculo dos dígitos verificadores
-- [ ] Validar CPFs com todos dígitos iguais
-- [ ] Criar testes unitários usando `Deno.test`
-
-## 📁 Estrutura do Projeto
-
-```
-src/
-├── index.ts          # Código principal
-├── validarCPF.ts     # Função de validação
-└── __tests__/
-    └── validarCPF.test.ts  # Testes unitários
-```
-
-## 💡 Exemplos
+## 🗂️ Estrutura dos Dados
 
 ```typescript
-// CPF válido
-validarCPF("529.982.247-25")  // true
-validarCPF("12345678909")     // true
-
-// CPF inválido
-validarCPF("111.111.111-11")  // false
-validarCPF("123.456.789-00")  // false
+export function validateCpf(cpf: string): boolean;
+export function formatCpf(cpf: string): string;
+export function generateCpf(): string;
+export function validateCpfList(
+  cpfs: string[],
+): { valid: string[]; invalid: string[] };
+export async function readCpfsFromFile(filePath: string): Promise<string[]>;
+export async function saveCpfsToFile(
+  cpfs: string[],
+  filePath: string,
+): Promise<void>;
 ```
 
-## 🏆 Desafios Extras
+Arquivos de exemplo em `data/`:
 
-1. Retornar objeto com detalhes do erro:
-   ```typescript
-   validarCPF("123.456.789-00")
-   // { valido: false, erro: "Dígito verificador inválido" }
-   ```
+- `data/cpfs-validos.txt`: CPFs válidos, um por linha
+- `data/cpfs-invalidos.txt`: CPFs inválidos, um por linha
 
-2. Implementar testes unitários com o framework de testes nativo do Deno:
-   ```typescript
-   import { assertEquals } from "https://deno.land/std/testing/asserts.ts";
+## 💡 Exemplo de Uso
 
-   Deno.test("deve validar CPF correto", () => {
-     assertEquals(validarCPF("529.982.247-25"), true);
-   });
-   ```
+```typescript
+import {
+  formatCpf,
+  generateCpf,
+  validateCpf,
+  validateCpfList,
+} from "./src/cpf.service.ts";
 
-3. Criar função para gerar CPFs válidos aleatoriamente
+validateCpf("529.982.247-25"); // true
+validateCpf("12345678909"); // true
+validateCpf("111.111.111-11"); // false
+validateCpf("123.456.789-00"); // false
+
+formatCpf("52998224725"); // "529.982.247-25"
+
+const cpf = generateCpf(); // ex: "04817263540"
+validateCpf(cpf); // true
+
+validateCpfList(["529.982.247-25", "111.111.111-11"]);
+// { valid: ["529.982.247-25"], invalid: ["111.111.111-11"] }
+```
 
 ## ⚙️ Setup
 
 ```bash
-# Verificar se Deno está instalado
-deno --version
-
-# Criar estrutura do projeto
-mkdir src
-touch src/index.ts
-touch src/validarCPF.ts
-touch deno.json
+cd 11-validar-cpf
+cp .env.example .env
+deno task dev
 ```
 
-### Configuração do `deno.json`
+## 📚 Conceitos
 
-```json
-{
-  "compilerOptions": {
-    "strict": true,
-    "noUncheckedIndexedAccess": true
-  },
-  "tasks": {
-    "dev": "deno run --watch src/index.ts",
-    "test": "deno test src/__tests__/validarCPF.test.ts"
-  }
-}
-```
+- [String.prototype.replace com regex](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/String/replace)
+- [Array.prototype.reduce](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce)
+- [Operador resto (%)](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Operators/Remainder)
+- [Deno: leitura e escrita de arquivos](https://docs.deno.com/examples/reading_files/)
 
 ## 📝 Notas
 
-- O desafio foca em lógica de programação pura
-- Não utilize bibliotecas externas para validação
-- Prefira abordagens funcionais
-- Considere edge cases (strings vazias, caracteres especiais)
-- Deno possui suporte nativo a TypeScript
-- Utilize as assertivas do Deno para testes: `https://deno.land/std/testing/asserts.ts`
-
----
-
-**Dica:** Comece implementando a remoção de caracteres especiais e a validação de tamanho antes de implementar o cálculo dos dígitos verificadores.
+- Foco em lógica pura: prefira funções pequenas e sem efeitos colaterais.
+- Comece removendo os caracteres não numéricos e validando o tamanho; depois
+  implemente o cálculo dos dígitos.
+- Extra: retornar o motivo da invalidação (ex: `"Dígito verificador inválido"`).

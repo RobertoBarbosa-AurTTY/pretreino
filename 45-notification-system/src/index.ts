@@ -2,7 +2,7 @@
  * Challenge 45: Notification System
  */
 
-import { NotificationService, createService } from "./notification.service.ts";
+import { createService, NotificationService } from "./notification.service.ts";
 
 async function run(): Promise<void> {
   console.log("Starting Notification System...");

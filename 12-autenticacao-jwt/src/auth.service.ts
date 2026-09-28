@@ -1,34 +1,34 @@
 /**
  * Challenge 12: JWT Authentication
- * 
+ *
  * Complete authentication service.
  */
 
-import { 
-  User, 
-  TokenPayload, 
-  AuthResult, 
-  createToken, 
+import {
+  AuthResult,
+  createToken,
+  generateRefreshToken,
+  TokenPayload,
+  User,
   verifyToken,
-  generateRefreshToken 
 } from "./jwt.utils.ts";
 
 // Simulated database
 const users: User[] = [
   {
     id: "1",
-    nome: "João Silva",
+    name: "João Silva",
     email: "joao@email.com",
-    senha: "123456",
-    role: "admin"
+    password: "123456",
+    role: "admin",
   },
   {
     id: "2",
-    nome: "Maria Santos",
+    name: "Maria Santos",
     email: "maria@email.com",
-    senha: "abcdef",
-    role: "user"
-  }
+    password: "abcdef",
+    role: "user",
+  },
 ];
 
 // Invalidated tokens (logout)
@@ -60,7 +60,10 @@ export function findById(id: string): User | undefined {
 /**
  * Login
  */
-export async function login(email: string, password: string): Promise<AuthResult> {
+export async function login(
+  email: string,
+  password: string,
+): Promise<AuthResult> {
   // TODO: Implement
   throw new Error("Not implemented");
 }
@@ -68,7 +71,9 @@ export async function login(email: string, password: string): Promise<AuthResult
 /**
  * Validate token
  */
-export async function validateToken(token: string): Promise<TokenPayload | null> {
+export async function validateToken(
+  token: string,
+): Promise<TokenPayload | null> {
   // TODO: Implement
   throw new Error("Not implemented");
 }

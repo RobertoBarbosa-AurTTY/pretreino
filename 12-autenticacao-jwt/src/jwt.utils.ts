@@ -1,14 +1,14 @@
 /**
  * Challenge 12: JWT Authentication
- * 
+ *
  * Authentication service with JWT.
  */
 
 export interface User {
   id: string;
-  nome: string;
+  name: string;
   email: string;
-  senha: string;
+  password: string;
   role: "admin" | "user";
 }
 
@@ -43,18 +43,18 @@ function base64UrlDecode(data: string): string {
 export async function createToken(
   payload: TokenPayload,
   secret: string,
-  expiresInMinutes: number = 60
+  expiresInMinutes: number = 60,
 ): Promise<string> {
   const header = {
     alg: "HS256",
-    typ: "JWT"
+    typ: "JWT",
   };
 
   const now = Math.floor(Date.now() / 1000);
   const tokenPayload = {
     ...payload,
     iat: now,
-    exp: now + (expiresInMinutes * 60)
+    exp: now + (expiresInMinutes * 60),
   };
 
   const encodedHeader = base64UrlEncode(JSON.stringify(header));
@@ -68,11 +68,17 @@ export async function createToken(
     new TextEncoder().encode(secret),
     { name: "HMAC", hash: "SHA-256" },
     false,
-    ["sign"]
+    ["sign"],
   );
 
-  const signature = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(data));
-  const encodedSignature = base64UrlEncode(String.fromCharCode(...new Uint8Array(signature)));
+  const signature = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    new TextEncoder().encode(data),
+  );
+  const encodedSignature = base64UrlEncode(
+    String.fromCharCode(...new Uint8Array(signature)),
+  );
 
   return `${data}.${encodedSignature}`;
 }
@@ -80,13 +86,17 @@ export async function createToken(
 // Verify JWT
 export async function verifyToken(
   token: string,
-  secret: string
+  secret: string,
 ): Promise<TokenPayload | null> {
   try {
     const parts = token.split(".");
     if (parts.length !== 3) return null;
 
-    const [encodedHeader, encodedPayload, encodedSignature] = parts;
+    const [encodedHeader, encodedPayload, encodedSignature] = parts as [
+      string,
+      string,
+      string,
+    ];
 
     // Verify signature
     const data = `${encodedHeader}.${encodedPayload}`;
@@ -95,19 +105,19 @@ export async function verifyToken(
       new TextEncoder().encode(secret),
       { name: "HMAC", hash: "SHA-256" },
       false,
-      ["verify"]
+      ["verify"],
     );
 
     const signatureBytes = Uint8Array.from(
       base64UrlDecode(encodedSignature),
-      c => c.charCodeAt(0)
+      (c) => c.charCodeAt(0),
     );
 
     const valid = await crypto.subtle.verify(
       "HMAC",
       key,
       signatureBytes,
-      new TextEncoder().encode(data)
+      new TextEncoder().encode(data),
     );
 
     if (!valid) return null;
@@ -130,5 +140,5 @@ export async function verifyToken(
 export function generateRefreshToken(): string {
   const array = new Uint8Array(32);
   crypto.getRandomValues(array);
-  return Array.from(array, b => b.toString(16).padStart(2, "0")).join("");
+  return Array.from(array, (b) => b.toString(16).padStart(2, "0")).join("");
 }

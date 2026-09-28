@@ -1,121 +1,137 @@
 # Desafio 26: RBAC - Controle de Permissões
 
+**Dificuldade:** ⭐⭐
+
 ## 🎯 Objetivo
 
-Implementar um sistema de controle de acesso baseado em papéis (Role-Based Access Control) granular.
+Implementar controle de acesso baseado em papéis (Role-Based Access Control) com
+herança de papéis, recurso coringa, permissões condicionais, middleware de
+autorização e auditoria de acessos.
 
 ## 📋 Contexto Real
 
-Aplicações empresariais precisam de controle de acesso:
-- Diferentes níveis de permissão
-- Controle por módulo/funcionalidade
-- Auditoria de acessos
-- Gestão dinâmica de permissões
+Aplicações empresariais precisam controlar quem pode fazer o quê:
+
+- Diferentes níveis de permissão (admin, editor, visualizador)
+- Controle por recurso/funcionalidade
+- Regras de contexto ("só pode apagar os próprios posts")
+- Auditoria de todos os acessos
 
 ## 📐 Requisitos
 
-- [ ] Definir modelo de papéis e permissões
-- [ ] Criar middleware de autorização
-- [ ] Implementar verificação de permissão por recurso
-- [ ] Criar sistema de herança de papéis
-- [ ] Implementar auditoria de acessos
-- [ ] Permitir permissões customizadas
+Arquivo: `src/rbac.service.ts` (dados em memória). Exemplo de papéis em
+`data/roles.json`.
+
+- [ ] `loadRoles(filePath)` lê um JSON com `Role[]`, registra os papéis
+      **preservando os ids** e os retorna
+- [ ] `createRole` gera um `id` único e registra o papel
+- [ ] `assignRole(userId, roleId, assignedBy)` retorna um `UserRole` com
+      `assignedAt` (ISO 8601); rejeita `roleId` inexistente
+- [ ] `checkPermission(userId, resource, action)` retorna `true` somente se
+      algum papel do usuário tiver uma permissão com aquele `resource` (ou
+      `"*"`) e a `action`
+- [ ] Usuário sem papéis não tem nenhuma permissão
+- [ ] Um papel com `inheritsFrom` tem também todas as permissões do papel pai
+      (recursivamente)
+- [ ] Permissão com `conditions` só vale se **todas** as chaves casarem com o
+      objeto `conditions` passado a `checkPermission`; o valor especial
+      `"$userId"` é substituído pelo `userId` verificado (sem `conditions` na
+      chamada, a permissão condicional não vale)
+- [ ] `getPermissions(userId)` retorna todas as permissões efetivas do usuário
+      (incluindo herdadas)
+- [ ] `authorizationMiddleware(resource, action)` retorna uma função
+      `(req) => Promise<boolean>` que lê o usuário do header `X-User-Id`
+      (ausente → `false`) e o IP de `X-Forwarded-For`
+- [ ] Cada decisão do middleware é registrada com `logAccess` (`allowed`,
+      `resource`, `action`, `ip`)
+- [ ] `logAccess` adiciona `timestamp`; `getAccessLogs(userId?)` retorna os logs
+      em ordem de registro, filtrando por usuário quando informado
 
 ## 🗂️ Estrutura dos Dados
 
 ```typescript
-interface Role {
+export interface Role {
   id: string;
-  nome: string;
-  descricao: string;
-  permissoes: Permission[];
-  herdaDe?: string;
+  name: string;
+  description: string;
+  permissions: Permission[];
+  inheritsFrom?: string;
 }
 
-interface Permission {
-  recurso: string;
-  acoes: ("criar" | "ler" | "atualizar" | "deletar")[];
-  condicoes?: Record<string, unknown>;
+export interface Permission {
+  resource: string;
+  actions: ("create" | "read" | "update" | "delete")[];
+  conditions?: Record<string, unknown>;
 }
 
-interface UserRole {
+export interface UserRole {
   userId: string;
   roleId: string;
-  atribuidoEm: string;
-  atribuidoPor: string;
+  assignedAt: string;
+  assignedBy: string;
 }
 
-interface AccessLog {
+export interface AccessLog {
   userId: string;
-  recurso: string;
-  acao: string;
-  permitido: boolean;
+  resource: string;
+  action: string;
+  allowed: boolean;
   timestamp: string;
   ip?: string;
 }
 
-interface AuthContext {
+export interface AuthContext {
   userId: string;
   roles: string[];
-  permissoes: Permission[];
+  permissions: Permission[];
 }
 ```
 
 ## 💡 Exemplo de Uso
 
 ```typescript
-// Definir roles
-const roles: Role[] = [
-  {
-    id: "admin",
-    nome: "Administrador",
-    permissoes: [
-      { recurso: "*", acoes: ["criar", "ler", "atualizar", "deletar"] }
-    ]
-  },
-  {
-    id: "editor",
-    nome: "Editor",
-    herdaDe: "visualizador",
-    permissoes: [
-      { recurso: "posts", acoes: ["criar", "atualizar"] }
-    ]
+import {
+  assignRole,
+  authorizationMiddleware,
+  checkPermission,
+  loadRoles,
+} from "./src/rbac.service.ts";
+
+await loadRoles("./data/roles.json");
+await assignRole("user-1", "editor", "admin-1");
+
+await checkPermission("user-1", "posts", "read"); // true (herdado de viewer)
+await checkPermission("user-1", "posts", "delete", { authorId: "user-1" }); // true
+await checkPermission("user-1", "posts", "delete", { authorId: "user-2" }); // false
+
+const canUpdatePosts = authorizationMiddleware("posts", "update");
+Deno.serve(async (req) => {
+  if (!(await canUpdatePosts(req))) {
+    return new Response("Forbidden", { status: 403 });
   }
-];
-
-// Verificar permissão
-const podeDeletar = await verificarPermissao(
-  userId,
-  "posts",
-  "deletar",
-  { autorId: post.autorId } // condição: só pode deletar próprios posts
-);
-
-// Middleware
-app.use("/api/admin/*", requireRole("admin"));
-app.use("/api/posts/*", requirePermission("posts", "atualizar"));
+  return new Response("ok");
+});
 ```
 
 ## ⚙️ Setup
 
 ```bash
+cd 26-rbac-permissoes
+cp .env.example .env
 deno task dev
 ```
 
-## 🧪 Testes
+## 📚 Conceitos
 
-```bash
-deno task test
-```
+- [RBAC — Wikipedia](https://pt.wikipedia.org/wiki/Controle_de_acesso_baseado_em_fun%C3%A7%C3%B5es)
+- [Headers.get — MDN](https://developer.mozilla.org/pt-BR/docs/Web/API/Headers/get)
+- [Deno.readTextFile — Deno](https://docs.deno.com/api/deno/~/Deno.readTextFile)
+- [OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)
 
 ## 📝 Notas
 
-- Implemente cache de permissões
-- Use policies para regras complexas
-- Considere permissões baseadas em contexto
-- Implemente audit log completo
-- Considere ABAC para casos avançados
-
----
-
-**Dica:** Use o princípio do menor privilégio - sempre conceda apenas as permissões mínimas necessárias.
+- Princípio do menor privilégio: conceda só o necessário.
+- Cuidado com ciclos em `inheritsFrom` (A herda de B que herda de A).
+- Cache de permissões por usuário é um bom extra (lembre de invalidar ao
+  atribuir papéis).
+- Para regras muito dinâmicas, pesquise ABAC (Attribute-Based Access Control).

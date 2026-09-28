@@ -1,6 +1,6 @@
 /**
  * Challenge 16: WebSocket
- * 
+ *
  * WebSocket service for real-time communication.
  */
 
@@ -56,7 +56,10 @@ export function broadcast(message: WebSocketMessage, excludeId?: string): void {
 /**
  * Send to a specific client
  */
-export function sendToClient(clientId: string, message: WebSocketMessage): void {
+export function sendToClient(
+  clientId: string,
+  message: WebSocketMessage,
+): void {
   // TODO: Implement
   throw new Error("Not implemented");
 }

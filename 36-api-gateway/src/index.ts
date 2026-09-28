@@ -2,7 +2,7 @@
  * Challenge 36: API Gateway
  */
 
-import { Gateway, createGateway } from "./gateway.service.ts";
+import { createGateway, Gateway } from "./gateway.service.ts";
 
 async function run(): Promise<void> {
   console.log("Starting API Gateway...");
@@ -10,8 +10,8 @@ async function run(): Promise<void> {
     const gateway = createGateway({
       routes: [
         { path: "/api/users", service: "http://localhost:3001" },
-        { path: "/api/orders", service: "http://localhost:3002" }
-      ]
+        { path: "/api/orders", service: "http://localhost:3002" },
+      ],
     });
     console.log("Gateway created");
     // TODO: Implement

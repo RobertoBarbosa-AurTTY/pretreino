@@ -2,7 +2,7 @@
  * Challenge 48: Task Scheduler
  */
 
-import { Scheduler, createScheduler } from "./scheduler.service.ts";
+import { createScheduler, Scheduler } from "./scheduler.service.ts";
 
 async function run(): Promise<void> {
   console.log("Starting Task Scheduler...");

@@ -1,10 +1,10 @@
 /**
  * Challenge 22: Multi-Tenant Authentication
- * 
+ *
  * Multi-tenant authentication and authorization service.
  */
 
-interface Tenant {
+export interface Tenant {
   id: string;
   name: string;
   domain: string;
@@ -13,7 +13,7 @@ interface Tenant {
   createdAt: string;
 }
 
-interface TenantConfig {
+export interface TenantConfig {
   maxUsers: number;
   features: string[];
   branding: {
@@ -22,7 +22,7 @@ interface TenantConfig {
   };
 }
 
-interface TenantUser {
+export interface TenantUser {
   id: string;
   tenantId: string;
   email: string;
@@ -32,13 +32,13 @@ interface TenantUser {
   createdAt: string;
 }
 
-interface TenantContext {
+export interface TenantContext {
   tenantId: string;
   userId: string;
   roles: string[];
 }
 
-interface LoginResult {
+export interface LoginResult {
   success: boolean;
   context?: TenantContext;
   token?: string;
@@ -49,7 +49,7 @@ interface LoginResult {
  * Create new tenant
  */
 export async function createTenant(
-  data: Omit<Tenant, "id" | "createdAt">
+  data: Omit<Tenant, "id" | "createdAt">,
 ): Promise<Tenant> {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -61,7 +61,7 @@ export async function createTenant(
 export async function loginTenant(
   domain: string,
   email: string,
-  password: string
+  password: string,
 ): Promise<LoginResult> {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -80,7 +80,7 @@ export async function listUsers(tenantId: string): Promise<TenantUser[]> {
  */
 export async function createTenantUser(
   tenantId: string,
-  data: Omit<TenantUser, "id" | "tenantId" | "createdAt">
+  data: Omit<TenantUser, "id" | "tenantId" | "createdAt">,
 ): Promise<TenantUser> {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -99,7 +99,7 @@ export async function getTenantConfig(tenantId: string): Promise<TenantConfig> {
  */
 export function validateTenantContext(
   context: TenantContext,
-  resourceTenantId: string
+  resourceTenantId: string,
 ): boolean {
   // TODO: Implement
   throw new Error("Not implemented");

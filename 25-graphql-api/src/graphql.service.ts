@@ -1,10 +1,10 @@
 /**
  * Challenge 25: GraphQL API
- * 
+ *
  * GraphQL service with resolvers and subscriptions.
  */
 
-interface User {
+export interface User {
   id: string;
   name: string;
   email: string;
@@ -12,7 +12,7 @@ interface User {
   createdAt: string;
 }
 
-interface Post {
+export interface Post {
   id: string;
   title: string;
   content: string;
@@ -21,23 +21,24 @@ interface Post {
   createdAt: string;
 }
 
-interface CreateUserInput {
+export interface CreateUserInput {
   name: string;
   email: string;
 }
 
-interface UpdateUserInput {
+export interface UpdateUserInput {
   name?: string;
   email?: string;
 }
 
-interface CreatePostInput {
+export interface CreatePostInput {
   title: string;
   content: string;
   authorId: string;
+  published?: boolean;
 }
 
-interface PostFilter {
+export interface PostFilter {
   authorId?: string;
   published?: boolean;
 }
@@ -51,33 +52,37 @@ export function createSchema(): string {
 }
 
 /**
- * Execute GraphQL query
+ * Execute GraphQL query. Resolves with the `data` of the result;
+ * rejects if the result contains `errors`.
  */
 export async function executeQuery<T>(
   query: string,
-  variables?: Record<string, unknown>
+  variables?: Record<string, unknown>,
 ): Promise<T> {
   // TODO: Implement
   throw new Error("Not implemented");
 }
 
 /**
- * Execute GraphQL mutation
+ * Execute GraphQL mutation. Resolves with the `data` of the result;
+ * rejects if the result contains `errors`.
  */
 export async function executeMutation<T>(
   mutation: string,
-  variables?: Record<string, unknown>
+  variables?: Record<string, unknown>,
 ): Promise<T> {
   // TODO: Implement
   throw new Error("Not implemented");
 }
 
 /**
- * Configure subscription
+ * Configure subscription (e.g. "subscription { postCreated { id title } }").
+ * The callback receives the subscription data, e.g. { postCreated: {...} }.
+ * Returns a function that cancels the subscription.
  */
 export function subscribe<T>(
   query: string,
-  callback: (data: T) => void
+  callback: (data: T) => void,
 ): () => void {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -103,8 +108,26 @@ export async function resolveUser(id: string): Promise<User | null> {
  * Resolver: creates user
  */
 export async function resolveCreateUser(
-  input: CreateUserInput
+  input: CreateUserInput,
 ): Promise<User> {
+  // TODO: Implement
+  throw new Error("Not implemented");
+}
+
+/**
+ * Resolver: lists posts, optionally filtered
+ */
+export async function resolvePosts(filter?: PostFilter): Promise<Post[]> {
+  // TODO: Implement
+  throw new Error("Not implemented");
+}
+
+/**
+ * Resolver: creates post and notifies "postCreated" subscribers
+ */
+export async function resolveCreatePost(
+  input: CreatePostInput,
+): Promise<Post> {
   // TODO: Implement
   throw new Error("Not implemented");
 }

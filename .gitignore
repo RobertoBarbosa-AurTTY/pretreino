@@ -1,0 +1,17 @@
+# Segredos locais (copie .env.example para .env)
+.env
+
+# Saídas geradas ao rodar os desafios
+output/
+logs/
+backups/
+uploads/
+*.db
+*.sqlite
+*.log
+
+# Deno / editor
+deno.lock
+node_modules/
+.DS_Store
+Thumbs.db

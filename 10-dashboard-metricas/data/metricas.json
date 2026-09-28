@@ -1,47 +1,47 @@
 [
   {
-    "nome": "tempo_resposta",
-    "valor": 120,
+    "name": "response_time",
+    "value": 120,
     "timestamp": "2024-01-20T10:00:00Z",
     "tags": {
-      "rota": "/api/users",
-      "metodo": "GET"
+      "route": "/api/users",
+      "method": "GET"
     }
   },
   {
-    "nome": "tempo_resposta",
-    "valor": 85,
+    "name": "response_time",
+    "value": 85,
     "timestamp": "2024-01-20T10:01:00Z",
     "tags": {
-      "rota": "/api/users",
-      "metodo": "GET"
+      "route": "/api/users",
+      "method": "GET"
     }
   },
   {
-    "nome": "tempo_resposta",
-    "valor": 250,
+    "name": "response_time",
+    "value": 250,
     "timestamp": "2024-01-20T10:02:00Z",
     "tags": {
-      "rota": "/api/orders",
-      "metodo": "POST"
+      "route": "/api/orders",
+      "method": "POST"
     }
   },
   {
-    "nome": "erro",
-    "valor": 1,
+    "name": "error",
+    "value": 1,
     "timestamp": "2024-01-20T10:03:00Z",
     "tags": {
-      "tipo": "timeout",
-      "rota": "/api/users"
+      "type": "timeout",
+      "route": "/api/users"
     }
   },
   {
-    "nome": "tempo_resposta",
-    "valor": 95,
+    "name": "response_time",
+    "value": 95,
     "timestamp": "2024-01-20T10:04:00Z",
     "tags": {
-      "rota": "/api/products",
-      "metodo": "GET"
+      "route": "/api/products",
+      "method": "GET"
     }
   }
 ]

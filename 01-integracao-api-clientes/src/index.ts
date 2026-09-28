@@ -2,13 +2,14 @@
  * Challenge 1: Customers API Integration
  *
  * Consume a REST API, filter active clients and save to a file.
- * The Mock API must be running: cd ../mock-api && deno task dev
+ * API docs: ../API.md
  */
 
 import {
+  type APIConfig,
   fetchClients,
-  APIConfig,
   filterActive,
+  login,
   saveToFile,
 } from "./client.service.ts";
 
@@ -16,28 +17,34 @@ import {
  * Main pipeline
  *
  * Implement the sequence:
- * 1. Fetch clients from the API
- * 2. Filter only active ones
- * 3. Save to a JSON file
+ * 1. Log in to get the token
+ * 2. Fetch clients from the API
+ * 3. Filter only active ones
+ * 4. Save to a JSON file (outputPath)
  */
-async function executePipeline(config: APIConfig): Promise<void> {
-  const clients = await fetchClients(config);
-  console.log(clients);
-  console.log("--------------------------------");
-  console.log(filterActive(clients));
-  await saveToFile(clients);
-  console.log("Clients saved to JSON");
+async function executePipeline(
+  config: APIConfig,
+  outputPath: string,
+): Promise<void> {
+  // TODO: Implement pipeline
+  throw new Error("Not implemented");
 }
 
 // Execution
 const config: APIConfig = {
-  url: Deno.env.get("API_BASE_URL") || "http://localhost:8080",
+  url: Deno.env.get("API_BASE_URL") || "https://api-mock-98te.onrender.com",
+  email: Deno.env.get("API_EMAIL") || "joao@email.com",
+  password: Deno.env.get("API_PASSWORD") || "123456",
   timeout: parseInt(Deno.env.get("API_TIMEOUT") || "5000"),
   retries: parseInt(Deno.env.get("API_RETRIES") || "3"),
 };
 
+const outputDir = Deno.env.get("OUTPUT_DIR") || "./output";
+const outputFile = Deno.env.get("OUTPUT_FILE") || "clientes-ativos.json";
+
 try {
-  await executePipeline(config);
-} catch {
+  await executePipeline(config, `${outputDir}/${outputFile}`);
+} catch (error) {
+  console.error("Pipeline failed:", error);
   Deno.exit(1);
 }

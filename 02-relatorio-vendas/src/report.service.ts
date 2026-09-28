@@ -1,10 +1,10 @@
 /**
  * Challenge 2: Sales Report
- * 
+ *
  * Service for generating sales reports.
  */
 
-interface Sale {
+export interface Sale {
   id: string;
   seller: string;
   product: string;
@@ -12,14 +12,14 @@ interface Sale {
   date: string;
 }
 
-interface SellerReport {
+export interface SellerReport {
   seller: string;
   totalSales: number;
   salesCount: number;
   averageTicket: number;
 }
 
-interface CompleteReport {
+export interface CompleteReport {
   period: { start: string; end: string };
   sellers: SellerReport[];
   topSellers: SellerReport[];
@@ -27,7 +27,7 @@ interface CompleteReport {
 }
 
 /**
- * Loads sales from a CSV file
+ * Loads sales from a CSV file (separator ";", first line is the header)
  */
 export async function loadSales(filePath: string): Promise<Sale[]> {
   // TODO: Implement
@@ -35,12 +35,12 @@ export async function loadSales(filePath: string): Promise<Sale[]> {
 }
 
 /**
- * Filters sales by period
+ * Filters sales by period (start and end dates are inclusive)
  */
 export function filterByPeriod(
   sales: Sale[],
   start: string,
-  end: string
+  end: string,
 ): Sale[] {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -52,7 +52,7 @@ export function filterByPeriod(
 export function generateReport(
   sales: Sale[],
   start: string,
-  end: string
+  end: string,
 ): CompleteReport {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -63,7 +63,7 @@ export function generateReport(
  */
 export async function exportCSV(
   data: SellerReport[],
-  fileName: string
+  fileName: string,
 ): Promise<void> {
   // TODO: Implement
   throw new Error("Not implemented");

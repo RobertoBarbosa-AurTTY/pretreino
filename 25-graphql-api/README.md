@@ -1,124 +1,146 @@
 # Desafio 25: API GraphQL
 
+**Dificuldade:** ⭐⭐
+
 ## 🎯 Objetivo
 
-Criar uma API GraphQL completa com resolvers, subscriptions e tratamento de erros.
+Criar uma API GraphQL com schema, resolvers de queries e mutations,
+subscriptions e tratamento de erros, usando a biblioteca `graphql` (graphql-js).
 
 ## 📋 Contexto Real
 
-GraphQL oferece flexibilidade para clientes:
-- Clientes buscam apenas dados necessários
+GraphQL dá flexibilidade aos clientes:
+
+- O cliente busca apenas os campos de que precisa
 - Reduz over-fetching e under-fetching
-- Subscriptions para dados em tempo real
-- Schema auto-documentado
+- Subscriptions entregam dados em tempo real
+- O schema é auto-documentado
 
 ## 📐 Requisitos
 
-- [ ] Definir schema GraphQL completo
-- [ ] Implementar resolvers para queries e mutations
-- [ ] Criar subscriptions para tempo real
-- [ ] Implementar autenticação no GraphQL
-- [ ] Tratar erros de forma elegante
-- [ ] Criar dataloader para resolver N+1
+Arquivo: `src/graphql.service.ts` (dados em memória). A dependência `graphql`
+(`npm:graphql@^16`) já está no `deno.json`.
+
+- [ ] `createSchema()` retorna o SDL (string) com os tipos `User`, `Post`, os
+      inputs e as operações abaixo:
+  - `Query`: `users: [User!]!`, `user(id: ID!): User`,
+    `posts(filter: PostFilter): [Post!]!`
+  - `Mutation`: `createUser(input: CreateUserInput!): User!`,
+    `updateUser(id: ID!, input: UpdateUserInput!): User!`,
+    `deleteUser(id: ID!): Boolean!`,
+    `createPost(input: CreatePostInput!): Post!`
+  - `Subscription`: `postCreated: Post!`
+- [ ] `resolveCreateUser` gera `id`, `createdAt` (ISO 8601) e `posts: []`;
+      rejeita email já cadastrado
+- [ ] `resolveUsers` lista todos os usuários; `resolveUser(id)` retorna `null`
+      se não existir
+- [ ] `resolveCreatePost` cria o post com `published` padrão `false`, associa ao
+      autor (aparece em `author.posts`) e rejeita `authorId` inexistente
+- [ ] `resolvePosts(filter?)` filtra por `authorId` e/ou `published`
+- [ ] `executeQuery`/`executeMutation(source, variables?)` executam a operação
+      no schema e resolvem com o `data` do resultado
+- [ ] `executeQuery`/`executeMutation` rejeitam quando o resultado tem `errors`
+      (campo inexistente, erro de sintaxe, erro de resolver)
+- [ ] `updateUser` altera apenas os campos enviados; `deleteUser` remove o
+      usuário e retorna `true` (ou `false` se não existir)
+- [ ] `subscribe("subscription { postCreated { ... } }", callback)` chama
+      `callback` com `{ postCreated: {...} }` (só com os campos pedidos) a cada
+      post criado e retorna uma função que cancela a inscrição
+- [ ] `src/index.ts`: servir `POST /graphql` na porta `PORT` (extra: GraphiQL em
+      `GET /graphql` quando `PLAYGROUND=true`)
 
 ## 🗂️ Estrutura dos Dados
 
 ```typescript
-// Schema GraphQL
-interface User {
-  id: ID!;
-  nome: String!;
-  email: String!;
-  posts: [Post!]!;
-  criadoEm: String!;
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  posts: Post[];
+  createdAt: string;
 }
 
-interface Post {
-  id: ID!;
-  titulo: String!;
-  conteudo: String!;
-  autor: User!;
-  publicado: Boolean!;
-  criadoEm: String!;
+export interface Post {
+  id: string;
+  title: string;
+  content: string;
+  author: User;
+  published: boolean;
+  createdAt: string;
 }
 
-interface Query {
-  usuarios: [User!]!;
-  usuario(id: ID!): User
-  posts(filtro: PostFilter): [Post!]!
+export interface CreateUserInput {
+  name: string;
+  email: string;
 }
 
-interface Mutation {
-  criarUsuario(input: CreateUserInput!): User!
-  atualizarUsuario(id: ID!, input: UpdateUserInput!): User!
-  deletarUsuario(id: ID!): Boolean!
-  criarPost(input: CreatePostInput!): Post!
+export interface UpdateUserInput {
+  name?: string;
+  email?: string;
 }
 
-interface Subscription {
-  postCriado: Post!
-  notificacao(userId: ID!): Notificacao!
+export interface CreatePostInput {
+  title: string;
+  content: string;
+  authorId: string;
+  published?: boolean;
+}
+
+export interface PostFilter {
+  authorId?: string;
+  published?: boolean;
 }
 ```
 
 ## 💡 Exemplo de Uso
 
-```graphql
-# Query
-query {
-  usuarios {
-    id
-    nome
-    email
-    posts {
-      titulo
-    }
-  }
-}
+```typescript
+import {
+  executeMutation,
+  executeQuery,
+  subscribe,
+} from "./src/graphql.service.ts";
 
-# Mutation
-mutation {
-  criarUsuario(input: {
-    nome: "João"
-    email: "joao@email.com"
-  }) {
-    id
-    nome
-  }
-}
+const unsubscribe = subscribe<{ postCreated: { title: string } }>(
+  "subscription { postCreated { title } }",
+  (data) => console.log("Novo post:", data.postCreated.title),
+);
 
-# Subscription
-subscription {
-  postCriado {
-    id
-    titulo
-    autor {
-      nome
-    }
-  }
-}
+const { createUser } = await executeMutation<{ createUser: { id: string } }>(
+  `mutation ($input: CreateUserInput!) { createUser(input: $input) { id } }`,
+  { input: { name: "João", email: "joao@email.com" } },
+);
+
+await executeMutation(
+  `mutation ($id: ID!) { createPost(input: { title: "Olá", content: "...", authorId: $id }) { id } }`,
+  { id: createUser.id },
+);
+
+const data = await executeQuery(`{ users { name posts { title } } }`);
+unsubscribe();
 ```
 
 ## ⚙️ Setup
 
 ```bash
+cd 25-graphql-api
+cp .env.example .env
 deno task dev
 ```
 
-## 🧪 Testes
+## 📚 Conceitos
 
-```bash
-deno task test
-```
+- [Schemas e tipos — graphql.org](https://graphql.org/learn/schema/)
+- [graphql-js: `graphql()` e `buildSchema()`](https://graphql.org/graphql-js/graphql/)
+- [Subscriptions — graphql.org](https://graphql.org/learn/subscriptions/)
+- [npm packages no Deno](https://docs.deno.com/runtime/fundamentals/node/#using-npm-packages)
+- [Deno.serve — Deno](https://docs.deno.com/api/deno/~/Deno.serve)
 
 ## 📝 Notas
 
-- Use GraphQL Yoga ou Apollo Server
-- Implemente depth limiting para segurança
-- Use directives para autorização
-- Implemente persisted queries
-- Considere schema stitching para microserviços
-
----
-
-**Dica:** Sempre implemente depth limiting para prevenir ataques de queries complexas que podem sobrecarregar o servidor.
+- `User.posts` e `Post.author` são circulares: resolva-os via resolvers de campo
+  em vez de guardar objetos aninhados.
+- Para subscriptions, um pub/sub simples em memória resolve; `subscribe()` do
+  graphql-js é uma opção mais completa.
+- Implemente depth limiting para evitar queries abusivas (extra).
+- DataLoader resolve o problema de N+1 (extra).

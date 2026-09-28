@@ -1,10 +1,10 @@
 /**
  * Challenge 5: Stock Monitoring
- * 
+ *
  * Stock monitoring and alerts service.
  */
 
-interface Product {
+export interface Product {
   id: string;
   name: string;
   currentStock: number;
@@ -13,13 +13,21 @@ interface Product {
   price: number;
 }
 
-interface StockAlert {
+export interface StockAlert {
   productId: string;
   productName: string;
   currentStock: number;
   minStock: number;
   suggestedQuantity: number;
   level: "critico" | "baixo" | "normal";
+}
+
+export interface StockMovement {
+  productId: string;
+  type: "entrada" | "saida";
+  quantity: number;
+  date: string;
+  reason: string;
 }
 
 /**
@@ -35,7 +43,7 @@ export function checkStock(products: Product[]): StockAlert[] {
  */
 export function classifyLevel(
   currentStock: number,
-  minStock: number
+  minStock: number,
 ): "critico" | "baixo" | "normal" {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -46,8 +54,19 @@ export function classifyLevel(
  */
 export function calculateRestockQuantity(
   currentStock: number,
-  maxStock: number
+  maxStock: number,
 ): number {
+  // TODO: Implement
+  throw new Error("Not implemented");
+}
+
+/**
+ * Applies stock movements (entrada/saida) and returns the updated products
+ */
+export function applyMovements(
+  products: Product[],
+  movements: StockMovement[],
+): Product[] {
   // TODO: Implement
   throw new Error("Not implemented");
 }
@@ -64,6 +83,16 @@ export async function sendAlert(alert: StockAlert): Promise<boolean> {
  * Loads products from JSON file
  */
 export async function loadProducts(filePath: string): Promise<Product[]> {
+  // TODO: Implement
+  throw new Error("Not implemented");
+}
+
+/**
+ * Loads stock movements from JSON file
+ */
+export async function loadMovements(
+  filePath: string,
+): Promise<StockMovement[]> {
   // TODO: Implement
   throw new Error("Not implemented");
 }

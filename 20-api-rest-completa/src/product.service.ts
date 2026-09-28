@@ -1,14 +1,14 @@
 /**
  * Challenge 20: Complete REST API
- * 
+ *
  * Product service with complete CRUD.
  */
 
 export interface Product {
   id: number;
-  nome: string;
+  name: string;
   description?: string;
-  preco: number;
+  price: number;
   category: string;
   stock: number;
   active: boolean;
@@ -46,7 +46,7 @@ export function listProducts(
   page: number = 1,
   limit: number = 10,
   filters: FilterOptions = {},
-  sort: SortOptions = { field: "id", direction: "asc" }
+  sort: SortOptions = { field: "id", direction: "asc" },
 ): PaginatedResult<Product> {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -63,7 +63,9 @@ export function findById(id: number): Product | undefined {
 /**
  * Create product
  */
-export function createProduct(data: Omit<Product, "id" | "createdAt" | "updatedAt">): Product {
+export function createProduct(
+  data: Omit<Product, "id" | "createdAt" | "updatedAt">,
+): Product {
   // TODO: Implement
   throw new Error("Not implemented");
 }
@@ -71,7 +73,10 @@ export function createProduct(data: Omit<Product, "id" | "createdAt" | "updatedA
 /**
  * Update product
  */
-export function updateProduct(id: number, data: Partial<Product>): Product | null {
+export function updateProduct(
+  id: number,
+  data: Partial<Product>,
+): Product | null {
   // TODO: Implement
   throw new Error("Not implemented");
 }

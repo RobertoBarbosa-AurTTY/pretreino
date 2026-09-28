@@ -1,10 +1,11 @@
 /**
  * Challenge 7: Database Backup Job
- * 
+ *
  * Database backup service.
+ * The "database" is simulated by a JSON file (`sourceFile`).
  */
 
-interface BackupConfig {
+export interface BackupConfig {
   database: string;
   host: string;
   port: number;
@@ -14,9 +15,10 @@ interface BackupConfig {
   region: string;
   retentionDays: number;
   folder: string;
+  sourceFile: string;
 }
 
-interface BackupResult {
+export interface BackupResult {
   success: boolean;
   file: string;
   size: number;
@@ -26,7 +28,7 @@ interface BackupResult {
 }
 
 /**
- * Exports database to SQL file
+ * Exports database (sourceFile) to a backup file inside `folder`
  */
 export async function exportDatabase(config: BackupConfig): Promise<string> {
   // TODO: Implement
@@ -34,7 +36,7 @@ export async function exportDatabase(config: BackupConfig): Promise<string> {
 }
 
 /**
- * Compresses file
+ * Compresses file with gzip
  */
 export async function compressFile(filePath: string): Promise<string> {
   // TODO: Implement
@@ -42,11 +44,11 @@ export async function compressFile(filePath: string): Promise<string> {
 }
 
 /**
- * Sends file to storage
+ * Sends file to storage (simulated: copies to `<folder>/storage/<bucket>/`)
  */
 export async function sendToStorage(
   filePath: string,
-  config: BackupConfig
+  config: BackupConfig,
 ): Promise<boolean> {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -63,7 +65,9 @@ export async function cleanOldBackups(config: BackupConfig): Promise<number> {
 /**
  * Executes complete backup pipeline
  */
-export async function executeBackup(config: BackupConfig): Promise<BackupResult> {
+export async function executeBackup(
+  config: BackupConfig,
+): Promise<BackupResult> {
   // TODO: Implement
   throw new Error("Not implemented");
 }

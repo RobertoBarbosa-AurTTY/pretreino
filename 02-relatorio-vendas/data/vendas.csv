@@ -1,4 +1,4 @@
-id;vendedor;produto;valor;data
+id;seller;product;amount;date
 1;João Silva;Notebook Dell;4500.00;2024-01-05
 2;Maria Santos;iPhone 15;6500.00;2024-01-08
 3;João Silva;Mouse Logitech;150.00;2024-01-10

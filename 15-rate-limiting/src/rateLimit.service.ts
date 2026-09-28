@@ -1,6 +1,6 @@
 /**
  * Challenge 15: Rate Limiting
- * 
+ *
  * Rate limiting service for APIs.
  */
 
@@ -17,6 +17,13 @@ export interface RateLimitResult {
   total: number;
 }
 
+export interface RateLimitResponse extends RateLimitResult {
+  /** X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset and, when blocked, Retry-After */
+  headers: Record<string, string>;
+}
+
+export type RateLimiter = (req: Request) => RateLimitResponse;
+
 /**
  * Get client key
  */
@@ -30,7 +37,7 @@ export function getClientKey(req: Request): string {
  */
 export function checkRateLimit(
   key: string,
-  config: Partial<RateLimitConfig> = {}
+  config: Partial<RateLimitConfig> = {},
 ): RateLimitResult {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -39,7 +46,7 @@ export function checkRateLimit(
 /**
  * Create rate limit middleware
  */
-export function rateLimit(config: Partial<RateLimitConfig> = {}) {
+export function rateLimit(config: Partial<RateLimitConfig> = {}): RateLimiter {
   // TODO: Implement
   throw new Error("Not implemented");
 }

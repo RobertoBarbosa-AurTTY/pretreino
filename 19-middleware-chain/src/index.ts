@@ -1,28 +1,29 @@
 /**
  * Challenge 19: Middleware Chain
- * 
+ *
  * API with a chained middleware system.
  */
 
 import {
-  createContext,
+  authMiddleware,
   compose,
+  cors,
+  createContext,
   logger,
+  type Next,
   requestId,
   timing,
-  cors,
-  authMiddleware
 } from "./middleware.ts";
 
 const PORT = parseInt(Deno.env.get("PORT") || "3007");
 
-const VALID_TOKEN = "my_secret_token";
+const VALID_TOKEN = Deno.env.get("AUTH_TOKEN") || "my_secret_token";
 
 // Simulated data
 const data = [
   { id: 1, title: "Item 1" },
   { id: 2, title: "Item 2" },
-  { id: 3, title: "Item 3" }
+  { id: 3, title: "Item 3" },
 ];
 
 // Application-specific middlewares
@@ -31,73 +32,78 @@ const auth = authMiddleware(VALID_TOKEN);
 // Main handler
 async function handler(req: Request): Promise<Response> {
   const ctx = createContext(req);
-  
-  // Define final handler
-  const finalHandler = async () => {
+
+  // Route handler (runs at the end of the chain)
+  const route = (): Response => {
     const url = new URL(req.url);
     const path = url.pathname;
     const method = req.method;
-    
+
     const baseHeaders = {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     };
-    
+
     // GET /api/dados (public)
     if (path === "/api/dados" && method === "GET") {
       return new Response(
         JSON.stringify(data),
-        { status: 200, headers: baseHeaders }
+        { status: 200, headers: baseHeaders },
       );
     }
-    
+
     // GET /api/protected (private)
     if (path === "/api/protected" && method === "GET") {
       return new Response(
-        JSON.stringify({ 
+        JSON.stringify({
           message: "Protected data",
-          data: [1, 2, 3]
+          data: [1, 2, 3],
         }),
-        { status: 200, headers: baseHeaders }
+        { status: 200, headers: baseHeaders },
       );
     }
-    
+
     // GET /health
     if (path === "/health") {
       return new Response(
-        JSON.stringify({ 
+        JSON.stringify({
           status: "ok",
           service: "middleware-chain",
-          requestId: ctx.get("requestId")
+          requestId: ctx.get("requestId"),
         }),
-        { status: 200, headers: baseHeaders }
+        { status: 200, headers: baseHeaders },
       );
     }
-    
+
     return new Response(
       JSON.stringify({ error: "Endpoint not found" }),
-      { status: 404, headers: baseHeaders }
+      { status: 404, headers: baseHeaders },
     );
   };
-  
+
+  // Final handler: stores the route response in the context
+  const finalHandler: Next = async () => {
+    ctx.res = route();
+  };
+
   // Compose middlewares for public route
   const publicMiddlewares = compose(logger, requestId, timing, cors);
-  
+
   // Compose middlewares for protected route
   const protectedMiddlewares = compose(logger, requestId, timing, cors, auth);
-  
+
   // Determine middlewares based on route
   const url = new URL(req.url);
   const isProtected = url.pathname.startsWith("/api/protected");
-  
+
   const middlewares = isProtected ? protectedMiddlewares : publicMiddlewares;
-  
+
   // Run chain
   await middlewares(ctx, finalHandler);
-  
+
   // Return response
   return ctx.res || new Response(
     JSON.stringify({ error: "Internal Server Error" }),
-    { status: 500, headers: { "Content-Type": "application/json" } }
+    { status: 500, headers: { "Content-Type": "application/json" } },
   );
 }
 

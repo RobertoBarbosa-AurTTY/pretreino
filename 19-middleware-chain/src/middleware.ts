@@ -1,6 +1,6 @@
 /**
  * Challenge 19: Middleware Chain
- * 
+ *
  * Chained middleware system.
  */
 

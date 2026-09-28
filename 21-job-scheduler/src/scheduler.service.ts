@@ -1,6 +1,6 @@
 /**
  * Challenge 21: Job Scheduler
- * 
+ *
  * Task scheduling service.
  */
 
@@ -23,6 +23,32 @@ export interface Execution {
   status: "success" | "error" | "running";
   result?: string;
   error?: string;
+}
+
+/**
+ * Handler executed when a job runs. The returned string (if any) is stored
+ * as the execution result.
+ */
+export type CommandHandler = () => Promise<string | void> | string | void;
+
+/**
+ * Register the handler that runs for a given job command
+ */
+export function registerCommand(
+  command: string,
+  handler: CommandHandler,
+): void {
+  // TODO: Implement
+  throw new Error("Not implemented");
+}
+
+/**
+ * Calculate the next run date of a cron expression (5 fields:
+ * minute hour day-of-month month day-of-week), strictly after `from`
+ */
+export function getNextRun(cron: string, from: Date): Date {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 /**

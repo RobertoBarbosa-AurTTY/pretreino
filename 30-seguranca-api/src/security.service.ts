@@ -1,10 +1,10 @@
 /**
  * Challenge 30: API Security
- * 
+ *
  * Security service for APIs.
  */
 
-interface SecurityConfig {
+export interface SecurityConfig {
   cors: {
     origins: string[];
     methods: string[];
@@ -22,19 +22,19 @@ interface SecurityConfig {
   };
 }
 
-interface ValidationResult {
+export interface ValidationResult {
   valid: boolean;
   errors: ValidationError[];
   sanitized: unknown;
 }
 
-interface ValidationError {
+export interface ValidationError {
   field: string;
   message: string;
   code: string;
 }
 
-interface SecurityEvent {
+export interface SecurityEvent {
   type: "injection" | "xss" | "rate_limit" | "unauthorized_access";
   ip: string;
   userId?: string;
@@ -43,7 +43,7 @@ interface SecurityEvent {
   details: Record<string, unknown>;
 }
 
-interface InputSanitizer {
+export interface InputSanitizer {
   sanitize(input: unknown): unknown;
   isSafe(input: string): boolean;
 }
@@ -51,9 +51,9 @@ interface InputSanitizer {
 /**
  * Validate input against schema
  */
-export function validateInput<T>(
+export function validateInput(
   input: unknown,
-  schema: ValidationSchema
+  schema: ValidationSchema,
 ): ValidationResult {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -68,18 +68,22 @@ export function sanitizeData<T>(data: T): T {
 }
 
 /**
- * Configure CORS
+ * Configure CORS. Returns a Response for preflight (OPTIONS) requests
+ * and null for any other request (let it continue).
  */
-export function configureCORS(config: SecurityConfig["cors"]): (req: Request) => Response | null {
+export function configureCORS(
+  config: SecurityConfig["cors"],
+): (req: Request) => Response | null {
   // TODO: Implement
   throw new Error("Not implemented");
 }
 
 /**
- * Configure rate limiting
+ * Configure rate limiting by IP ("X-Forwarded-For"). Returns true if the
+ * request is allowed.
  */
 export function configureRateLimit(
-  config: SecurityConfig["rateLimit"]
+  config: SecurityConfig["rateLimit"],
 ): (req: Request) => boolean {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -94,7 +98,7 @@ export function configureSecurityHeaders(): Record<string, string> {
 }
 
 /**
- * Detect attacks
+ * Detect attacks in the URL (path and query string)
  */
 export function detectAttacks(req: Request): SecurityEvent | null {
   // TODO: Implement
@@ -102,8 +106,15 @@ export function detectAttacks(req: Request): SecurityEvent | null {
 }
 
 /**
- * ValidationSchema interface
+ * ValidationSchema interface (compatible with Zod's `safeParse`)
  */
-interface ValidationSchema {
-  parse(input: unknown): { success: true; data: unknown } | { success: false; error: unknown };
+export interface ValidationSchema {
+  safeParse(input: unknown):
+    | { success: true; data: unknown }
+    | {
+      success: false;
+      error: {
+        issues: { path: PropertyKey[]; message: string; code: string }[];
+      };
+    };
 }

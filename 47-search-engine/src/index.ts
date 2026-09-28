@@ -2,7 +2,7 @@
  * Challenge 47: Search Engine
  */
 
-import { SearchEngine, createEngine } from "./search.service.ts";
+import { createEngine, SearchEngine } from "./search.service.ts";
 
 async function run(): Promise<void> {
   console.log("Starting Search Engine...");

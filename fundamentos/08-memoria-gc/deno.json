@@ -1,0 +1,5 @@
+{
+  "tasks": {
+    "dev": "deno run --allow-read --allow-write --v8-flags=--expose-gc src/index.ts"
+  }
+}

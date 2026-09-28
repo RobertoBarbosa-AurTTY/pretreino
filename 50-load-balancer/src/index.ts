@@ -2,7 +2,7 @@
  * Challenge 50: Load Balancer
  */
 
-import { LoadBalancer, createLoadBalancer } from "./loadbalancer.service.ts";
+import { createLoadBalancer, LoadBalancer } from "./loadbalancer.service.ts";
 
 async function run(): Promise<void> {
   console.log("Starting Load Balancer...");
@@ -10,7 +10,7 @@ async function run(): Promise<void> {
     const lb = createLoadBalancer({
       strategy: "roundRobin",
       healthCheckInterval: 10000,
-      backends: []
+      backends: [],
     });
     console.log("Load Balancer created");
     // TODO: Implement

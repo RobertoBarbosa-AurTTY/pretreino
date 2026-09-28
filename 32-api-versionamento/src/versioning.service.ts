@@ -2,16 +2,19 @@
  * Challenge 32: API Versioning - Service
  */
 
-interface ApiVersion {
-  version: string;
+export interface ApiVersion {
+  version: string; // e.g. "v1"
   status: "ativa" | "deprecada" | "obsoleta";
   deprecationDate?: string;
   removalDate?: string;
 }
 
-interface Router {
-  get(path: string, handler: Function): void;
-  post(path: string, handler: Function): void;
+export type Handler = (req: Request) => Response | Promise<Response>;
+
+export interface Router {
+  get(version: string, path: string, handler: Handler): void;
+  post(version: string, path: string, handler: Handler): void;
+  handle(req: Request): Promise<Response>;
 }
 
 export function createRouter(versions: ApiVersion[]): Router {
@@ -26,7 +29,7 @@ export function versioningMiddleware(req: Request): Request {
 
 export function addDeprecationHeaders(
   response: Response,
-  version: string
+  version: ApiVersion,
 ): Response {
   // TODO: Implement
   throw new Error("Not implemented");

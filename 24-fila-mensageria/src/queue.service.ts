@@ -1,10 +1,10 @@
 /**
  * Challenge 24: Message Queue
- * 
+ *
  * Queue service for asynchronous processing.
  */
 
-interface Message<T> {
+export interface Message<T> {
   id: string;
   type: string;
   payload: T;
@@ -16,7 +16,7 @@ interface Message<T> {
   };
 }
 
-interface QueueConfig {
+export interface QueueConfig {
   name: string;
   durable: boolean;
   maxRetries: number;
@@ -24,14 +24,14 @@ interface QueueConfig {
   prefetch?: number;
 }
 
-interface ProcessingResult {
+export interface ProcessingResult {
   success: boolean;
   messageId: string;
   processedAt: string;
   error?: string;
 }
 
-interface QueueMetrics {
+export interface QueueMetrics {
   queue: string;
   pending: number;
   processing: number;
@@ -52,19 +52,25 @@ export async function createQueue(config: QueueConfig): Promise<void> {
  */
 export async function sendMessage<T>(
   queue: string,
-  message: Omit<Message<T>, "id" | "metadata">
+  message: Omit<Message<T>, "id" | "metadata">,
 ): Promise<string> {
   // TODO: Implement
   throw new Error("Not implemented");
 }
 
 /**
- * Consume messages from the queue
+ * Result returned by a consumer handler
+ */
+export type HandlerResult = Omit<ProcessingResult, "messageId" | "processedAt">;
+
+/**
+ * Consume messages from the queue until it is empty.
+ * Resolves with the final result of each message.
  */
 export async function consumeMessages<T>(
   queue: string,
-  handler: (msg: Message<T>) => Promise<ProcessingResult>
-): Promise<void> {
+  handler: (msg: Message<T>) => Promise<HandlerResult>,
+): Promise<ProcessingResult[]> {
   // TODO: Implement
   throw new Error("Not implemented");
 }

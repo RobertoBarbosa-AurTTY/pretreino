@@ -1,42 +1,42 @@
 [
   {
     "id": "1",
-    "nome": "Notebook Dell",
-    "estoqueAtual": 15,
-    "estoqueMinimo": 10,
-    "estoqueMaximo": 50,
-    "preco": 4500.00
+    "name": "Notebook Dell",
+    "currentStock": 15,
+    "minStock": 10,
+    "maxStock": 50,
+    "price": 4500.00
   },
   {
     "id": "2",
-    "nome": "iPhone 15",
-    "estoqueAtual": 3,
-    "estoqueMinimo": 5,
-    "estoqueMaximo": 30,
-    "preco": 6500.00
+    "name": "iPhone 15",
+    "currentStock": 3,
+    "minStock": 5,
+    "maxStock": 30,
+    "price": 6500.00
   },
   {
     "id": "3",
-    "nome": "Mouse Logitech",
-    "estoqueAtual": 45,
-    "estoqueMinimo": 20,
-    "estoqueMaximo": 100,
-    "preco": 150.00
+    "name": "Mouse Logitech",
+    "currentStock": 45,
+    "minStock": 20,
+    "maxStock": 100,
+    "price": 150.00
   },
   {
     "id": "4",
-    "nome": "Monitor LG",
-    "estoqueAtual": 8,
-    "estoqueMinimo": 10,
-    "estoqueMaximo": 40,
-    "preco": 2200.00
+    "name": "Monitor LG",
+    "currentStock": 8,
+    "minStock": 10,
+    "maxStock": 40,
+    "price": 2200.00
   },
   {
     "id": "5",
-    "nome": "Teclado Mecânico",
-    "estoqueAtual": 25,
-    "estoqueMinimo": 15,
-    "estoqueMaximo": 60,
-    "preco": 350.00
+    "name": "Teclado Mecânico",
+    "currentStock": 25,
+    "minStock": 15,
+    "maxStock": 60,
+    "price": 350.00
   }
 ]

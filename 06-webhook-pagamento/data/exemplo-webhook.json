@@ -1,11 +1,52 @@
-{
-  "evento": "pagamento.pago",
-  "dados": {
-    "pagamentoId": "pag_123456",
-    "pedidoId": "ped_789012",
-    "valor": 1500.00,
-    "metodo": "credit_card",
-    "data": "2024-01-20T10:30:00Z"
+[
+  {
+    "event": "pagamento.pago",
+    "data": {
+      "paymentId": "pag_123456",
+      "orderId": "ped_789012",
+      "amount": 1500.00,
+      "method": "credit_card",
+      "date": "2024-01-20T10:30:00Z"
+    }
   },
-  "assinatura": "sha256=exemplo_assinatura_aqui"
-}
+  {
+    "event": "pagamento.falhou",
+    "data": {
+      "paymentId": "pag_234567",
+      "orderId": "ped_890123",
+      "amount": 800.00,
+      "method": "pix",
+      "date": "2024-01-21T14:45:00Z"
+    }
+  },
+  {
+    "event": "pagamento.reembolsado",
+    "data": {
+      "paymentId": "pag_345678",
+      "orderId": "ped_901234",
+      "amount": 2200.00,
+      "method": "boleto",
+      "date": "2024-01-22T09:15:00Z"
+    }
+  },
+  {
+    "event": "pagamento.pago",
+    "data": {
+      "paymentId": "pag_123456",
+      "orderId": "ped_789012",
+      "amount": 1500.00,
+      "method": "credit_card",
+      "date": "2024-01-20T10:30:00Z"
+    }
+  },
+  {
+    "event": "pagamento.estornado",
+    "data": {
+      "paymentId": "pag_456789",
+      "orderId": "ped_012345",
+      "amount": -10,
+      "method": "pix",
+      "date": "data-invalida"
+    }
+  }
+]

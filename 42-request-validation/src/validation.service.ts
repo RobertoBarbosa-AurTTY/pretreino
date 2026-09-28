@@ -2,9 +2,11 @@
  * Challenge 42: Request Validation - Service
  */
 
+export type FieldType = "string" | "number" | "boolean" | "email" | "array";
+
 export interface ValidationSchema {
   [field: string]: {
-    type: string;
+    type: FieldType;
     required?: boolean;
     min?: number;
     max?: number;
@@ -13,10 +15,18 @@ export interface ValidationSchema {
   };
 }
 
+export type ValidationErrorCode =
+  | "required"
+  | "type"
+  | "min"
+  | "max"
+  | "pattern"
+  | "custom";
+
 export interface ValidationError {
   field: string;
   message: string;
-  code: string;
+  code: ValidationErrorCode;
 }
 
 export interface ValidationResult {
@@ -27,7 +37,7 @@ export interface ValidationResult {
 
 export function validate(
   data: unknown,
-  schema: ValidationSchema
+  schema: ValidationSchema,
 ): ValidationResult {
   // TODO: Implement
   throw new Error("Not implemented");

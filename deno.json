@@ -1,0 +1,86 @@
+{
+  "workspace": [
+    "./fundamentos/01-event-loop",
+    "./fundamentos/02-promises-do-zero",
+    "./fundamentos/03-closures",
+    "./fundamentos/04-this-bind",
+    "./fundamentos/05-prototipos",
+    "./fundamentos/06-iterators-generators",
+    "./fundamentos/07-proxy-reflect",
+    "./fundamentos/08-memoria-gc",
+    "./fundamentos/09-estruturas-de-dados",
+    "./fundamentos/10-event-emitter",
+    "./01-integracao-api-clientes",
+    "./02-relatorio-vendas",
+    "./03-notificacao-email",
+    "./04-importacao-csv",
+    "./05-monitoramento-estoque",
+    "./06-webhook-pagamento",
+    "./07-job-backup-database",
+    "./08-cache-api-externa",
+    "./09-processamento-fila",
+    "./10-dashboard-metricas",
+    "./11-validar-cpf",
+    "./12-autenticacao-jwt",
+    "./13-database-sqlite",
+    "./14-upload-arquivos",
+    "./15-rate-limiting",
+    "./16-websocket",
+    "./17-validacao-zod",
+    "./18-error-handling",
+    "./19-middleware-chain",
+    "./20-api-rest-completa",
+    "./21-job-scheduler",
+    "./22-autenticacao-multi-tenant",
+    "./23-cache-redis",
+    "./24-fila-mensageria",
+    "./25-graphql-api",
+    "./26-rbac-permissoes",
+    "./27-logging-monitoramento",
+    "./28-integracao-api-externa",
+    "./29-processamento-assincrono",
+    "./30-seguranca-api",
+    "./31-microservicos",
+    "./32-api-versionamento",
+    "./33-event-sourcing",
+    "./34-cqrs",
+    "./35-resilience-patterns",
+    "./36-api-gateway",
+    "./37-service-mesh",
+    "./38-distributed-lock",
+    "./39-idempotency",
+    "./40-event-driven",
+    "./41-api-compression",
+    "./42-request-validation",
+    "./43-response-caching",
+    "./44-webhook-system",
+    "./45-notification-system",
+    "./46-file-storage",
+    "./47-search-engine",
+    "./48-task-scheduler",
+    "./49-api-monitoring",
+    "./50-load-balancer"
+  ],
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true
+  },
+  "tasks": {
+    "check": "deno check ."
+  },
+  "fmt": {
+    "exclude": [
+      "**/data/",
+      "**/output/",
+      "**/templates/"
+    ]
+  },
+  "lint": {
+    "rules": {
+      "exclude": [
+        "require-await",
+        "no-unused-vars"
+      ]
+    }
+  }
+}

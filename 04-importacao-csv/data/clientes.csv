@@ -1,4 +1,4 @@
-nome;email;cpf;telefone;data_nascimento
+name;email;cpf;phone;birthDate
 João Silva;joao.silva@email.com;529.982.247-25;11999998888;15/03/1985
 Maria Santos;maria.santos@email.com;111.444.777-35;21988887777;22/07/1990
 Pedro Oliveira;pedro.oliveira@email.com;123.456.789-09;31977776666;10/12/1988

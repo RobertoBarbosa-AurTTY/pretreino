@@ -2,7 +2,7 @@
  * Challenge 49: API Monitoring
  */
 
-import { MonitoringService, createService } from "./monitoring.service.ts";
+import { createService, MonitoringService } from "./monitoring.service.ts";
 
 async function run(): Promise<void> {
   console.log("Starting API Monitoring...");

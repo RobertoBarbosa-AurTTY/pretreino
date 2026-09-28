@@ -1,19 +1,19 @@
 /**
  * Challenge 13: SQLite Database
- * 
+ *
  * SQLite database service.
  */
 
 export interface User {
   id?: number;
-  nome: string;
+  name: string;
   email: string;
   createdAt?: string;
   updatedAt?: string;
 }
 
 /**
- * Create table (simulated)
+ * Create table (idempotent)
  */
 export function createTable(): void {
   // TODO: Implement
@@ -39,7 +39,9 @@ export function findById(id: number): User | undefined {
 /**
  * Create user
  */
-export function create(user: Omit<User, "id" | "createdAt" | "updatedAt">): User {
+export function create(
+  user: Omit<User, "id" | "createdAt" | "updatedAt">,
+): User {
   // TODO: Implement
   throw new Error("Not implemented");
 }

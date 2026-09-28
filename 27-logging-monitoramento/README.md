@@ -1,30 +1,57 @@
 # Desafio 27: Logging e Monitoramento
 
+**Dificuldade:** ⭐⭐
+
 ## 🎯 Objetivo
 
-Implementar um sistema de logging estruturado e monitoramento de aplicações backend.
+Implementar logging estruturado em JSON com níveis, coleta de métricas, tracing
+com spans e alertas automáticos baseados em métricas.
 
 ## 📋 Contexto Real
 
 Aplicações em produção precisam de observabilidade:
-- Rastreamento de erros
-- Monitoramento de performance
-- Alertas proativos
-- Análise de comportamento
+
+- Rastreamento de erros com contexto (requestId, userId)
+- Monitoramento de performance (latência, throughput)
+- Tracing para seguir uma requisição entre serviços
+- Alertas proativos antes que o usuário perceba o problema
 
 ## 📐 Requisitos
 
-- [ ] Implementar logging estruturado (JSON)
-- [ ] Criar diferentes níveis de log
-- [ ] Implementar tracing distribuído
-- [ ] Criar métricas de performance
-- [ ] Configurar alertas automáticos
-- [ ] Integrar com ferramentas de observabilidade
+Arquivo: `src/monitoring.service.ts`.
+
+- [ ] `registerLog(entry)` adiciona `timestamp` (ISO 8601) e escreve a entrada
+      como **uma linha JSON** (`JSON.stringify`)
+- [ ] Destino por nível: `debug`/`info` → `console.log`, `warn` →
+      `console.warn`, `error`/`fatal` → `console.error`
+- [ ] `createLogger(service, level = "info")` retorna um `Logger` com `debug`,
+      `info`, `warn`, `error` e `fatal`
+- [ ] O logger inclui `service` em `context` e mescla o contexto recebido
+- [ ] O logger ignora mensagens abaixo do nível mínimo (ordem:
+      `debug < info < warn < error < fatal`)
+- [ ] Se o contexto tiver `error` (um `Error` ou `{ name, message }`), ele vai
+      para o campo `error` da entrada (`name`, `message`, `stack`) e sai de
+      `context`
+- [ ] `createMetric(name, value, tags = {})` registra a métrica com `timestamp`;
+      `getMetrics(name?)` lista as métricas em ordem de registro, filtrando por
+      nome
+- [ ] `startTracing(operation, traceId?, parentSpanId?)` cria um span com
+      `spanId` novo, `traceId` novo (ou o informado), `startTime` e
+      `attributes: {}`
+- [ ] `finishSpan(span, status)` define `status` e `endTime` (ISO 8601) no span
+- [ ] `configureAlerts(rules, onAlert?)` substitui as regras; a cada
+      `createMetric`, cada regra daquela métrica compara a **média dos valores
+      registrados nos últimos `window` segundos** com `threshold` usando
+      `condition` (`gt`, `lt`, `eq`)
+- [ ] Quando a condição é verdadeira, `onAlert(rule, metric)` é chamado; com
+      `action: "log"` também é registrado um log `warn`
+- [ ] `src/index.ts`: usar `LOG_LEVEL`, `SERVICE_NAME` e `ENABLE_TRACING` do
+      ambiente
 
 ## 🗂️ Estrutura dos Dados
 
 ```typescript
-interface LogEntry {
+export interface LogEntry {
   level: "debug" | "info" | "warn" | "error" | "fatal";
   message: string;
   timestamp: string;
@@ -41,14 +68,14 @@ interface LogEntry {
   };
 }
 
-interface Metric {
+export interface Metric {
   name: string;
   value: number;
   tags: Record<string, string>;
   timestamp: string;
 }
 
-interface TraceSpan {
+export interface TraceSpan {
   traceId: string;
   spanId: string;
   parentSpanId?: string;
@@ -59,72 +86,78 @@ interface TraceSpan {
   attributes: Record<string, unknown>;
 }
 
-interface AlertRule {
+export interface AlertRule {
   metric: string;
   condition: "gt" | "lt" | "eq";
   threshold: number;
-  window: number; // em segundos
+  window: number;
   action: "log" | "webhook" | "email";
+}
+
+export interface Logger {
+  debug(message: string, context?: Record<string, unknown>): void;
+  info(message: string, context?: Record<string, unknown>): void;
+  warn(message: string, context?: Record<string, unknown>): void;
+  error(message: string, context?: Record<string, unknown>): void;
+  fatal(message: string, context?: Record<string, unknown>): void;
 }
 ```
 
 ## 💡 Exemplo de Uso
 
 ```typescript
-// Logger estruturado
-const logger = new Logger({ service: "api-pedidos" });
+import {
+  configureAlerts,
+  createLogger,
+  createMetric,
+  finishSpan,
+  startTracing,
+} from "./src/monitoring.service.ts";
 
-logger.info("Pedido criado", {
-  requestId: "abc123",
-  userId: "user456",
-  pedidoId: "ped789",
-  valor: 150.00
-});
+const logger = createLogger("api-pedidos", "info");
+logger.info("Pedido criado", { requestId: "abc123", orderId: "ped789" });
+// {"level":"info","message":"Pedido criado","timestamp":"...","context":{"service":"api-pedidos",...}}
 
-logger.error("Erro ao processar pagamento", {
-  requestId: "abc123",
-  error: { name: "PaymentError", message: "Cartão recusado" }
-});
+configureAlerts(
+  [{
+    metric: "orders.latency_ms",
+    condition: "gt",
+    threshold: 1000,
+    window: 60,
+    action: "log",
+  }],
+  (rule, metric) => console.log(`Alerta: ${rule.metric} = ${metric.value}`),
+);
 
-// Métricas
-const metrics = new MetricsCollector();
-metrics.increment("pedidos.criados", { status: "sucesso" });
-metrics.histogram("pedidos.tempo_processamento", 1250);
-
-// Tracing
-const tracer = new Tracer("api-pedidos");
-const span = tracer.startSpan("processar_pedido");
+const span = startTracing("process_order");
 try {
-  await processarPedido(pedido);
-  span.setStatus("ok");
+  // ... processa o pedido
+  createMetric("orders.latency_ms", 1250, { status: "success" });
+  finishSpan(span, "ok");
 } catch (error) {
-  span.setStatus("error");
-  span.setAttribute("error.message", error.message);
-} finally {
-  span.end();
+  logger.error("Erro ao processar pedido", { requestId: "abc123", error });
+  finishSpan(span, "error");
 }
 ```
 
 ## ⚙️ Setup
 
 ```bash
+cd 27-logging-monitoramento
+cp .env.example .env
 deno task dev
 ```
 
-## 🧪 Testes
+## 📚 Conceitos
 
-```bash
-deno task test
-```
+- [JSON.stringify — MDN](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
+- [console — MDN](https://developer.mozilla.org/pt-BR/docs/Web/API/console)
+- [OpenTelemetry: traces e spans](https://opentelemetry.io/docs/concepts/signals/traces/)
+- [OpenTelemetry no Deno](https://docs.deno.com/runtime/fundamentals/open_telemetry/)
 
 ## 📝 Notas
 
-- Use Winston ou Pino para logging
-- Implemente structured logging em JSON
-- Use OpenTelemetry para tracing
-- Considere sampling para traces
-- Implemente log rotation
-
----
-
-**Dica:** Sempre inclua requestId nos logs para correlacionar requisições em sistemas distribuídos.
+- Sempre inclua `requestId` nos logs para correlacionar requisições.
+- `traceId` e `spanId` podem ser gerados com `crypto.randomUUID()`.
+- `webhook` e `email` como `action` de alerta são extras.
+- Em produção, considere sampling de traces e rotação de logs.

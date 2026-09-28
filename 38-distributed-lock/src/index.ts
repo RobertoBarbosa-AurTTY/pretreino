@@ -2,7 +2,7 @@
  * Challenge 38: Distributed Lock
  */
 
-import { DistributedLock, createLock } from "./lock.service.ts";
+import { createLock, DistributedLock } from "./lock.service.ts";
 
 async function run(): Promise<void> {
   console.log("Starting Distributed Lock...");

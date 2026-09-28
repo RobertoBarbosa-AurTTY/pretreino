@@ -20,6 +20,7 @@ export interface IdempotencyService {
   check(key: string, request: unknown): Promise<IdempotencyResult>;
   save(key: string, response: unknown): Promise<void>;
   fail(key: string): Promise<void>;
+  getStatus(key: string): Promise<IdempotencyKey | null>;
 }
 
 export function createService(ttlMs: number): IdempotencyService {

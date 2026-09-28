@@ -2,7 +2,7 @@
  * Challenge 39: Idempotency
  */
 
-import { IdempotencyService, createService } from "./idempotency.service.ts";
+import { createService, IdempotencyService } from "./idempotency.service.ts";
 
 async function run(): Promise<void> {
   console.log("Starting Idempotency...");

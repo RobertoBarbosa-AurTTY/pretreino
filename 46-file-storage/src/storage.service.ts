@@ -9,11 +9,14 @@ export interface FileMetadata {
   size: number;
   path: string;
   createdAt: string;
+  metadata?: Record<string, unknown>;
 }
 
 export interface StorageConfig {
   basePath: string;
+  /** Tamanho máximo em bytes. */
   maxFileSize?: number;
+  /** MIME types aceitos; aceita curinga como `"image/*"`. */
   allowedTypes?: string[];
 }
 
@@ -26,6 +29,7 @@ export interface UploadResult {
 export interface FileStorage {
   upload(file: File, metadata?: Record<string, unknown>): Promise<UploadResult>;
   get(id: string): FileMetadata | null;
+  read(id: string): Promise<Uint8Array | null>;
   delete(id: string): Promise<boolean>;
   list(): FileMetadata[];
 }

@@ -1,11 +1,11 @@
 /**
  * Challenge 3: Email Notification
- * 
+ *
  * Email sending service with queue and retry.
- * The Mock API must be running: cd ../mock-api && deno task dev
+ * API docs: ../API.md
  */
 
-interface Email {
+export interface Email {
   id: string;
   to: string;
   subject: string;
@@ -15,24 +15,50 @@ interface Email {
   attempts: number;
 }
 
-interface QueueConfig {
+export interface QueueConfig {
   maxAttempts: number;
   retryDelay: number;
   sendTimeout: number;
 }
 
-interface SendResult {
+export interface SendResult {
   success: boolean;
   emailId: string;
   error?: string;
 }
 
 /**
- * Sends email via Mock API
+ * Authenticates on the Mock API and returns the Bearer token
+ */
+export async function login(
+  apiUrl: string,
+  email: string,
+  password: string,
+): Promise<string> {
+  // TODO: Implement
+  throw new Error("Not implemented");
+}
+
+/**
+ * Renders an HTML template from `templatesDir` replacing {{key}} with data[key]
+ */
+export async function renderTemplate(
+  template: string,
+  data: Record<string, unknown>,
+  templatesDir: string,
+): Promise<string> {
+  // TODO: Implement
+  throw new Error("Not implemented");
+}
+
+/**
+ * Sends email via Mock API (POST /api/emails)
  */
 export async function sendEmailViaAPI(
   email: Omit<Email, "id" | "status" | "attempts">,
-  apiUrl: string
+  apiUrl: string,
+  token: string,
+  timeoutMs?: number,
 ): Promise<SendResult> {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -43,7 +69,7 @@ export async function sendEmailViaAPI(
  */
 export async function enqueueEmail(
   email: Email,
-  queue: Email[]
+  queue: Email[],
 ): Promise<void> {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -55,7 +81,8 @@ export async function enqueueEmail(
 export async function processQueue(
   queue: Email[],
   config: QueueConfig,
-  apiUrl: string
+  apiUrl: string,
+  token: string,
 ): Promise<SendResult[]> {
   // TODO: Implement
   throw new Error("Not implemented");

@@ -1,10 +1,10 @@
 /**
  * Challenge 29: Asynchronous Processing
- * 
+ *
  * Asynchronous processing service with workers.
  */
 
-interface Task<TInput, TOutput> {
+export interface Task<TInput, TOutput> {
   id: string;
   type: string;
   input: TInput;
@@ -20,20 +20,20 @@ interface Task<TInput, TOutput> {
   maxAttempts: number;
 }
 
-interface WorkerConfig {
+export interface WorkerConfig {
   maxConcurrent: number;
   timeout: number;
   healthCheckInterval: number;
 }
 
-interface ProgressUpdate {
+export interface ProgressUpdate {
   taskId: string;
   progress: number;
   message?: string;
   stage?: string;
 }
 
-interface WorkerStats {
+export interface WorkerStats {
   totalProcessed: number;
   completed: number;
   failures: number;
@@ -42,60 +42,53 @@ interface WorkerStats {
 }
 
 /**
+ * Data needed to enqueue a task (maxAttempts defaults to 3)
+ */
+export type NewTask<TInput> =
+  & Pick<Task<TInput, unknown>, "type" | "input" | "priority">
+  & { maxAttempts?: number };
+
+/**
+ * Function that processes one task of a given type
+ */
+export type TaskHandler<TInput, TOutput> = (
+  input: TInput,
+  context: {
+    /** Report progress (0-100) */
+    onProgress: (progress: number, message?: string) => void;
+    /** Aborted when the task is canceled or times out */
+    signal: AbortSignal;
+  },
+) => Promise<TOutput>;
+
+/**
+ * WorkerPool interface
+ */
+export interface WorkerPool {
+  /** Register handler for task type */
+  register<TInput, TOutput>(
+    type: string,
+    handler: TaskHandler<TInput, TOutput>,
+  ): void;
+  /** Add task to queue */
+  add<TInput>(task: NewTask<TInput>): Promise<Task<TInput, unknown>>;
+  /** Current snapshot of a task */
+  get(taskId: string): Task<unknown, unknown> | undefined;
+  /** Resolves when the task reaches completed, failed or canceled */
+  wait(taskId: string): Promise<Task<unknown, unknown>>;
+  /** Cancel task */
+  cancel(taskId: string): Promise<boolean>;
+  /** Monitor progress of all tasks; returns an unsubscribe function */
+  onProgress(callback: (update: ProgressUpdate) => void): () => void;
+  stats(): WorkerStats;
+  /** Stop accepting tasks and wait until all accepted tasks finish */
+  shutdown(): Promise<void>;
+}
+
+/**
  * Create worker pool
  */
 export function createPool(config: WorkerConfig): WorkerPool {
   // TODO: Implement
   throw new Error("Not implemented");
-}
-
-/**
- * Register handler for task type
- */
-export function registerHandler<TInput, TOutput>(
-  type: string,
-  handler: (input: TInput, onProgress: (update: ProgressUpdate) => void) => Promise<TOutput>
-): void {
-  // TODO: Implement
-  throw new Error("Not implemented");
-}
-
-/**
- * Add task to queue
- */
-export async function addTask<TInput>(
-  task: Omit<Task<TInput, unknown>, "id" | "status" | "progress" | "createdAt" | "attempts">
-): Promise<Task<TInput, unknown>> {
-  // TODO: Implement
-  throw new Error("Not implemented");
-}
-
-/**
- * Cancel task
- */
-export async function cancelTask(taskId: string): Promise<boolean> {
-  // TODO: Implement
-  throw new Error("Not implemented");
-}
-
-/**
- * Monitor progress
- */
-export function monitorProgress(
-  taskId: string,
-  callback: (update: ProgressUpdate) => void
-): () => void {
-  // TODO: Implement
-  throw new Error("Not implemented");
-}
-
-/**
- * WorkerPool interface
- */
-interface WorkerPool {
-  add<TInput>(task: Omit<Task<TInput, unknown>, "id" | "status" | "progress" | "createdAt" | "attempts">): Promise<Task<TInput, unknown>>;
-  cancel(taskId: string): Promise<boolean>;
-  on(event: string, callback: (...args: unknown[]) => void): void;
-  stats(): WorkerStats;
-  shutdown(): Promise<void>;
 }

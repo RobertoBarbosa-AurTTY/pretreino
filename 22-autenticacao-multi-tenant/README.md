@@ -1,99 +1,152 @@
 # Desafio 22: Autenticação Multi-Tenant
 
+**Dificuldade:** ⭐⭐
+
 ## 🎯 Objetivo
 
-Implementar sistema de autenticação e autorização multi-tenant, onde cada tenant tem suas regras e configurações isoladas.
+Implementar autenticação e isolamento de dados multi-tenant: cada tenant
+(empresa cliente) tem seus próprios usuários, configurações e regras, e nenhum
+tenant consegue acessar dados de outro.
 
 ## 📋 Contexto Real
 
-Aplicações SaaS precisam de isolamento:
+Aplicações SaaS atendem várias empresas na mesma instância:
+
 - Dados separados por tenant
-- Configurações customizáveis
-- Regras de autorização específicas
-- Audit trail por tenant
+- Configurações customizáveis (limite de usuários, funcionalidades, branding)
+- Login resolvido pelo domínio do tenant (`abc.sistema.com`)
+- Um usuário de um tenant jamais pode enxergar dados de outro
 
 ## 📐 Requisitos
 
-- [ ] Implementar isolamento de dados por tenant
-- [ ] Criar autenticação com contexto de tenant
-- [ ] Gerenciar roles e permissões por tenant
-- [ ] Implementar audit log por tenant
-- [ ] Criar configurações customizáveis por tenant
-- [ ] Garantir que um tenant não acesse dados do outro
+Arquivo: `src/tenant.service.ts` (dados em memória).
+
+- [ ] `createTenant` gera `id` único e `createdAt` (ISO 8601) e retorna o tenant
+      com os dados informados
+- [ ] `createTenant` rejeita (lança erro) quando já existe tenant com o mesmo
+      `domain`
+- [ ] `createTenantUser` rejeita tenant inexistente
+- [ ] `createTenantUser` rejeita email já cadastrado **no mesmo tenant** (o
+      mesmo email em tenants diferentes é permitido)
+- [ ] `createTenantUser` rejeita quando o tenant já atingiu `config.maxUsers`
+- [ ] A senha nunca é armazenada em texto puro: o campo `password` do usuário
+      guarda um hash (ex.: SHA-256 com `crypto.subtle`)
+- [ ] `listUsers(tenantId)` retorna apenas usuários daquele tenant
+- [ ] `loginTenant(domain, email, password)` retorna
+      `{ success: true, token, context }` com `context.tenantId`,
+      `context.userId` e `context.roles = [user.role]`
+- [ ] `loginTenant` retorna `{ success: false, error }` (sem `token`) para
+      domínio desconhecido, usuário inexistente naquele tenant, senha errada ou
+      tenant com `status` diferente de `"active"`
+- [ ] `getTenantConfig` retorna a `config` do tenant e rejeita tenant
+      inexistente
+- [ ] `validateTenantContext(context, resourceTenantId)` retorna `true` somente
+      se `context.tenantId === resourceTenantId`
+- [ ] Extra: limitar o número de tenants por `MAX_TENANTS`
 
 ## 🗂️ Estrutura dos Dados
 
 ```typescript
-interface Tenant {
+export interface Tenant {
   id: string;
-  nome: string;
-  dominio: string;
+  name: string;
+  domain: string;
   config: TenantConfig;
-  status: "ativo" | "inativo" | "suspenso";
-  criadoEm: string;
+  status: "active" | "inactive" | "suspended";
+  createdAt: string;
 }
 
-interface TenantConfig {
-  maxUsuarios: number;
-  funcionalidades: string[];
+export interface TenantConfig {
+  maxUsers: number;
+  features: string[];
   branding: {
     logo?: string;
-    corPrimaria: string;
+    primaryColor: string;
   };
 }
 
-interface TenantUser {
+export interface TenantUser {
   id: string;
   tenantId: string;
   email: string;
+  password: string;
   role: string;
-  permissoes: string[];
+  permissions: string[];
+  createdAt: string;
 }
 
-interface TenantContext {
+export interface TenantContext {
   tenantId: string;
   userId: string;
   roles: string[];
+}
+
+export interface LoginResult {
+  success: boolean;
+  context?: TenantContext;
+  token?: string;
+  error?: string;
 }
 ```
 
 ## 💡 Exemplo de Uso
 
 ```typescript
-// Criar tenant
-const tenant = await criarTenant({
-  nome: "Empresa ABC",
-  dominio: "abc.sistema.com",
-  config: { maxUsuarios: 50, funcionalidades: ["basic", "reports"] }
+import {
+  createTenant,
+  createTenantUser,
+  listUsers,
+  loginTenant,
+  validateTenantContext,
+} from "./src/tenant.service.ts";
+
+const tenant = await createTenant({
+  name: "Empresa ABC",
+  domain: "abc.sistema.com",
+  config: {
+    maxUsers: 50,
+    features: ["basic", "reports"],
+    branding: { primaryColor: "#0055ff" },
+  },
+  status: "active",
 });
 
-// Login com contexto de tenant
-const auth = await loginTenant("abc.sistema.com", "user@email.com", "senha");
+await createTenantUser(tenant.id, {
+  email: "user@email.com",
+  password: "senha",
+  role: "admin",
+  permissions: ["users:read"],
+});
 
-// Acesso isolado - só retorna dados do tenant
-const usuarios = await listarUsuarios(auth.tenantId);
+const auth = await loginTenant("abc.sistema.com", "user@email.com", "senha");
+if (auth.success && auth.context) {
+  const users = await listUsers(auth.context.tenantId); // só usuários da ABC
+  validateTenantContext(auth.context, tenant.id); // true
+}
 ```
 
 ## ⚙️ Setup
 
 ```bash
+cd 22-autenticacao-multi-tenant
+cp .env.example .env
 deno task dev
 ```
 
-## 🧪 Testes
+## 📚 Conceitos
 
-```bash
-deno task test
-```
+- [SubtleCrypto.digest — MDN](https://developer.mozilla.org/pt-BR/docs/Web/API/SubtleCrypto/digest)
+- [crypto.randomUUID — MDN](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID)
+- [Map — MDN](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Map)
+- [Multi-tenancy — Wikipedia](https://en.wikipedia.org/wiki/Multitenancy)
 
 ## 📝 Notas
 
-- Use row-level security no banco
-- Implemente tenant context no request
-- Considere schema por tenant ou shared schema
-- Implemente rate limiting por tenant
-- Cache de configurações por tenant
-
----
-
-**Dica:** Nunca confie apenas no frontend para filtrar por tenant - sempre valide no backend.
+- Sempre filtre por `tenantId` no backend: nunca confie no frontend para isolar
+  dados.
+- Em banco de dados real, as opções são schema por tenant, banco por tenant ou
+  schema compartilhado com `tenant_id` (+ row-level security).
+- Para comparar senhas, gere o hash da senha informada e compare com o hash
+  armazenado.
+- O token pode ser um valor aleatório (`crypto.randomUUID()`); JWT com
+  `tenantId` no payload é um extra (veja o desafio 12).

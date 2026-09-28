@@ -2,7 +2,7 @@
  * Challenge 42: Request Validation
  */
 
-import { validate, sanitize } from "./validation.service.ts";
+import { sanitize, validate } from "./validation.service.ts";
 
 async function run(): Promise<void> {
   console.log("Starting Request Validation...");

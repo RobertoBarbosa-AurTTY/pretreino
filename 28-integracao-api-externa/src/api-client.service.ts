@@ -1,21 +1,32 @@
 /**
  * Challenge 28: External API Integration
- * 
+ *
  * HTTP client for external API integration.
  */
 
-interface ApiConfig {
+export interface ApiConfig {
   baseUrl: string;
   timeout: number;
   retries: number;
   retryDelay: number;
+  /** Credentials used on POST /api/auth/login (mock API) */
+  email?: string;
+  password?: string;
+  /** Pre-obtained token (skips login) */
+  token?: string;
   rateLimit?: {
     maxRequests: number;
     windowMs: number;
   };
+  circuitBreaker?: {
+    failureThreshold: number;
+    resetTimeoutMs: number;
+  };
+  /** How long GET responses stay cached (default: no cache) */
+  cacheTtlMs?: number;
 }
 
-interface ApiRequest<T> {
+export interface ApiRequest<T> {
   method: "GET" | "POST" | "PUT" | "DELETE";
   path: string;
   data?: T;
@@ -23,7 +34,7 @@ interface ApiRequest<T> {
   idempotencyKey?: string;
 }
 
-interface ApiResponse<T> {
+export interface ApiResponse<T> {
   success: boolean;
   data?: T;
   error?: {
@@ -38,17 +49,33 @@ interface ApiResponse<T> {
   };
 }
 
-interface CircuitBreakerState {
+export interface CircuitBreakerState {
   status: "closed" | "open" | "half-open";
   failures: number;
   lastFailure?: string;
   nextAttempt?: string;
 }
 
-interface RateLimitState {
+export interface RateLimitState {
   remaining: number;
   reset: number;
   limited: boolean;
+}
+
+/**
+ * ApiClient interface
+ */
+export interface ApiClient {
+  /** Authenticate (POST /api/auth/login) and return the token */
+  login(): Promise<string>;
+  request<TRequest, TResponse>(
+    request: ApiRequest<TRequest>,
+  ): Promise<ApiResponse<TResponse>>;
+  getCircuitBreakerState(): CircuitBreakerState;
+  getRateLimitState(): RateLimitState;
+  /** Register a fallback used when requests to `path` fail */
+  configureFallback<T>(path: string, fallback: () => Promise<T>): void;
+  clearCache(): void;
 }
 
 /**
@@ -57,44 +84,4 @@ interface RateLimitState {
 export function createClient(config: ApiConfig): ApiClient {
   // TODO: Implement
   throw new Error("Not implemented");
-}
-
-/**
- * Make request
- */
-export async function makeRequest<TRequest, TResponse>(
-  request: ApiRequest<TRequest>
-): Promise<ApiResponse<TResponse>> {
-  // TODO: Implement
-  throw new Error("Not implemented");
-}
-
-/**
- * Get circuit breaker state
- */
-export function getCircuitBreakerState(): CircuitBreakerState {
-  // TODO: Implement
-  throw new Error("Not implemented");
-}
-
-/**
- * Configure fallback
- */
-export function configureFallback<T>(
-  path: string,
-  fallback: () => Promise<T>
-): void {
-  // TODO: Implement
-  throw new Error("Not implemented");
-}
-
-/**
- * ApiClient interface
- */
-interface ApiClient {
-  request<TRequest, TResponse>(
-    request: ApiRequest<TRequest>
-  ): Promise<ApiResponse<TResponse>>;
-  getCircuitBreakerState(): CircuitBreakerState;
-  clearCache(): void;
 }

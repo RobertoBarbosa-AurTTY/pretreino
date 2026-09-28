@@ -2,7 +2,7 @@
  * Challenge 44: Webhook System
  */
 
-import { WebhookService, createService } from "./webhook.service.ts";
+import { createService, WebhookService } from "./webhook.service.ts";
 
 async function run(): Promise<void> {
   console.log("Starting Webhook System...");

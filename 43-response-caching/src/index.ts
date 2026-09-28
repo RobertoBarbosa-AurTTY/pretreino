@@ -2,7 +2,7 @@
  * Challenge 43: Response Caching
  */
 
-import { ResponseCache, createCache } from "./cache.service.ts";
+import { createCache, ResponseCache } from "./cache.service.ts";
 
 async function run(): Promise<void> {
   console.log("Starting Response Caching...");

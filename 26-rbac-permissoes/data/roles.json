@@ -1,0 +1,33 @@
+[
+  {
+    "id": "admin",
+    "name": "Administrador",
+    "description": "Acesso total a todos os recursos",
+    "permissions": [
+      { "resource": "*", "actions": ["create", "read", "update", "delete"] }
+    ]
+  },
+  {
+    "id": "viewer",
+    "name": "Visualizador",
+    "description": "Pode apenas ler posts e comentários",
+    "permissions": [
+      { "resource": "posts", "actions": ["read"] },
+      { "resource": "comments", "actions": ["read"] }
+    ]
+  },
+  {
+    "id": "editor",
+    "name": "Editor",
+    "description": "Cria e edita posts; apaga apenas os próprios",
+    "inheritsFrom": "viewer",
+    "permissions": [
+      { "resource": "posts", "actions": ["create", "update"] },
+      {
+        "resource": "posts",
+        "actions": ["delete"],
+        "conditions": { "authorId": "$userId" }
+      }
+    ]
+  }
+]

@@ -1,23 +1,25 @@
 /**
  * Challenge 20: Complete REST API
- * 
+ *
  * Complete REST API with pagination, filters and sorting.
  */
 
 import {
-  listProducts,
-  findById,
   createProduct,
-  updateProduct,
   deleteProduct,
-  listCategories
+  findById,
+  listCategories,
+  listProducts,
+  updateProduct,
 } from "./product.service.ts";
 
 const PORT = parseInt(Deno.env.get("PORT") || "3008");
+const DEFAULT_PAGE_SIZE = parseInt(Deno.env.get("DEFAULT_PAGE_SIZE") || "10");
+const MAX_PAGE_SIZE = parseInt(Deno.env.get("MAX_PAGE_SIZE") || "100");
 
 const headers = {
   "Content-Type": "application/json",
-  "Access-Control-Allow-Origin": "*"
+  "Access-Control-Allow-Origin": "*",
 };
 
 async function handler(req: Request): Promise<Response> {
@@ -33,28 +35,31 @@ async function handler(req: Request): Promise<Response> {
     // GET /api/produtos
     if (path === "/api/produtos" && method === "GET") {
       const page = parseInt(url.searchParams.get("page") || "1");
-      const limit = parseInt(url.searchParams.get("limit") || "10");
+      const limit = Math.min(
+        parseInt(url.searchParams.get("limit") || String(DEFAULT_PAGE_SIZE)),
+        MAX_PAGE_SIZE,
+      );
       const search = url.searchParams.get("search") || undefined;
-      const category = url.searchParams.get("categoria") || undefined;
-      const minPrice = url.searchParams.get("minPreco") 
-        ? parseFloat(url.searchParams.get("minPreco")!) 
+      const category = url.searchParams.get("category") || undefined;
+      const minPrice = url.searchParams.get("minPrice")
+        ? parseFloat(url.searchParams.get("minPrice")!)
         : undefined;
-      const maxPrice = url.searchParams.get("maxPreco") 
-        ? parseFloat(url.searchParams.get("maxPreco")!) 
+      const maxPrice = url.searchParams.get("maxPrice")
+        ? parseFloat(url.searchParams.get("maxPrice")!)
         : undefined;
       const sortField = url.searchParams.get("sort") || "id";
       const sortDirection = url.searchParams.get("direction") || "asc";
-      
+
       const result = listProducts(page, limit, {
         search,
         category,
         minPrice,
-        maxPrice
+        maxPrice,
       }, {
         field: sortField,
-        direction: sortDirection as "asc" | "desc"
+        direction: sortDirection as "asc" | "desc",
       });
-      
+
       return new Response(JSON.stringify(result), { status: 200, headers });
     }
 
@@ -65,82 +70,85 @@ async function handler(req: Request): Promise<Response> {
     }
 
     // GET /api/produtos/:id
-    if (path.startsWith("/api/produtos/") && !path.includes("categorias") && method === "GET") {
-      const id = parseInt(path.split("/")[3]);
+    if (
+      path.startsWith("/api/produtos/") && !path.includes("categorias") &&
+      method === "GET"
+    ) {
+      const id = parseInt(path.split("/")[3] ?? "");
       const product = findById(id);
-      
+
       if (!product) {
         return new Response(
           JSON.stringify({ error: "Product not found" }),
-          { status: 404, headers }
+          { status: 404, headers },
         );
       }
-      
+
       return new Response(JSON.stringify(product), { status: 200, headers });
     }
 
     // POST /api/produtos
     if (path === "/api/produtos" && method === "POST") {
       const body = await req.json();
-      
-      if (!body.nome || body.preco === undefined) {
+
+      if (!body.name || body.price === undefined) {
         return new Response(
           JSON.stringify({ error: "Name and price are required" }),
-          { status: 400, headers }
+          { status: 400, headers },
         );
       }
-      
-      if (body.preco < 0) {
+
+      if (body.price < 0) {
         return new Response(
           JSON.stringify({ error: "Price cannot be negative" }),
-          { status: 400, headers }
+          { status: 400, headers },
         );
       }
-      
+
       const product = createProduct({
-        nome: body.nome,
+        name: body.name,
         description: body.description,
-        preco: body.preco,
+        price: body.price,
         category: body.category || "general",
         stock: body.stock || 0,
-        active: body.active !== false
+        active: body.active !== false,
       });
-      
+
       return new Response(JSON.stringify(product), { status: 201, headers });
     }
 
     // PUT /api/produtos/:id
     if (path.startsWith("/api/produtos/") && method === "PUT") {
-      const id = parseInt(path.split("/")[3]);
+      const id = parseInt(path.split("/")[3] ?? "");
       const body = await req.json();
-      
+
       const product = updateProduct(id, body);
-      
+
       if (!product) {
         return new Response(
           JSON.stringify({ error: "Product not found" }),
-          { status: 404, headers }
+          { status: 404, headers },
         );
       }
-      
+
       return new Response(JSON.stringify(product), { status: 200, headers });
     }
 
     // DELETE /api/produtos/:id
     if (path.startsWith("/api/produtos/") && method === "DELETE") {
-      const id = parseInt(path.split("/")[3]);
+      const id = parseInt(path.split("/")[3] ?? "");
       const success = deleteProduct(id);
-      
+
       if (!success) {
         return new Response(
           JSON.stringify({ error: "Product not found" }),
-          { status: 404, headers }
+          { status: 404, headers },
         );
       }
-      
+
       return new Response(
         JSON.stringify({ message: "Product deleted" }),
-        { status: 200, headers }
+        { status: 200, headers },
       );
     }
 
@@ -148,19 +156,18 @@ async function handler(req: Request): Promise<Response> {
     if (path === "/health") {
       return new Response(
         JSON.stringify({ status: "ok", service: "rest-api" }),
-        { status: 200, headers }
+        { status: 200, headers },
       );
     }
 
     return new Response(
       JSON.stringify({ error: "Endpoint not found" }),
-      { status: 404, headers }
+      { status: 404, headers },
     );
-
   } catch (error) {
     return new Response(
       JSON.stringify({ error: "Internal server error" }),
-      { status: 500, headers }
+      { status: 500, headers },
     );
   }
 }

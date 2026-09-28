@@ -1,84 +1,130 @@
-# Desafio 9: Processamento de Fila
+# Desafio 09: Processamento de Fila
+
+**Dificuldade:** ⭐⭐
 
 ## 🎯 Objetivo
 
-Criar um sistema de processamento de tarefas assíncronas com fila e workers.
+Criar um sistema de processamento de tarefas assíncronas com fila, workers em
+paralelo, retry com backoff e timeout por tentativa.
 
 ## 📋 Contexto Real
 
 O sistema precisa processar tarefas pesadas em background:
+
 - Processamento de imagens
 - Envio de emails em massa
 - Geração de relatórios
-- Sincronização de dados
+
+Sem controle de concorrência o servidor fica sobrecarregado; sem retry, uma
+falha temporária perde a tarefa.
 
 ## 📐 Requisitos
 
-- [ ] Criar fila de tarefas
-- [ ] Implementar workers para processamento
-- [ ] Controle de concorrência
-- [ ] Retry com backoff
-- [ ] Monitoramento da fila
+Arquivo: `src/queue.service.ts`
+
+- [ ] `registerHandler(type, handler)` registra a função que executa as tarefas
+      daquele `type`
+- [ ] `add(task)` cria a tarefa com `id` único, `status: "pendente"`,
+      `attempts: 0`, `maxAttempts = config.maxAttempts` e `createdAt` (ISO) e
+      retorna o `id`
+- [ ] `process()` processa todas as tarefas pendentes com no máximo
+      `config.maxWorkers` tarefas executando ao mesmo tempo
+- [ ] Cada tarefa é executada pelo handler do seu `type`, recebendo `data` e um
+      `AbortSignal`; tipo sem handler resulta em falha
+- [ ] Se o handler lançar erro, tenta de novo até `maxAttempts` vezes, esperando
+      `retryDelay × 2^(n-1)` ms entre as tentativas
+- [ ] Cada tentativa é abortada após `config.processingTimeout` ms (o `signal`
+      do handler é abortado) e conta como falha
+- [ ] Ao final, a tarefa fica `"concluida"` ou `"falha"` e recebe `processedAt`
+- [ ] `process()` retorna um `ProcessingResult` por tarefa, com `success`,
+      `duration` (ms) e `error` (mensagem do último erro) em caso de falha
+- [ ] `getStatus()` retorna a contagem de tarefas por status
+- [ ] `src/index.ts`: `loadTasks()` lê `data/fila-tarefas.json`, registra
+      handlers simulados para os três tipos, processa e exibe os resultados
 
 ## 🗂️ Estrutura dos Dados
 
 ```typescript
-interface Tarefa {
+export interface Task {
   id: string;
-  tipo: string;
-  dados: unknown;
+  type: string;
+  data: unknown;
   status: "pendente" | "processando" | "concluida" | "falha";
-  tentativas: number;
-  maxTentativas: number;
-  dataCriacao: string;
-  dataProcessamento?: string;
+  attempts: number;
+  maxAttempts: number;
+  createdAt: string;
+  processedAt?: string;
 }
 
-interface Worker {
-  id: string;
-  processando: boolean;
-  tarefaAtual?: Tarefa;
-}
+/** Input accepted by `Queue.add()` */
+export type NewTask = Omit<
+  Task,
+  "id" | "status" | "attempts" | "maxAttempts" | "createdAt"
+>;
 
-interface FilaConfig {
+/** Function that executes a task type; must stop when `signal` is aborted */
+export type TaskHandler = (data: unknown, signal: AbortSignal) => Promise<void>;
+
+export interface QueueConfig {
   maxWorkers: number;
-  maxTentativas: number;
-  delayRetry: number;
-  timeoutProcessamento: number;
+  maxAttempts: number;
+  retryDelay: number;
+  processingTimeout: number;
+}
+
+export interface ProcessingResult {
+  taskId: string;
+  success: boolean;
+  duration: number;
+  error?: string;
 }
 ```
+
+Tarefas de exemplo (`NewTask[]`): `data/fila-tarefas.json`.
 
 ## 💡 Exemplo de Uso
 
 ```typescript
-const fila = new Fila({ maxWorkers: 3, maxTentatives: 3 });
+import { Queue } from "./queue.service.ts";
 
-// Adicionar tarefas
-await fila.adicionar({ tipo: "enviar_email", dados: { para: "..." } });
-await fila.adicionar({ tipo: "gerar_relatorio", dados: { ... } });
+const queue = new Queue({
+  maxWorkers: 3,
+  maxAttempts: 3,
+  retryDelay: 1000,
+  processingTimeout: 30000,
+});
 
-// Processar fila
-await fila.processar();
+queue.registerHandler("enviar_email", async (data, signal) => {
+  console.log("Enviando email", data, signal.aborted);
+});
+
+await queue.add({ type: "enviar_email", data: { to: "cliente@email.com" } });
+const results = await queue.process();
+console.log(results, queue.getStatus());
 ```
 
 ## ⚙️ Setup
 
 ```bash
+cp .env.example .env
 deno task dev
 ```
 
-## 🧪 Testes
+## 📚 Conceitos
 
-```bash
-deno task test
-```
+- [`Promise.all()` / `Promise.allSettled()` (MDN)](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Global_Objects/Promise/allSettled)
+- [`AbortController` (MDN)](https://developer.mozilla.org/pt-BR/docs/Web/API/AbortController)
+- [`AbortSignal.timeout()` (MDN)](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal/timeout_static)
+- [Event loop e concorrência (MDN)](https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Event_loop)
+- [Exponential backoff (Wikipedia)](https://en.wikipedia.org/wiki/Exponential_backoff)
 
 ## 📝 Notas
 
-- Use `Promise.allSettled` para processar em paralelo
-- Implemente timeout para tarefas
-- Considere usar `AbortController` para cancelamento
-- Log detalhado para debugging
+- Um padrão simples: crie `maxWorkers` promises (workers) que ficam pegando a
+  próxima tarefa pendente até a fila acabar, e aguarde todas.
+- Marque a tarefa como `"processando"` ao retirá-la da fila para que dois
+  workers não peguem a mesma.
+- Log de início/fim de cada tarefa ajuda no debugging.
 
 ---
 

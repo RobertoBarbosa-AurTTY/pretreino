@@ -1,11 +1,11 @@
 /**
  * Challenge 6: Payment Webhook
- * 
+ *
  * Service that sends payment webhooks to the Mock API.
- * The Mock API must be running: cd ../mock-api && deno task dev
+ * API docs: ../API.md
  */
 
-interface PaymentWebhook {
+export interface PaymentWebhook {
   event: "pagamento.pago" | "pagamento.falhou" | "pagamento.reembolsado";
   data: {
     paymentId: string;
@@ -16,29 +16,42 @@ interface PaymentWebhook {
   };
 }
 
-interface ProcessingResult {
+export interface ProcessingResult {
   success: boolean;
   message: string;
   paymentId?: string;
 }
 
 /**
- * Sends payment webhook to the Mock API
+ * Authenticates on the Mock API and returns the Bearer token
+ */
+export async function login(
+  apiUrl: string,
+  email: string,
+  password: string,
+): Promise<string> {
+  // TODO: Implement
+  throw new Error("Not implemented");
+}
+
+/**
+ * Sends payment webhook to the Mock API (POST /api/webhooks)
  */
 export async function sendWebhook(
   webhook: PaymentWebhook,
   apiUrl: string,
-  secret: string
+  secret: string,
+  token: string,
 ): Promise<ProcessingResult> {
   // TODO: Implement
   throw new Error("Not implemented");
 }
 
 /**
- * Loads pending webhooks from file
+ * Loads pending webhooks from file (only valid ones)
  */
 export async function loadPendingWebhooks(
-  filePath: string
+  filePath: string,
 ): Promise<PaymentWebhook[]> {
   // TODO: Implement
   throw new Error("Not implemented");

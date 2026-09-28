@@ -2,7 +2,7 @@
  * Challenge 33: Event Sourcing
  */
 
-import { EventStore, createEventStore } from "./eventstore.service.ts";
+import { createEventStore, EventStore } from "./eventstore.service.ts";
 
 async function run(): Promise<void> {
   console.log("Starting Event Sourcing...");

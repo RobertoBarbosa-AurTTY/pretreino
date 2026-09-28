@@ -1,17 +1,29 @@
 /**
  * Challenge 15: Rate Limiting
- * 
+ *
  * API with rate limiting implemented.
  */
 
-import { rateLimit, getStats } from "./rateLimit.service.ts";
+import { getStats, rateLimit } from "./rateLimit.service.ts";
 
 const PORT = parseInt(Deno.env.get("PORT") || "3003");
 
+const envInt = (name: string, fallback: number) =>
+  parseInt(Deno.env.get(name) || String(fallback));
+
 // Rate limiters for different endpoints
-const globalLimiter = rateLimit({ windowMs: 60000, maxRequests: 100 });
-const authLimiter = rateLimit({ windowMs: 60000, maxRequests: 10 });
-const apiLimiter = rateLimit({ windowMs: 60000, maxRequests: 50 });
+const globalLimiter = rateLimit({
+  windowMs: envInt("GLOBAL_WINDOW_MS", 60000),
+  maxRequests: envInt("GLOBAL_MAX_REQUESTS", 100),
+});
+const authLimiter = rateLimit({
+  windowMs: envInt("AUTH_WINDOW_MS", 60000),
+  maxRequests: envInt("AUTH_MAX_REQUESTS", 10),
+});
+const apiLimiter = rateLimit({
+  windowMs: envInt("API_WINDOW_MS", 60000),
+  maxRequests: envInt("API_MAX_REQUESTS", 50),
+});
 
 async function handler(req: Request): Promise<Response> {
   const url = new URL(req.url);
@@ -21,7 +33,7 @@ async function handler(req: Request): Promise<Response> {
   // CORS
   const baseHeaders = {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*"
+    "Access-Control-Allow-Origin": "*",
   };
 
   if (method === "OPTIONS") {
@@ -30,17 +42,17 @@ async function handler(req: Request): Promise<Response> {
 
   // Global rate limit
   const globalResult = globalLimiter(req);
-  
+
   if (!globalResult.allowed) {
     return new Response(
-      JSON.stringify({ 
+      JSON.stringify({
         error: "Rate limit exceeded",
-        retryAfter: globalResult.headers["Retry-After"]
+        retryAfter: globalResult.headers["Retry-After"],
       }),
-      { 
-        status: 429, 
-        headers: { ...baseHeaders, ...globalResult.headers }
-      }
+      {
+        status: 429,
+        headers: { ...baseHeaders, ...globalResult.headers },
+      },
     );
   }
 
@@ -48,73 +60,73 @@ async function handler(req: Request): Promise<Response> {
   if (path === "/health") {
     return new Response(
       JSON.stringify({ status: "ok", service: "rate-limiting" }),
-      { status: 200, headers: { ...baseHeaders, ...globalResult.headers } }
+      { status: 200, headers: { ...baseHeaders, ...globalResult.headers } },
     );
   }
 
   // POST /api/login (more restrictive rate limit)
   if (path === "/api/login" && method === "POST") {
     const authResult = authLimiter(req);
-    
+
     if (!authResult.allowed) {
       return new Response(
-        JSON.stringify({ 
+        JSON.stringify({
           error: "Too many login attempts",
-          retryAfter: authResult.headers["Retry-After"]
+          retryAfter: authResult.headers["Retry-After"],
         }),
-        { 
-          status: 429, 
-          headers: { ...baseHeaders, ...authResult.headers }
-        }
+        {
+          status: 429,
+          headers: { ...baseHeaders, ...authResult.headers },
+        },
       );
     }
-    
+
     // Simulate login
     return new Response(
       JSON.stringify({ message: "Login successful" }),
-      { status: 200, headers: { ...baseHeaders, ...authResult.headers } }
+      { status: 200, headers: { ...baseHeaders, ...authResult.headers } },
     );
   }
 
   // GET /api/dados (default rate limit)
   if (path === "/api/dados" && method === "GET") {
     const apiResult = apiLimiter(req);
-    
+
     if (!apiResult.allowed) {
       return new Response(
-        JSON.stringify({ 
+        JSON.stringify({
           error: "Too many API requests",
-          retryAfter: apiResult.headers["Retry-After"]
+          retryAfter: apiResult.headers["Retry-After"],
         }),
-        { 
-          status: 429, 
-          headers: { ...baseHeaders, ...apiResult.headers }
-        }
+        {
+          status: 429,
+          headers: { ...baseHeaders, ...apiResult.headers },
+        },
       );
     }
-    
+
     return new Response(
-      JSON.stringify({ 
+      JSON.stringify({
         data: [1, 2, 3],
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       }),
-      { status: 200, headers: { ...baseHeaders, ...apiResult.headers } }
+      { status: 200, headers: { ...baseHeaders, ...apiResult.headers } },
     );
   }
 
   // GET /api/stats
   if (path === "/api/stats" && method === "GET") {
     const stats = getStats();
-    
+
     return new Response(
       JSON.stringify(stats),
-      { status: 200, headers: { ...baseHeaders, ...globalResult.headers } }
+      { status: 200, headers: { ...baseHeaders, ...globalResult.headers } },
     );
   }
 
   return new Response(
     JSON.stringify({ error: "Endpoint not found" }),
-    { status: 404, headers: { ...baseHeaders, ...globalResult.headers } }
+    { status: 404, headers: { ...baseHeaders, ...globalResult.headers } },
   );
 }
 

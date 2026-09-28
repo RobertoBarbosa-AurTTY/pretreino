@@ -1,13 +1,15 @@
 /**
  * Challenge 17: Zod Validation
- * 
+ *
  * Simplified validation library inspired by Zod.
  */
 
-// Base types
-type ZodType<T> = {
+// Base type: every schema exposes _parse, optional() and default()
+export type ZodType<T> = {
   _type: string;
-  _parse: (data: unknown) => { success: true; data: T } | { success: false; errors: string[] };
+  _parse: (
+    data: unknown,
+  ) => { success: true; data: T } | { success: false; errors: string[] };
   optional: () => ZodType<T | undefined>;
   default: (value: T) => ZodType<T>;
 };
@@ -15,7 +17,7 @@ type ZodType<T> = {
 // Validation error
 class ZodError extends Error {
   errors: string[];
-  
+
   constructor(errors: string[]) {
     super("Validation Error");
     this.errors = errors;
@@ -43,7 +45,7 @@ function zodNumber(fieldName: string = "number"): ZodType<number> {
 // Object schema
 function zodObject<T extends Record<string, ZodType<any>>>(
   shape: T,
-  name: string = "object"
+  name: string = "object",
 ): ZodType<{ [K in keyof T]: T[K] extends ZodType<infer U> ? U : never }> {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -60,7 +62,7 @@ export const z = {
   string: zodString,
   email: zodEmail,
   number: zodNumber,
-  object: zodObject
+  object: zodObject,
 };
 
 export { ZodError };

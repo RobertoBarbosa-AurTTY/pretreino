@@ -1,10 +1,10 @@
 /**
  * Challenge 31: Microservices Architecture
- * 
+ *
  * Microservice service with communication.
  */
 
-interface MicroserviceConfig {
+export interface MicroserviceConfig {
   name: string;
   version: string;
   port: number;
@@ -12,7 +12,7 @@ interface MicroserviceConfig {
   healthCheck: string;
 }
 
-interface ServiceEndpoint {
+export interface ServiceEndpoint {
   service: string;
   method: string;
   path: string;
@@ -20,7 +20,7 @@ interface ServiceEndpoint {
   retries: number;
 }
 
-interface Event {
+export interface Event {
   id: string;
   type: string;
   source: string;
@@ -29,13 +29,13 @@ interface Event {
   version: string;
 }
 
-interface ServiceDiscovery {
+export interface ServiceDiscovery {
   register(config: MicroserviceConfig): Promise<void>;
-  discovering(service: string): Promise<ServiceInstance>;
+  discover(service: string): Promise<ServiceInstance>;
   list(): Promise<ServiceInstance[]>;
 }
 
-interface ServiceInstance {
+export interface ServiceInstance {
   name: string;
   host: string;
   port: number;
@@ -43,33 +43,44 @@ interface ServiceInstance {
   metadata: Record<string, unknown>;
 }
 
-interface ApiGateway {
+export interface ApiGateway {
   routing: Route[];
   middleware: Middleware[];
   rateLimit: RateLimitConfig;
+  resolveRoute(path: string): Route | null;
 }
 
-interface CircuitBreaker {
+export interface CircuitBreaker {
   status: "fechado" | "aberto" | "meio_aberto";
   consecutiveFailures: number;
   lastFailure?: string;
   nextAttempt?: string;
+  execute<T>(fn: () => Promise<T>): Promise<T>;
 }
 
-interface Route {
+export interface Route {
   path: string;
   service: string;
   method?: string;
 }
 
-interface Middleware {
+export interface Middleware {
   name: string;
   handler: (req: Request) => Promise<Request | Response>;
 }
 
-interface RateLimitConfig {
+export interface RateLimitConfig {
   windowMs: number;
   maxRequests: number;
+}
+
+/**
+ * Microservice interface
+ */
+export interface Microservice {
+  start(): Promise<void>;
+  stop(): Promise<void>;
+  healthCheck(): Promise<boolean>;
 }
 
 /**
@@ -107,7 +118,7 @@ export function configureCircuitBreaker(
   options?: {
     failureThreshold?: number;
     resetTimeout?: number;
-  }
+  },
 ): CircuitBreaker {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -116,7 +127,9 @@ export function configureCircuitBreaker(
 /**
  * Publishes an event
  */
-export async function publishEvent(event: Omit<Event, "id" | "timestamp">): Promise<void> {
+export async function publishEvent(
+  event: Omit<Event, "id" | "timestamp">,
+): Promise<void> {
   // TODO: Implement
   throw new Error("Not implemented");
 }
@@ -126,17 +139,8 @@ export async function publishEvent(event: Omit<Event, "id" | "timestamp">): Prom
  */
 export function subscribeEvent(
   type: string,
-  handler: (event: Event) => Promise<void>
+  handler: (event: Event) => Promise<void>,
 ): () => void {
   // TODO: Implement
   throw new Error("Not implemented");
-}
-
-/**
- * Microservice interface
- */
-interface Microservice {
-  start(): Promise<void>;
-  stop(): Promise<void>;
-  healthCheck(): Promise<boolean>;
 }

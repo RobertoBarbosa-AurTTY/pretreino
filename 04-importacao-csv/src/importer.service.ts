@@ -1,23 +1,23 @@
 /**
  * Challenge 4: CSV Import
- * 
+ *
  * Service for importing and validating data from CSV.
  */
 
-interface ClientCSV {
+export interface ClientCSV {
   name: string;
   email: string;
   cpf: string;
   phone: string;
 }
 
-interface ImportResult {
+export interface ImportResult {
   totalRows: number;
   imported: number;
   errors: ImportError[];
 }
 
-interface ImportError {
+export interface ImportError {
   line: number;
   field: string;
   error: string;
@@ -25,9 +25,11 @@ interface ImportError {
 }
 
 /**
- * Reads CSV file and returns array of objects
+ * Reads CSV file and returns array of objects (keys = header columns)
  */
-export async function readCSV(filePath: string): Promise<Record<string, string>[]> {
+export async function readCSV(
+  filePath: string,
+): Promise<Record<string, string>[]> {
   // TODO: Implement
   throw new Error("Not implemented");
 }
@@ -37,7 +39,7 @@ export async function readCSV(filePath: string): Promise<Record<string, string>[
  */
 export function validateClient(
   client: Record<string, string>,
-  line: number
+  line: number,
 ): ImportError[] {
   // TODO: Implement
   throw new Error("Not implemented");
@@ -52,7 +54,7 @@ export function validateEmail(email: string): boolean {
 }
 
 /**
- * Validates CPF format
+ * Validates CPF (format and check digits)
  */
 export function validateCPF(cpf: string): boolean {
   // TODO: Implement
@@ -63,7 +65,7 @@ export function validateCPF(cpf: string): boolean {
  * Processes a complete import
  */
 export async function importCSV(
-  filePath: string
+  filePath: string,
 ): Promise<ImportResult> {
   // TODO: Implement
   throw new Error("Not implemented");

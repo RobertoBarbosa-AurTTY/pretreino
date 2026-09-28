@@ -1,15 +1,15 @@
 /**
  * Challenge 10: Metrics Dashboard
- * 
+ *
  * Service that collects, processes and serves application metrics.
- * The Mock API must be running: cd ../mock-api && deno task dev
+ * API docs: ../API.md
  */
 
-import { 
-  registerMetric, 
-  fetchMetrics, 
+import {
   aggregateMetrics,
-  generateSimulatedMetrics 
+  fetchMetrics,
+  generateSimulatedMetrics,
+  login,
 } from "./metric.service.ts";
 
 /**
@@ -17,18 +17,27 @@ import {
  */
 async function executeDashboard(): Promise<void> {
   console.log("Starting metrics dashboard...");
-  
+
   try {
     // .env configurations
-    const apiUrl = Deno.env.get("API_BASE_URL") || "http://localhost:8080";
-    
+    const apiUrl = Deno.env.get("API_BASE_URL") ||
+      "https://api-mock-98te.onrender.com";
+    const apiEmail = Deno.env.get("API_EMAIL") || "joao@email.com";
+    const apiPassword = Deno.env.get("API_PASSWORD") || "123456";
+    const metricName = Deno.env.get("METRICA_NOME") || "response_time";
+    const simulatedCount = parseInt(
+      Deno.env.get("METRICAS_SIMULADAS") || "10",
+    );
+
     console.log(`API URL: ${apiUrl}`);
-    
+    console.log(`Metric: ${metricName}`);
+
     // TODO: Implement pipeline
-    // 1. Generate simulated metrics
-    // 2. Fetch metrics
-    // 3. Aggregate and show statistics
-    
+    // 1. Log in to get the token
+    // 2. Generate simulated metrics
+    // 3. Fetch metrics
+    // 4. Aggregate and show statistics (average, min, max, p95, p99)
+
     throw new Error("Not implemented");
   } catch (error) {
     console.error("Error on dashboard:", error);

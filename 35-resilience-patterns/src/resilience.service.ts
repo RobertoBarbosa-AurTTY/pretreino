@@ -9,7 +9,7 @@ export class CircuitBreaker {
 
   constructor(
     private threshold: number,
-    private resetTimeout: number
+    private resetTimeout: number,
   ) {}
 
   async execute<T>(fn: () => Promise<T>): Promise<T> {
@@ -28,7 +28,7 @@ export class Bulkhead {
 
   constructor(
     private maxConcurrent: number,
-    private maxQueue: number
+    private maxQueue: number,
   ) {}
 
   async execute<T>(fn: () => Promise<T>): Promise<T> {
@@ -41,11 +41,33 @@ export class Retry {
   constructor(
     private maxRetries: number,
     private delay: number,
-    private backoff: "linear" | "exponential" = "exponential"
+    private backoff: "linear" | "exponential" = "exponential",
   ) {}
 
   async execute<T>(fn: () => Promise<T>): Promise<T> {
     // TODO: Implement
     throw new Error("Not implemented");
   }
+}
+
+/**
+ * Rejects if fn does not settle within `ms` milliseconds.
+ */
+export async function withTimeout<T>(
+  fn: () => Promise<T>,
+  ms: number,
+): Promise<T> {
+  // TODO: Implement
+  throw new Error("Not implemented");
+}
+
+/**
+ * Returns the fallback result when fn fails.
+ */
+export async function withFallback<T>(
+  fn: () => Promise<T>,
+  fallback: (error: unknown) => T | Promise<T>,
+): Promise<T> {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }

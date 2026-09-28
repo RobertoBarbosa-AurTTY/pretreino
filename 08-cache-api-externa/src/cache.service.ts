@@ -1,28 +1,45 @@
 /**
  * Challenge 8: External API Cache
- * 
+ *
  * Caching system for external API calls.
- * The Mock API must be running: cd ../mock-api && deno task dev
+ * API docs: ../API.md
  */
 
-interface CacheEntry<T> {
+export interface CacheEntry<T> {
   key: string;
   data: T;
   expiresAt: number;
   hits: number;
 }
 
-interface CacheStats {
+export interface CacheStats {
   hits: number;
   misses: number;
   hitRate: number;
   size: number;
 }
 
-interface CacheConfig {
+export interface CacheConfig {
+  /** Default TTL in seconds */
   defaultTtl: number;
   maxEntries: number;
   persist: boolean;
+  /** JSON file used when `persist` is true */
+  filePath?: string;
+}
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+}
+
+export interface Product {
+  id: number;
+  name: string;
+  price: number;
+  stock: number;
 }
 
 export class Cache<T> {
@@ -35,7 +52,7 @@ export class Cache<T> {
   }
 
   /**
-   * Fetches data from the cache
+   * Fetches data from the cache (null if missing or expired)
    */
   async get(key: string): Promise<T | null> {
     // TODO: Implement
@@ -43,7 +60,7 @@ export class Cache<T> {
   }
 
   /**
-   * Saves data to the cache
+   * Saves data to the cache (ttl in seconds)
    */
   async set(key: string, data: T, ttl?: number): Promise<void> {
     // TODO: Implement
@@ -51,13 +68,13 @@ export class Cache<T> {
   }
 
   /**
-   * Fetches data or fetches from the API if not cached
+   * Returns cached data or calls fetchFn and caches the result
    */
-  async getOrFetch<K>(
+  async getOrFetch(
     key: string,
-    fetchFn: () => Promise<K>,
-    ttl?: number
-  ): Promise<K> {
+    fetchFn: () => Promise<T>,
+    ttl?: number,
+  ): Promise<T> {
     // TODO: Implement
     throw new Error("Not implemented");
   }
@@ -96,17 +113,35 @@ export class Cache<T> {
 }
 
 /**
- * Fetches data from the external API (Mock API)
+ * Authenticates on the Mock API and returns the Bearer token
  */
-export async function fetchUsers(apiUrl: string): Promise<unknown[]> {
+export async function login(
+  apiUrl: string,
+  email: string,
+  password: string,
+): Promise<string> {
   // TODO: Implement
   throw new Error("Not implemented");
 }
 
 /**
- * Fetches products from the external API (Mock API)
+ * Fetches users from the external API (GET /api/usuarios)
  */
-export async function fetchProducts(apiUrl: string): Promise<unknown[]> {
+export async function fetchUsers(
+  apiUrl: string,
+  token: string,
+): Promise<User[]> {
+  // TODO: Implement
+  throw new Error("Not implemented");
+}
+
+/**
+ * Fetches products from the external API (GET /api/produtos)
+ */
+export async function fetchProducts(
+  apiUrl: string,
+  token: string,
+): Promise<Product[]> {
   // TODO: Implement
   throw new Error("Not implemented");
 }

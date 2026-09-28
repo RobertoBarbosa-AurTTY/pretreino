@@ -1,42 +1,42 @@
 [
   {
     "id": "1",
-    "nome": "Notebook Dell",
-    "categoria": "Informática",
-    "preco": 4500.00,
-    "quantidade": 15,
-    "fornecedor": "Dell Brasil"
+    "name": "Notebook Dell",
+    "category": "Informática",
+    "price": 4500.00,
+    "quantity": 15,
+    "supplier": "Dell Brasil"
   },
   {
     "id": "2",
-    "nome": "iPhone 15",
-    "categoria": "Celulares",
-    "preco": 6500.00,
-    "quantidade": 3,
-    "fornecedor": "Apple"
+    "name": "iPhone 15",
+    "category": "Celulares",
+    "price": 6500.00,
+    "quantity": 3,
+    "supplier": "Apple"
   },
   {
     "id": "3",
-    "nome": "Mouse Logitech",
-    "categoria": "Acessórios",
-    "preco": 150.00,
-    "quantidade": 45,
-    "fornecedor": "Logitech"
+    "name": "Mouse Logitech",
+    "category": "Acessórios",
+    "price": 150.00,
+    "quantity": 45,
+    "supplier": "Logitech"
   },
   {
     "id": "4",
-    "nome": "Monitor LG",
-    "categoria": "Informática",
-    "preco": 2200.00,
-    "quantidade": 8,
-    "fornecedor": "LG"
+    "name": "Monitor LG",
+    "category": "Informática",
+    "price": 2200.00,
+    "quantity": 8,
+    "supplier": "LG"
   },
   {
     "id": "5",
-    "nome": "Teclado Mecânico",
-    "categoria": "Acessórios",
-    "preco": 350.00,
-    "quantidade": 25,
-    "fornecedor": "Corsair"
+    "name": "Teclado Mecânico",
+    "category": "Acessórios",
+    "price": 350.00,
+    "quantity": 25,
+    "supplier": "Corsair"
   }
 ]

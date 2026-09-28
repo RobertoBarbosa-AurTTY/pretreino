@@ -2,7 +2,7 @@
  * Challenge 35: Resilience Patterns
  */
 
-import { CircuitBreaker, Bulkhead, Retry } from "./resilience.service.ts";
+import { Bulkhead, CircuitBreaker, Retry } from "./resilience.service.ts";
 
 async function run(): Promise<void> {
   console.log("Starting Resilience Patterns...");

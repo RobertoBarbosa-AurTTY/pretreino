@@ -5,9 +5,12 @@
 export interface ScheduledJob {
   id: string;
   name: string;
+  /** Expressão cron de 5 campos (minuto hora dia mês dia-da-semana), em UTC. */
   cron: string;
   task: () => Promise<void>;
   active: boolean;
+  /** Tentativas extras imediatas quando a task falha (padrão: 0). */
+  retries?: number;
   lastRun?: string;
   nextRun?: string;
 }
@@ -25,7 +28,10 @@ export interface Scheduler {
   removeJob(id: string): void;
   pauseJob(id: string): void;
   resumeJob(id: string): void;
+  getJobs(): ScheduledJob[];
   getExecutions(jobId: string): JobExecution[];
+  /** Cancela todos os timers (nenhum job roda depois disso). */
+  stop(): void;
 }
 
 export function createScheduler(): Scheduler {
@@ -33,7 +39,11 @@ export function createScheduler(): Scheduler {
   throw new Error("Not implemented");
 }
 
-export function parseCron(expression: string): Date {
+/**
+ * Retorna a próxima data (UTC, segundos zerados) estritamente depois de
+ * `from` que satisfaz a expressão cron. Lança erro se a expressão for inválida.
+ */
+export function parseCron(expression: string, from: Date = new Date()): Date {
   // TODO: Implement
   throw new Error("Not implemented");
 }

@@ -1,6 +1,6 @@
 /**
  * Challenge 18: Error Handling
- * 
+ *
  * Centralized error handling system.
  */
 
@@ -13,30 +13,46 @@ export enum ErrorCode {
   CONFLICT = "CONFLICT",
   INTERNAL_ERROR = "INTERNAL_ERROR",
   RATE_LIMITED = "RATE_LIMITED",
-  BAD_REQUEST = "BAD_REQUEST"
+  BAD_REQUEST = "BAD_REQUEST",
+}
+
+// Serialized error body
+export interface ErrorResponseBody {
+  error: true;
+  code: ErrorCode;
+  message: string;
+  details?: unknown;
+  timestamp: string;
+  stack?: string;
+}
+
+// Map error code to HTTP status
+export function getStatusCode(code: ErrorCode): number {
+  // TODO: Implement
+  throw new Error("Not implemented");
 }
 
 // Base error class
 export class AppError extends Error {
   public readonly code: ErrorCode;
   public readonly statusCode: number;
-  public readonly details?: any;
+  public readonly details?: unknown;
   public readonly timestamp: string;
 
   constructor(
     message: string,
     code: ErrorCode = ErrorCode.INTERNAL_ERROR,
-    details?: any
+    details?: unknown,
   ) {
     super(message);
     this.name = "AppError";
     this.code = code;
-    this.statusCode = 0; // TODO: Map code to HTTP status
+    this.statusCode = getStatusCode(code);
     this.details = details;
     this.timestamp = new Date().toISOString();
   }
 
-  toJSON() {
+  toJSON(): ErrorResponseBody {
     // TODO: Implement
     throw new Error("Not implemented");
   }
@@ -44,7 +60,7 @@ export class AppError extends Error {
 
 // Specific errors
 export class ValidationError extends AppError {
-  constructor(message: string, details?: any) {
+  constructor(message: string, details?: unknown) {
     super(message, ErrorCode.VALIDATION_ERROR, details);
     this.name = "ValidationError";
   }
@@ -52,7 +68,7 @@ export class ValidationError extends AppError {
 
 export class NotFoundError extends AppError {
   constructor(resource: string, id?: string | number) {
-    const message = id 
+    const message = id
       ? `${resource} with ID ${id} not found`
       : `${resource} not found`;
     super(message, ErrorCode.NOT_FOUND);

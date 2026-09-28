@@ -20,6 +20,13 @@ export interface WebhookDelivery {
   lastError?: string;
 }
 
+export interface WebhookServiceOptions {
+  /** Número máximo de tentativas por entrega (padrão: 3). */
+  maxAttempts?: number;
+  /** Atraso base do backoff exponencial, em ms (padrão: 1000). */
+  baseDelayMs?: number;
+}
+
 export interface WebhookService {
   register(webhook: Omit<Webhook, "id">): Webhook;
   unregister(id: string): void;
@@ -27,21 +34,26 @@ export interface WebhookService {
   getDeliveries(webhookId: string): WebhookDelivery[];
 }
 
-export function createService(): WebhookService {
+export function createService(
+  options: WebhookServiceOptions = {},
+): WebhookService {
   // TODO: Implement
   throw new Error("Not implemented");
 }
 
-export function signPayload(payload: unknown, secret: string): string {
+export async function signPayload(
+  payload: unknown,
+  secret: string,
+): Promise<string> {
   // TODO: Implement
   throw new Error("Not implemented");
 }
 
-export function verifySignature(
+export async function verifySignature(
   payload: unknown,
   signature: string,
-  secret: string
-): boolean {
+  secret: string,
+): Promise<boolean> {
   // TODO: Implement
   throw new Error("Not implemented");
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagamento Aprovado</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px; }
+    .container { max-width: 600px; margin: 0 auto; background-color: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .header { background-color: #FF9800; color: white; padding: 20px; text-align: center; }
+    .content { padding: 30px; }
+    .footer { background-color: #f5f5f5; padding: 20px; text-align: center; font-size: 12px; color: #666; }
+    .info { background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Pagamento Aprovado!</h1>
+    </div>
+    <div class="content">
+      <p>Olá {{nome}},</p>
+      <p>Recebemos o seu pagamento. Obrigado!</p>
+
+      <div class="info">
+        <p><strong>Valor:</strong> {{valor}}</p>
+        <p><strong>Data:</strong> {{data}}</p>
+      </div>
+    </div>
+    <div class="footer">
+      <p>Este é um email automático. Por favor, não responda.</p>
+      <p>© 2024 Tech Solutions. Todos os direitos reservados.</p>
+    </div>
+  </div>
+</body>
+</html>

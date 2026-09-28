@@ -1,15 +1,15 @@
 /**
  * Challenge 12: JWT Authentication
- * 
+ *
  * Complete authentication API with JWT.
  */
 
-import { 
-  login, 
-  validateToken, 
-  refresh, 
+import {
+  isAdmin,
+  login,
   logout,
-  isAdmin 
+  refresh,
+  validateToken,
 } from "./auth.service.ts";
 
 const PORT = parseInt(Deno.env.get("PORT") || "3000");
@@ -17,7 +17,7 @@ const PORT = parseInt(Deno.env.get("PORT") || "3000");
 // Sample data
 const protectedData = [
   { id: 1, title: "Secret Document", content: "Confidential content" },
-  { id: 2, title: "Annual Report", content: "Financial data" }
+  { id: 2, title: "Annual Report", content: "Financial data" },
 ];
 
 async function handler(req: Request): Promise<Response> {
@@ -30,7 +30,7 @@ async function handler(req: Request): Promise<Response> {
     "Content-Type": "application/json",
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization"
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
   };
 
   if (method === "OPTIONS") {
@@ -41,12 +41,12 @@ async function handler(req: Request): Promise<Response> {
   if (path === "/api/login" && method === "POST") {
     try {
       const body = await req.json();
-      const { email, senha: password } = body;
+      const { email, password } = body;
 
       if (!email || !password) {
         return new Response(
           JSON.stringify({ error: "Email and password are required" }),
-          { status: 400, headers }
+          { status: 400, headers },
         );
       }
 
@@ -55,7 +55,7 @@ async function handler(req: Request): Promise<Response> {
       if (!result.success) {
         return new Response(
           JSON.stringify({ error: result.error }),
-          { status: 401, headers }
+          { status: 401, headers },
         );
       }
 
@@ -63,14 +63,14 @@ async function handler(req: Request): Promise<Response> {
         JSON.stringify({
           message: "Login successful",
           token: result.token,
-          refreshToken: result.refreshToken
+          refreshToken: result.refreshToken,
         }),
-        { status: 200, headers }
+        { status: 200, headers },
       );
     } catch {
       return new Response(
         JSON.stringify({ error: "Invalid JSON" }),
-        { status: 400, headers }
+        { status: 400, headers },
       );
     }
   }
@@ -84,7 +84,7 @@ async function handler(req: Request): Promise<Response> {
       if (!refreshToken) {
         return new Response(
           JSON.stringify({ error: "Refresh token is required" }),
-          { status: 400, headers }
+          { status: 400, headers },
         );
       }
 
@@ -93,7 +93,7 @@ async function handler(req: Request): Promise<Response> {
       if (!result.success) {
         return new Response(
           JSON.stringify({ error: result.error }),
-          { status: 401, headers }
+          { status: 401, headers },
         );
       }
 
@@ -101,14 +101,14 @@ async function handler(req: Request): Promise<Response> {
         JSON.stringify({
           message: "Token renewed",
           token: result.token,
-          refreshToken: result.refreshToken
+          refreshToken: result.refreshToken,
         }),
-        { status: 200, headers }
+        { status: 200, headers },
       );
     } catch {
       return new Response(
         JSON.stringify({ error: "Invalid JSON" }),
-        { status: 400, headers }
+        { status: 400, headers },
       );
     }
   }
@@ -116,41 +116,41 @@ async function handler(req: Request): Promise<Response> {
   // POST /api/logout
   if (path === "/api/logout" && method === "POST") {
     const authHeader = req.headers.get("Authorization");
-    
+
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return new Response(
         JSON.stringify({ error: "Token not provided" }),
-        { status: 401, headers }
+        { status: 401, headers },
       );
     }
 
-    const token = authHeader.split(" ")[1];
+    const token = authHeader.slice("Bearer ".length);
     logout(token);
 
     return new Response(
       JSON.stringify({ message: "Logout successful" }),
-      { status: 200, headers }
+      { status: 200, headers },
     );
   }
 
   // GET /api/profile
   if (path === "/api/profile" && method === "GET") {
     const authHeader = req.headers.get("Authorization");
-    
+
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return new Response(
         JSON.stringify({ error: "Token not provided" }),
-        { status: 401, headers }
+        { status: 401, headers },
       );
     }
 
-    const token = authHeader.split(" ")[1];
+    const token = authHeader.slice("Bearer ".length);
     const payload = await validateToken(token);
 
     if (!payload) {
       return new Response(
         JSON.stringify({ error: "Invalid or expired token" }),
-        { status: 401, headers }
+        { status: 401, headers },
       );
     }
 
@@ -158,71 +158,71 @@ async function handler(req: Request): Promise<Response> {
       JSON.stringify({
         userId: payload.userId,
         email: payload.email,
-        role: payload.role
+        role: payload.role,
       }),
-      { status: 200, headers }
+      { status: 200, headers },
     );
   }
 
   // GET /api/documents (protected route)
   if (path === "/api/documents" && method === "GET") {
     const authHeader = req.headers.get("Authorization");
-    
+
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return new Response(
         JSON.stringify({ error: "Token not provided" }),
-        { status: 401, headers }
+        { status: 401, headers },
       );
     }
 
-    const token = authHeader.split(" ")[1];
+    const token = authHeader.slice("Bearer ".length);
     const payload = await validateToken(token);
 
     if (!payload) {
       return new Response(
         JSON.stringify({ error: "Invalid or expired token" }),
-        { status: 401, headers }
+        { status: 401, headers },
       );
     }
 
     return new Response(
       JSON.stringify(protectedData),
-      { status: 200, headers }
+      { status: 200, headers },
     );
   }
 
   // DELETE /api/admin/users/:id (admin route)
   if (path.startsWith("/api/admin/users/") && method === "DELETE") {
     const authHeader = req.headers.get("Authorization");
-    
+
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return new Response(
         JSON.stringify({ error: "Token not provided" }),
-        { status: 401, headers }
+        { status: 401, headers },
       );
     }
 
-    const token = authHeader.split(" ")[1];
+    const token = authHeader.slice("Bearer ".length);
     const payload = await validateToken(token);
 
     if (!payload) {
       return new Response(
         JSON.stringify({ error: "Invalid or expired token" }),
-        { status: 401, headers }
+        { status: 401, headers },
       );
     }
 
     if (!isAdmin(payload)) {
       return new Response(
         JSON.stringify({ error: "Access denied. Admins only." }),
-        { status: 403, headers }
+        { status: 403, headers },
       );
     }
 
     const userId = path.split("/")[4];
     return new Response(
       JSON.stringify({ message: `User ${userId} deleted` }),
-      { status: 200, headers }
+      { status: 200, headers },
     );
   }
 
@@ -230,13 +230,13 @@ async function handler(req: Request): Promise<Response> {
   if (path === "/health") {
     return new Response(
       JSON.stringify({ status: "ok", service: "auth-jwt" }),
-      { status: 200, headers }
+      { status: 200, headers },
     );
   }
 
   return new Response(
     JSON.stringify({ error: "Endpoint not found" }),
-    { status: 404, headers }
+    { status: 404, headers },
   );
 }
 

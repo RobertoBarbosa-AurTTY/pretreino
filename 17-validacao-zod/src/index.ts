@@ -1,29 +1,29 @@
 /**
  * Challenge 17: Zod Validation
- * 
+ *
  * API with validation using Zod.
  */
 
-import { z, zodValidate, ZodError } from "./zod.ts";
+import { z, ZodError, zodValidate } from "./zod.ts";
 
 const PORT = parseInt(Deno.env.get("PORT") || "3005");
 
 // Validation schemas
 const userSchema = z.object({
-  nome: z.string("nome"),
+  name: z.string("name"),
   email: z.email("email"),
-  idade: z.number("idade")
+  age: z.number("age"),
 });
 
 const productSchema = z.object({
-  nome: z.string("nome"),
-  preco: z.number("preco"),
-  descricao: z.string("descricao").optional()
+  name: z.string("name"),
+  price: z.number("price"),
+  description: z.string("description").optional(),
 });
 
 const headers = {
   "Content-Type": "application/json",
-  "Access-Control-Allow-Origin": "*"
+  "Access-Control-Allow-Origin": "*",
 };
 
 // Simulated data
@@ -44,33 +44,33 @@ async function handler(req: Request): Promise<Response> {
     try {
       const body = await req.json();
       const validatedUser = zodValidate(userSchema, body);
-      
+
       const newUser = {
         id: users.length + 1,
         ...validatedUser,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       };
-      
+
       users.push(newUser);
-      
+
       return new Response(
         JSON.stringify({ message: "User created", user: newUser }),
-        { status: 201, headers }
+        { status: 201, headers },
       );
     } catch (error) {
       if (error instanceof ZodError) {
         return new Response(
-          JSON.stringify({ 
+          JSON.stringify({
             error: "Validation error",
-            details: error.errors
+            details: error.errors,
           }),
-          { status: 400, headers }
+          { status: 400, headers },
         );
       }
-      
+
       return new Response(
         JSON.stringify({ error: "Invalid JSON" }),
-        { status: 400, headers }
+        { status: 400, headers },
       );
     }
   }
@@ -80,33 +80,33 @@ async function handler(req: Request): Promise<Response> {
     try {
       const body = await req.json();
       const validatedProduct = zodValidate(productSchema, body);
-      
+
       const newProduct = {
         id: products.length + 1,
         ...validatedProduct,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       };
-      
+
       products.push(newProduct);
-      
+
       return new Response(
         JSON.stringify({ message: "Product created", product: newProduct }),
-        { status: 201, headers }
+        { status: 201, headers },
       );
     } catch (error) {
       if (error instanceof ZodError) {
         return new Response(
-          JSON.stringify({ 
+          JSON.stringify({
             error: "Validation error",
-            details: error.errors
+            details: error.errors,
           }),
-          { status: 400, headers }
+          { status: 400, headers },
         );
       }
-      
+
       return new Response(
         JSON.stringify({ error: "Invalid JSON" }),
-        { status: 400, headers }
+        { status: 400, headers },
       );
     }
   }
@@ -115,7 +115,7 @@ async function handler(req: Request): Promise<Response> {
   if (path === "/api/usuarios" && method === "GET") {
     return new Response(
       JSON.stringify(users),
-      { status: 200, headers }
+      { status: 200, headers },
     );
   }
 
@@ -123,7 +123,7 @@ async function handler(req: Request): Promise<Response> {
   if (path === "/api/produtos" && method === "GET") {
     return new Response(
       JSON.stringify(products),
-      { status: 200, headers }
+      { status: 200, headers },
     );
   }
 
@@ -131,13 +131,13 @@ async function handler(req: Request): Promise<Response> {
   if (path === "/health") {
     return new Response(
       JSON.stringify({ status: "ok", service: "validation" }),
-      { status: 200, headers }
+      { status: 200, headers },
     );
   }
 
   return new Response(
     JSON.stringify({ error: "Endpoint not found" }),
-    { status: 404, headers }
+    { status: 404, headers },
   );
 }
 

@@ -11,7 +11,9 @@ export interface CacheEntry {
 }
 
 export interface CacheConfig {
+  /** Tempo de vida de cada entrada, em milissegundos. */
   ttl: number;
+  /** Número máximo de entradas no cache. */
   maxSize: number;
   strategy: "lru" | "lfu" | "fifo";
 }
@@ -30,6 +32,16 @@ export function createCache(config: CacheConfig): ResponseCache {
 }
 
 export function generateCacheKey(req: Request): string {
+  // TODO: Implement
+  throw new Error("Not implemented");
+}
+
+export async function generateETag(body: string): Promise<string> {
+  // TODO: Implement
+  throw new Error("Not implemented");
+}
+
+export function isNotModified(req: Request, etag: string): boolean {
   // TODO: Implement
   throw new Error("Not implemented");
 }
