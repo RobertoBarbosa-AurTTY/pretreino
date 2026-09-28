@@ -51,16 +51,16 @@ export async function login(config: APIConfig): Promise<string> {
       }
 
       const resultado = await loginUser.json();
-      const token = resultado.token
+      const token = `Bearer ${resultado.token}`
 
       if (!token){
         throw new Error('Error token...')
       }
-      
+
       return token
 
     } catch (error) {
-        throw new Error("Not implemented");
+        throw new Error("Error login");
     }
 }
 
@@ -79,7 +79,20 @@ export async function fetchClients(
   token: string,
 ): Promise<Client[]> {
   // TODO: Implement
-  throw new Error("Not implemented");
+  const connect = await fetch(`${config.url}/api/clientes`, {
+    method: "GET",
+    headers: {
+       'Content-Type': 'application/json',
+       'Authorization': `${token}`
+    }
+  })
+
+  if (!connect.ok){
+    throw new Error(`Error status code: ${connect.status}`);
+  }
+  
+  const client = await connect.json()
+  return [ ...client]
 }
 
 /**
